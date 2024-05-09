@@ -1,0 +1,86 @@
+
+  2024-02-27 12:11:16 Running ["artisan" app:cronjob] ..................................................... 646ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:17 Running ["artisan" app:cronjob] ..................................................... 617ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:18 Running ["artisan" app:cronjob] ..................................................... 621ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:19 Running ["artisan" app:cronjob] ..................................................... 620ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:20 Running ["artisan" app:cronjob] ..................................................... 620ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:21 Running ["artisan" app:cronjob] ..................................................... 606ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:22 Running ["artisan" app:cronjob] ..................................................... 621ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:23 Running ["artisan" app:cronjob] ..................................................... 621ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:24 Running ["artisan" app:cronjob] ..................................................... 620ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:25 Running ["artisan" app:cronjob] ..................................................... 609ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:26 Running ["artisan" app:cronjob] ..................................................... 609ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:27 Running ["artisan" app:cronjob] ..................................................... 609ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:28 Running ["artisan" app:cronjob] ..................................................... 812ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:29 Running ["artisan" app:cronjob] ..................................................... 609ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:31 Running ["artisan" app:cronjob] ..................................................... 609ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:32 Running ["artisan" app:cronjob] ..................................................... 610ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:33 Running ["artisan" app:cronjob] ..................................................... 836ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:34 Running ["artisan" app:cronjob] ..................................................... 609ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:35 Running ["artisan" app:cronjob] ..................................................... 609ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:36 Running ["artisan" app:cronjob] ..................................................... 813ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:37 Running ["artisan" app:cronjob] ..................................................... 825ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:38 Running ["artisan" app:cronjob] ..................................................... 621ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:39 Running ["artisan" app:cronjob] ..................................................... 621ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:40 Running ["artisan" app:cronjob] ..................................................... 621ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:41 Running ["artisan" app:cronjob] ..................................................... 606ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:42 Running ["artisan" app:cronjob] ..................................................... 807ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:43 Running ["artisan" app:cronjob] ..................................................... 604ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:44 Running ["artisan" app:cronjob] ..................................................... 823ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:45 Running ["artisan" app:cronjob] ..................................................... 677ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:46 Running ["artisan" app:cronjob] ..................................................... 814ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:47 Running ["artisan" app:cronjob] ..................................................... 610ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:48 Running ["artisan" app:cronjob] ..................................................... 805ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:49 Running ["artisan" app:cronjob] ..................................................... 872ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:50 Running ["artisan" app:cronjob] ................................................... 1,218ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:52 Running ["artisan" app:cronjob] ..................................................... 807ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:53 Running ["artisan" app:cronjob] ..................................................... 809ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:54 Running ["artisan" app:cronjob] ..................................................... 611ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:55 Running ["artisan" app:cronjob] ..................................................... 807ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:56 Running ["artisan" app:cronjob] ..................................................... 609ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:57 Running ["artisan" app:cronjob] ..................................................... 810ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:58 Running ["artisan" app:cronjob] ................................................... 1,226ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+  2024-02-27 12:11:59 Running ["artisan" app:cronjob] ..................................................... 819ms DONE
+  ⇂ "C:\xampp\php\php.exe" "artisan" app:cronjob > "NUL" 2>&1  
+

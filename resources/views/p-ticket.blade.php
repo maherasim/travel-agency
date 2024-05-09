@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{asset('assets/ticket/design/bootstrap/css/bootstrap.min.css')}}">
+    <!-- <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> -->
+    <link rel="stylesheet" href="{{asset('assets/ticket/design/css/style.css')}}">
+</head>
+<body>
+
+    <div class="container fluid">
+        <div class="row mt-3">
+            <div class="col-md-8 p-0">
+                <div class="card">
+                    <div class="card-header flex-wrap">
+                     <img src="{{asset('assets/ticket/design/images/logo-removebg-preview.png')}}" class="logo-img" alt="">
+                     <h5 class="heading-h5">..............................................</h5>
+                     <i class='bx bxs-plane plane-icon'></i>
+                    </div>
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between flex-wrap">
+                        <div class="d-flex flex-column flex-wrap" >
+                        <h5 class="passanger-heading"><i class='bx bx-id-card'></i> Passenger Name</h5>
+                        <h5 class="heading-john">Mr. &nbsp; {{@$vendor->service->passenger_name}}</h5>
+                        <h5 class="passanger-heading"><i class='bx bxs-plane-take-off'></i> From</h5>
+                        <h5 class="heading-john">{{@$vendor->service->from_location	}}</h5>
+
+                        <h5 class="passanger-heading"><i class='bx bxs-plane-land'></i> TO</h5>
+                        <h5 class="heading-john">{{@$vendor->service->to_location	}}</h5>
+                    </div>
+                        <div class="date-area d-flex flex-column flex-wrap">
+                            <div class="d-flex align-items-center gap-5">
+                            <h5 class="date-h5">DATE</h5>
+                            <p class="timer"> {{date('d-m-Y',strtotime(@$vendor->service->departure_date)) }}</p>
+                        </div>
+                        <div class="d-flex align-items-center gap-5 flex-wrap">
+                            <h5 class="date-h5">TIME</h5>
+                            <p class="timer">{{@$vendor->departure_time}}</p>
+                        </div>
+                        <div class="d-flex">
+                        <div class="d-flex align-items-center flex-column gap-5 flight-bg flex-wrap">
+                            <h5 class="flight-heading">FLIGHT</h5>
+                            <p class="fs-24">{{@$vendor->flight_number}}</p>
+                        </div>
+                            <div class="d-flex align-items-center flex-column gap-5 gate-bg flex-wrap">
+                                <h5 class="flight-heading">GATE</h5>
+                                <p class="fs-24">{{@$vendor->gate}}</p>
+                            </div>
+                            <div class="d-flex align-items-center flex-column gap-5 flight-bg seat-bg flex-wrap">
+                                <h5 class="flight-heading">SEAT</h5>
+                                <p class="fs-24">{{@$vendor->seat_number}}</p>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="bars d-flex">
+                            <img src="{{asset('assets/ticket/design/images/bars.png')}}" class="bars-img" alt="">
+                        </div>
+                    </div>
+                    <p class="mb-0 fs-19"><i class='bx bxs-info-circle' ></i><span style="color: #B3261C;">IMPORTANT NOTE:</span> You should be at the boarding gate before 20:05 </p>
+
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-4 p-0">
+                <div class="card" style="background: #F2F2F2;">
+                    <div class="card-header flex-wrap align-items-center" style="    padding-bottom: 23px;">
+                        <h5 class="heading-h5">...</h5>
+                     <h5 class="heading-h6 mb-0">Boarding pass</h5>
+                     <h5 class="heading-h5">...</h5>
+                    </div>
+                    <div class="card-body" style="padding: 0px;">
+                      <div class="d-flex justify-content-between flex-wrap" style="padding: 15px;">
+
+                            <div class="d-flex align-items-center gap-15">
+                        <h5 class="passanger-heading fs-15"><i class='bx bx-id-card'></i> Passenger</h5>
+                        <h5 class="heading-john w-200">{{@$vendor->service->passenger_name}}</h5>
+                    </div>
+                    <div class="d-flex align-items-center gap-15">
+                        <h5 class="passanger-heading fs-15"><i class='bx bxs-plane-take-off'></i> From</h5>
+                        <h5 class="heading-john w-200 ml-39">{{@$vendor->service->from_location	}}</h5>
+                    </div>
+                    <div class="d-flex align-items-center gap-15">
+                        <h5 class="passanger-heading fs-15"><i class='bx bxs-plane-land'></i> TO</h5>
+                        <h5 class="heading-john w-200 ml-48">{{@$vendor->service->to_location	}}</h5>
+                    </div>
+                </div>
+                <img src="{{asset('assets/ticket/design/images/gfk.png')}}" class="w-100" alt="">
+                <img src="{{asset('assets/ticket/design/images/black-logo.png')}}" class="d-flex m-auto pt-1 pb-1" alt="">
+
+
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <div class="row mt-3 mb-3">
+            <div class="col-md-8 p-0">
+                <div class="card">
+                    <div class="card-header flex-wrap" style="background: #BB221A;">
+                     <img src="{{asset('assets/ticket/design/images/red-logo.png')}}" class="logo-img" alt="">
+                     <h5 class="heading-h5">................................................</h5>
+
+                    </div>
+                    <div class="card-body"style="background: #BB221A; color: #fff; border-bottom-left-radius: 22px;border-bottom-right-radius: 22px;">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="border-left" style="border-left: 3px solid #fff !important;">
+                                <h5 class="pl-2 fs-12">Boarding <br> Rules</h5>
+
+                            </div>
+                            <p class="fs-12 mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi est autem ipsa doloribus fugit! Aut, provident totam enim obcaecati perspiciatis facere ut, quos delectus commodi in cumque velit dolore facilis harum.</p>
+                            <p class="fs-12 mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi est autem ipsa doloribus fugit! Aut, provident totam enim obcaecati perspiciatis.</p>
+                            <p class="fs-12 mb-1" >Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi est autem ipsa.</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="border-left" style="border-left: 3px solid #fff !important;">
+                                <h5 class="pl-2 fs-12">Boarding <br> Rules</h5>
+
+                            </div>
+                            <p class="fs-12 mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi est autem ipsa doloribus fugit! Aut, provident totam enim obcaecati perspiciatis facere ut, quos delectus commodi in cumque velit dolore facilis harum.</p>
+                            <p class="fs-12 mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi est autem ipsa doloribus fugit! Aut, provident totam enim obcaecati perspiciatis.</p>
+                            <p class="fs-12 mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi est autem ipsa.</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="border-left" style="border-left: 3px solid #fff !important;">
+                                <h5 class="pl-2 fs-12">Boarding <br> Rules</h5>
+                            </div>
+                            <p class="fs-12 mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi est autem ipsa doloribus fugit! Aut, provident totam enim obcaecati perspiciatis facere ut, quos delectus commodi in cumque velit dolore facilis harum.</p>
+                            <p class="fs-12 mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi est autem ipsa doloribus fugit! Aut, provident totam enim obcaecati perspiciatis.</p>
+                            <img src="{{asset('assets/ticket/design/images/logo-removebg-preview.png')}}" alt="">
+                            </div>
+                        </div>
+
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-4 p-0">
+                <div class="card" style="background: #394B8B;">
+
+                    <div class="card-body" style="padding: 0px;">
+                      <div class="d-flex justify-content-between flex-column"style="padding: 15px;">
+
+                            <div class="d-flex align-items-center gap-65 m-auto pt-5">
+                        <h5 class="passanger-heading fs-30 text-white"> FLIGHT</h5>
+                        <h5 class="fs-40 text-white">{{@$vendor->flight_number}}</h5>
+                    </div>
+                    <div class="d-flex align-items-center gap-65 m-auto">
+                        <h5 class="passanger-heading fs-30 text-white"> GATE</h5>
+                        <h5 class="fs-40 text-white">{{@$vendor->gate}}</h5>
+                    </div>
+                    <div class="d-flex align-items-center gap-65 m-auto">
+                        <h5 class="passanger-heading fs-30 text-white">SEAT</h5>
+                        <h5 class="fs-40 text-white">{{@$vendor->seat_number}}</h5>
+                    </div>
+                    <div class="d-flex align-items-center gap-65 m-auto">
+                        <h5 class="passanger-heading fs-30 text-white">CLASS</h5>
+                        <h5 class="fs-40 text-white">{{@$vendor->class}}</h5>
+                    </div>
+                    <img src="{{asset('assets/ticket/design/images/blue-bar.png')}}" class="img-fluid pt-2" alt="">
+                </div>
+
+
+
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{asset('assets/ticket/design/bootstrap/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('assets/ticket/design/bootstrap/js/popper.min.js')}}"></script>
+    <script src="{{asset('assets/ticket/design/bootstrap/js/bootstrap.min.js')}}"></script>
+</body>
+</html>

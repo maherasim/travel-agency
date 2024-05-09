@@ -1,0 +1,131 @@
+body{
+    background: #323033;
+}
+.card-header{
+    background: #D62A1F;
+    border-radius: calc(22px - 1px) calc(22px - 1px) 0 0 !important;
+    display: flex;
+    /* align-items: center; */
+    gap: 4px;
+}
+.logo-img{
+    width: 250px;
+}
+.heading-h5{
+    font-size: 30px;
+    letter-spacing: 2px;
+    color: #fff;
+}
+.card {
+    border: 0px solid transparent;
+    border-radius: 22px;
+}
+.plane-icon{
+    font-size: 30px;
+    transform: rotate(88deg);
+    color: #fff;
+    line-height: inherit;  
+}
+.heading-h6{
+    font-size: 35px;
+    /* letter-spacing: 2px;      */
+    text-transform: uppercase;
+    color: #fff;
+}
+.passanger-heading{
+    text-transform: uppercase;
+}
+.heading-john{
+    background: #D4E0F7;
+    padding: 4px;
+}
+.timer{
+    font-size: 45px;
+}
+.timer{
+    color: #B64343;
+    margin-bottom: 0px;
+}
+.gap-5{
+    gap: 5px;
+}
+.flight-heading{
+    margin-bottom: 0px;
+}
+.fs-24{
+    font-size: 24px;
+     margin-bottom: 0px;
+}
+.gate-bg{
+    background: #DE2B21; 
+    padding: 2px 15px;
+    color: #fff;
+}
+.flight-bg{
+    background: #B3261C; 
+    padding: 2px 15px;
+    color: #fff;
+}
+.fs-19{
+    font-size: 19px;
+}
+.seat-bg{
+    padding: 2px 25px;
+}
+.date-h5{
+    border-bottom: 5px solid #D2D2D2;
+    margin-bottom: 0px;
+}
+.bars-img{
+    height: 205px;
+}
+.fs-15{
+    font-size: 15px;
+}
+.w-200{
+    width: 220px;
+    background: #fff;
+
+}
+.gap-15{
+    gap: 15px;
+}
+.ml-39{
+    margin-left: 39px;
+    background: #fff;
+}
+.ml-48{
+    margin-left: 63px;
+    background: #fff;
+
+}
+.fs-40{
+    font-size: 40px;
+}
+.gap-65{
+    gap: 65px;
+}
+.fs-30{
+    font-size: 35px;
+}
+.fs-12{
+    font-size: 12px;
+}
+@media screen and (max-width:767px) {
+    .heading-h5 {
+        font-size: 22px;
+    }
+    
+        .w-200 {
+            width: max-content;
+    }
+    .heading-h6 {
+        font-size: 29px;
+    }
+    .bars{
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+        padding-top: 10px;
+    }
+}
