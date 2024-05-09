@@ -45,6 +45,9 @@ export default function VendorList({ auth }) {
         window.open(`/quotation/generate-pdf/${id}`, '_blank');
     };
 
+    const handleGenerateInvoice = (id) => {
+        window.open(`/quotation/generate-invoice/${id}`, '_blank');
+    };
     const handleDelete = (rowData) => {
         setData("vendor_id", rowData.id);
         setConfirmingUserDeletion(true);
@@ -88,12 +91,19 @@ export default function VendorList({ auth }) {
                     onClick={() => handleEdit(rowData)}
                 >
                     View
-                </button>
+                </button> 
+              
                 <button
                     className="p-button p-button-text rounded-md px-4 py-2 bg-green-500 text-white hover:bg-blue-600 focus:outline-none"
                     onClick={() => handleGeneratePdf(rowData.id)}
                 >
-                    Pdf
+                   Ticket
+                </button>
+                <button
+                    className="p-button p-button-text rounded-md px-4 py-2 bg-green-500 text-white hover:bg-blue-600 focus:outline-none"
+                    onClick={() => handleGenerateInvoice(rowData.id)}
+                >
+                    Invoice
                 </button>
             </>
         );

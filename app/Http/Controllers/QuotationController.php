@@ -148,6 +148,12 @@ class QuotationController extends Controller
         $pdf = PDF::loadView('p-ticket', ['vendor' => $vendor]);
         return $pdf->download('ticket.pdf');
     }
+    public function generateInvoice($id)
+    {
+        $vendor = Quotation::with('service')->findOrFail($id);
+        $pdf = PDF::loadView('invoice', ['vendor' => $vendor]);
+        return $pdf->download('invoice.pdf');
+    }
     public function quaListfetchadmin(Request $request)
     {
 

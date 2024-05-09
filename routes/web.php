@@ -107,6 +107,7 @@ Route::get('/invoice',function(){
     Route::get('/quo/fetch/admin', [QuotationController::class, 'quaListfetchadmin']);
     Route::get('/quotation/view/{id}', [QuotationController::class, 'view'])->name('quotation.view');
     Route::get('/quotation/generate-pdf/{id}', [QuotationController::class, 'generatePdf'])->name('generatePdf');
+    Route::get('/quotation/generate-invoice/{id}', [QuotationController::class, 'generateInvoice'])->name('generateInvoice');
 
 
 

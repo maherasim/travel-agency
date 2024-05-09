@@ -65,8 +65,9 @@
 
     <tr>
       <td>Bill To:
-      <p>Mr Nimit Shelat</p> 
-      <p> Ahmedabad 380051</p>  
+       <p class="heading-john">Mr. &nbsp; {{@$vendor->service->passenger_name}}</p>
+      <p class="heading-john">{{@$vendor->service->from_location	}}</p>
+      </p>  
       <p>Gujarat</p></td>
       <td>
         <p>Invoice No - TTL/24-25/0017</p>
@@ -86,8 +87,9 @@
         <br> <br>
         <p>Ahmedabad to Dehradun</p>  
         <p>Dt - 29/04/2024</p>  <br>
-        <p>Dehradun to Ahmedabad</p>  
-        <p>Dt - 29/04/2024</p>   
+        <p> {{@$vendor->service->from_location	}}
+          to {{@$vendor->service->to_location	}}</p>  
+        <p>Dt - {{date('d-m-Y',strtotime(@$vendor->service->departure_date)) }}</p>   
         <p>Pax - 1</p> <br>
         <p style="text-align: right;">Management Fees</p>
         <p style="text-align: right;">CGST 9%</p>
@@ -98,8 +100,9 @@
       </td>
 
         <td>
-          
-          <p style="text-align: right;">19,782.00</p> 
+          <p style="text-align: right;">{{@$vendor->total_cost}}</p>
+
+        
           <br>
           <br>
           <br>
