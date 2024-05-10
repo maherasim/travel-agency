@@ -44,7 +44,7 @@
     
     <tr>
       <td colspan="2">
-        <p>Tripxcia Trips LLP</p> <img src="https://cdn.durable.co/blocks/25Kh43IltNsfqC64MMri5Ug3o16Jw88prgnzyLsk8SQQJJwsGBw9S1X7jCS7vz2S.png" alt="" style="height: 30%; width: 30%; float: right;">
+        <p>Tripxcia Trips LLP</p> <img src="https://cdn.durable.co/blocks/25Kh43IltNsfqC64MMri5Ug3o16Jw88prgnzyLsk8SQQJJwsGBw9S1X7jCS7vz2S.png" alt="" style="height: 13%; width: 13%; float: right;">
 
         <p>27, Alpha Bazar, 100ft Road<br>
         Prahalad Nagar, Satellite, Ahmedabad-380015<br>
@@ -68,7 +68,7 @@
        <p class="heading-john">Mr. &nbsp; {{@$vendor->service->passenger_name}}</p>
       <p class="heading-john">{{@$vendor->service->from_location	}}</p>
       </p>  
-      <p>Gujarat</p></td>
+      <p>{{@$vendor->service->to_location	}}</p></td>
       <td>
         <p>Invoice No - TTL/24-25/0017</p>
          <p> Dt - 02/05/2024</p>

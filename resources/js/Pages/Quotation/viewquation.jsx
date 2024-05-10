@@ -44,7 +44,7 @@ export default function VendorList({ auth }) {
         if (!isConfirmed) return;
     
         try {
-            const response = await axios.post('/services/update/status', {
+            const response = await axios.post('/qoutation/update/status', {
                 id: itemId,
                 status: value
             });
@@ -119,36 +119,39 @@ export default function VendorList({ auth }) {
         console.log("rowData", rowData?.id);
         return (
             <>
-                 <Button
-                icon="pi pi-eye"
-                className="p-button-rounded p-button-success p-button-text"
-                onClick={() => handleView(rowData)}
-            /> 
-             <Button
-                icon="pi pi-pencil"
-                className="p-button-rounded p-button-success p-button-text"
-                onClick={() => handleEdit(rowData)}
-            /> 
-              
-              <Button
-                icon="pi pi-ticket"  
-                className="p-button-rounded p-button-success p-button-text"
-                onClick={() => handleGeneratePdf(rowData.id)}
-            />
-            <Button
-                icon="pi pi-file"
-                className="p-button-rounded p-button-success p-button-text"
-                onClick={() => handleGenerateInvoice(rowData.id)}
-            />
-                  <Button
-                icon="pi pi-trash"
-                className="p-button-rounded p-button-success p-button-text"
-                onClick={() => handleDelete(rowData.id)}
-            />
+                <Button
+                    icon="pi pi-eye"
+                    className="p-button-rounded p-button-success p-button-text mr-2"
+                    onClick={() => handleView(rowData)}
+                    style={{ marginRight: '2px' }} // Adjust margin as needed
+                /> 
+                <Button
+                    icon="pi pi-pencil"
+                    className="p-button-rounded p-button-success p-button-text"
+                    onClick={() => handleEdit(rowData)}
+                    style={{ marginRight: '2px' }} // Adjust margin as needed
+                /> 
+                <Button
+                    icon="pi pi-ticket"  
+                    className="p-button-rounded p-button-success p-button-text"
+                    onClick={() => handleGeneratePdf(rowData.id)}
+                    style={{ marginRight: '2px' }} // Adjust margin as needed
+                />
+                <Button
+                    icon="pi pi-file"
+                    className="p-button-rounded p-button-success p-button-text"
+                    onClick={() => handleGenerateInvoice(rowData.id)}
+                    style={{ marginRight: '2px' }} // Adjust margin as needed
+                />
+                <Button
+                    icon="pi pi-trash"
+                    className="p-button-rounded p-button-success p-button-text"
+                    onClick={() => handleDelete(rowData.id)}
+                />
             </>
         );
     };
-
+    
     const header = (
         <div className="flex justify-between bg-pink-600 p-2 rounded-lg">
             <h2 className="text-2xl text-white font-bold mb-4">
@@ -250,6 +253,13 @@ export default function VendorList({ auth }) {
                         filter
                         filterPlaceholder="Search by Fare Type"
                     />
+                          {/* <Column
+                        field=" "
+                        header="Vendor"
+                        sortable
+                        filter
+                        filterPlaceholder="Search by Fare Type"
+                    /> */}
                     <Column
                         field="status"
                         header="Status"
@@ -278,7 +288,12 @@ export default function VendorList({ auth }) {
                         )}
                     />
 
-                    <Column header="Actions" body={actionTemplate} />
+                    <Column 
+                    header="Actions"
+                    body={actionTemplate} 
+                    style={{ width: '10%' }}
+                     
+                     />
                 </DataTable>
             </div>
             <Modal show={confirmingUserDeletion} onClose={closeModal}>

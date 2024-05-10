@@ -22,6 +22,7 @@ export default function VendorList({ auth }) {
   const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
   const { data, setData, delete: destroy, processing, reset } = useForm();
   const [selectedAction, setSelectedAction] = useState('Actions'); // Default value
+  const [selectedStatus, setSelectedStatus] = useState({});
 
   const fetchClientData = async () => {
     try {
@@ -41,6 +42,30 @@ export default function VendorList({ auth }) {
     router.get(url)
 
   };
+
+
+  const handleStatusChange = async (itemId, value) => {
+    const isConfirmed = window.confirm(`Are you sure you want to update the status to ${value}?`);
+    if (!isConfirmed) return;
+
+    try {
+        const response = await axios.post('/service/update/status', {
+            id: itemId,
+            status: value
+        });
+        
+        // Handle successful response if needed
+        
+        // Reload the page if status is updated to "confirm", "pending", or "request more"
+        if (value === 'Confirm' || value === 'Pending' || value === 'Declined') {
+            window.location.reload();
+        }
+    } catch (error) {
+        console.error("Error updating status:", error);
+        // Handle error here
+    }
+};
+
 
   const handleDelete = (rowData) => {
     setData('service_id', rowData.id);
@@ -83,7 +108,8 @@ export default function VendorList({ auth }) {
     return (
       <div>
         <button
-          className="p-button p-button-rounded p-button-danger" // Added mr-2 for right margin
+                 className="p-button p-button-rounded p-button-danger mr-2" // Added mr-2 for right margin
+                 // Added mr-2 for right margin
           onClick={() => handleEdit(rowData)}
         >
           <i className="pi pi-pencil"></i>
@@ -158,23 +184,55 @@ export default function VendorList({ auth }) {
     filter
     filterPlaceholder="Search by Airline Name"
   />  
-
- 
 <Column
-  field="status"
-  header="Status"
-  sortable
-  filter
-  filterPlaceholder="Search by Status"
+  header="update Status"
   body={(rowData) => (
-    <div
-      className={rowData.status === 'confirm' ? 'bg-yellow-300' : rowData.status === 'request more' ? 'bg-red-500' : ''}
-      style={{ display: 'inline-block', padding: '0.5rem', borderRadius: '0.5rem' }}
-    >
-      {rowData.status}
+    <div>
+      <select
+        value={selectedStatus[rowData.id] || rowData.status}
+        onChange={(e) => handleStatusChange(rowData.id, e.target.value)}
+        style={{
+          padding: '0.2rem 0.5rem',
+          borderRadius: '5px',
+          border: '1px solid #ccc',
+          backgroundColor: '#f9f9f9',
+          fontSize: '1rem'
+        }}
+      >
+        <option value="Pending">Pending</option>
+        <option value="Declined">Decline</option>
+        <option value="Confirm">Confirm</option>
+      </select>
     </div>
   )}
 />
+<Column
+                        field="status"
+                        header="Status"
+                        sortable
+                        filter
+                        filterPlaceholder="Search by Status"
+                        body={(rowData) => (
+                            <div
+                                className={
+                                    rowData.status === "Confirm"
+                                        ? "bg-green-500"
+                                        : rowData.status === "Declined"
+                                        ? "bg-red-500"
+                                        : rowData.status === "Pending"
+                                        ? "bg-gray-500"
+                                        :"bg-green-500"
+                                }
+                                style={{
+                                    display: "inline-block",
+                                    padding: "0.5rem",
+                                    borderRadius: "0.5rem",
+                                }}
+                            >
+                                {rowData.status}
+                            </div>
+                        )}
+                    />
 
   <Column header="Actions" body={actionTemplate} />
 </DataTable>

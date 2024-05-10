@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/services/fetch/client', [VendorController::class, 'vendorListfetchclient']);
 
 
-    Route::post('/services/update/status', [VendorController::class, 'updateStatus']);
+    Route::post('/service/update/status', [ServiceController::class, 'updateStatus']);
 
 
 Route::get('/ticketview',function(){
@@ -99,6 +99,7 @@ Route::get('/invoice',function(){
 
     Route::get('/services/back', [ServiceController::class, 'back'])->name('services.back');
     Route::delete('/services/delete', [ServiceController::class, 'destroy'])->name('service.destroy');
+    Route::post('/qoutation/update/status', [VendorController::class, 'updateStatus']);
 
 
 

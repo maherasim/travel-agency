@@ -119,7 +119,27 @@ class ServiceController extends Controller
           return response()->json(['data'=>$service],200);
      }
 
-
+     public function updateStatus(Request $request)
+     {
+      
+         $requestData = $request->validate([
+             'id' => 'required|integer',
+             'status' => 'required|string|in:Declined,Confirm,Pending', // Adjust the validation as needed
+ 
+       
+       
+         ]);
+ 
+         $service = ServiceRequest::find($requestData['id']);
+         if (!$service) {
+             return response()->json(['error' => 'Service not found'], 404);
+         }
+ 
+         $service->status = $requestData['status'];
+         $service->save();
+ 
+         return response()->json(['message' => 'Status updated successfully'], 200);
+     }
     public function back(Request $request)
     {        
         
