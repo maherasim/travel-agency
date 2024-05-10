@@ -161,4 +161,110 @@ class QuotationController extends Controller
 
         return response()->json(['data' => $vendorList], 200);
     }
+
+
+
+    public function edit(Request $request, $id)
+    {        
+         $client = Quotation::find($id);
+       
+        return Inertia::render('Quotation/update', ['client' => $client]);
+    }
+ 
+
+    public function update(Request $request)
+    {
+       
+      $date=  $request->validate([
+            'airline_name' => 'nullable',
+            'departure_time' => 'nullable',
+            'arrival_time' => 'nullable',
+            'ourcost' => 'nullable',
+            'name' => 'nullable',
+            'departure_date' => 'nullable',
+            'flight_number' => 'nullable',
+            'flight_gate' => 'nullable',
+            'fare_type' => 'nullable',
+            'prf' => 'nullable',
+            'gate' => 'nullable',
+            'class' => 'nullable',
+            'total_cost' => 'nullable',
+            'flight_class' => 'nullable',
+            'pnr_number' => 'nullable',
+            'seat_number' => 'nullable',
+        ]);
+        
+        $id = $request->id;
+        $airline_name = $request->airline_name;
+        $departure_time = $request->departure_time;
+        $arrival_time = $request->arrival_time;
+        $ourcost = $request->ourcost;
+        
+        $departure_date = $request->departure_date;
+        $flight_number = $request->flight_number;
+        
+        $fare_type = $request->fare_type;
+        $prf = $request->prf;
+        $gate = $request->gate;
+        $class = $request->class;
+        $total_cost = $request->total_cost;
+       
+        $pnr_number = $request->pnr_number;
+        $seat_number = $request->seat_number;
+    
+        $quotation = Quotation::find($id);
+        if (!$quotation) {
+            return redirect()->back()->withErrors(['id' => 'Quotation is not found']);
+        }
+    
+        // Update the quotation properties
+        $quotation->airline_name = $airline_name;
+        $quotation->departure_time = $departure_time;
+        $quotation->arrival_time = $arrival_time;
+        $quotation->ourcost = $ourcost;
+        
+        $quotation->departure_date = $departure_date;
+        $quotation->flight_number = $flight_number;
+       
+        $quotation->fare_type = $fare_type;
+        $quotation->prf = $prf;
+        $quotation->gate = $gate;
+        $quotation->class = $class;
+        $quotation->total_cost = $total_cost;
+      
+        $quotation->pnr_number = $pnr_number;
+        $quotation->seat_number = $seat_number;
+        $quotation->save();
+    
+        // Pass the updated quotation data to the Inertia.js view
+        return redirect()->route('quotation.fetch.admin')->with('success', 'Quotation updated successfully');
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    public function destroy(Request $request)
+    {
+        $request->validate([
+            'quotation_id' => 'required',
+        ]);
+ 
+        $user_id = $request->quotation_id;
+ 
+        $user = Quotation::where('id',$user_id);
+        $user->delete();
+ 
+         return redirect()->route('quotation.fetch.admin')->with('success', 'quotation Request Deleted Successfully');
+    }
+ 
+
 }

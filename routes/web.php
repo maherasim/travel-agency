@@ -89,7 +89,7 @@ Route::get('/invoice',function(){
 
 
     Route::get('/services/form/fetch', [VendorController::class, 'fetchListIndex']);
-    Route::get('/services/form/fetch/admin', [VendorController::class, 'fetchListIndexadmin']);
+    Route::get('/services/form/fetch/admin', [VendorController::class, 'fetchListIndexadmin'])->name('fetch.admin');
     Route::get('/vendor/{id}/edit', [VendorController::class, 'edit'])->name('vendor.edit');
     Route::post('/vendor/serviceupdae', [VendorController::class, 'update'])->name('vendor.update');
 
@@ -98,16 +98,22 @@ Route::get('/invoice',function(){
     Route::post('/services/preview', [ServiceController::class, 'preview'])->name('services.preview');
 
     Route::get('/services/back', [ServiceController::class, 'back'])->name('services.back');
+    Route::delete('/services/delete', [ServiceController::class, 'destroy'])->name('service.destroy');
+
+
 
 
     Route::get('/quotation/form/fetch', [QuotationController::class, 'index'])->name('quotation.index');
     Route::post('/quotation/form/store', [QuotationController::class, 'store'])->name('quotation.store');
-    Route::get('/quotation/form/fetch/admin', [QuotationController::class, 'fetchListIndexadmin']);
+    Route::get('/quotation/form/fetch/admin', [QuotationController::class, 'fetchListIndexadmin'])->name('quotation.fetch.admin');
     Route::get('/quotation/fetch/admin/ ', [QuotationController::class, 'quationListfetchadmin']);
     Route::get('/quo/fetch/admin', [QuotationController::class, 'quaListfetchadmin']);
     Route::get('/quotation/view/{id}', [QuotationController::class, 'view'])->name('quotation.view');
     Route::get('/quotation/generate-pdf/{id}', [QuotationController::class, 'generatePdf'])->name('generatePdf');
     Route::get('/quotation/generate-invoice/{id}', [QuotationController::class, 'generateInvoice'])->name('generateInvoice');
+    Route::delete('/quotation/delete', [QuotationController::class, 'destroy'])->name('quotation.destroy');
+    Route::get('/quotation/{id}/edit', [QuotationController::class, 'edit'])->name('quotation.edit');
+    Route::post('/quotation/quotationupdate', [QuotationController::class, 'update'])->name('quotation.update');
 
 
 

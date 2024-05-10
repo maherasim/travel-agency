@@ -126,6 +126,21 @@ class ServiceController extends Controller
         return response()->json(['data'=>session()->get('service_form')],200);
      }
 
-  
+     public function destroy(Request $request)
+   {
+       $request->validate([
+           'service_id' => 'required',
+       ]);
+
+       $user_id = $request->service_id;
+
+       $user = ServiceRequest::where('id',$user_id);
+       $user->delete();
+
+        return redirect()->route('fetch.admin')->with('success', 'Service Request Deleted Successfully');
+   }
+
+
+
 
 }

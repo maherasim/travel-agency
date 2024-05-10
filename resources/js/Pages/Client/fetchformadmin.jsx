@@ -43,13 +43,13 @@ export default function VendorList({ auth }) {
   };
 
   const handleDelete = (rowData) => {
-    setData('vendor_id', rowData.id);
+    setData('service_id', rowData.id);
     setConfirmingUserDeletion(true);
   };
 
   const deleteUser = async () => {
     try {
-      await destroy(route('vendor.destroy'), {
+      await destroy(route('service.destroy'), {
         preserveScroll: true,
         onSuccess: () => {
           closeModal();
@@ -81,15 +81,23 @@ export default function VendorList({ auth }) {
 
   const actionTemplate = (rowData) => {
     return (
-      <button
-        className="p-button p-button-text rounded-md px-4 py-2 bg-green-500 text-white hover:bg-blue-600 focus:outline-none mt-2" // Added mr-2 for right margin
-        onClick={() => handleEdit(rowData)}
-      >
-        View
-      </button>
-
+      <div>
+        <button
+          className="p-button p-button-rounded p-button-danger" // Added mr-2 for right margin
+          onClick={() => handleEdit(rowData)}
+        >
+          <i className="pi pi-pencil"></i>
+        </button>
+        <button
+          className="p-button p-button-rounded p-button-danger"
+          onClick={() => handleDelete(rowData)}
+        >
+        <i className="pi pi-trash"></i>
+        </button>
+      </div>
     );
   };
+  
 
 
   const header = (

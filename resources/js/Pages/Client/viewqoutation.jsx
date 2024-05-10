@@ -28,6 +28,18 @@ export default function VendorList({ auth }) {
   useEffect(() => {
     fetchClientData();
   }, []);
+  const handleEdit = (rowData) => {
+    const url = `/services/edit/${rowData.id}`;
+    router.get(url)
+
+  };
+
+  const handleDelete = (rowData) => {
+    setData('quotation_id', rowData.id);
+    setConfirmingUserDeletion(true);
+  };
+
+
 
   const handleStatusChange = async (itemId, value) => {
     const isConfirmed = window.confirm(`Are you sure you want to update the status to ${value}?`);

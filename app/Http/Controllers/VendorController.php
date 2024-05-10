@@ -27,7 +27,10 @@ class VendorController extends Controller
      
         $requestData = $request->validate([
             'id' => 'required|integer',
-            'status' => 'required|string|in:request more,confirm','pending', // Adjust the validation as needed
+            'status' => 'required|string|in:request more,confirm,pending', // Adjust the validation as needed
+
+      
+      
         ]);
 
         $quotation = Quotation::find($requestData['id']);

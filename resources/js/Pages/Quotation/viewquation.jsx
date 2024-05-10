@@ -6,6 +6,8 @@ import { Dropdown } from "primereact/dropdown";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import { Button } from 'primereact/button';
+
 
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head, useForm } from "@inertiajs/react";
@@ -22,6 +24,7 @@ export default function VendorList({ auth }) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
     const { data, setData, delete: destroy, processing, reset } = useForm();
     const [selectedAction, setSelectedAction] = useState("Actions"); // Default value
+    const [selectedStatus, setSelectedStatus] = useState({});
 
     const fetchClientData = async () => {
         try {
@@ -36,9 +39,39 @@ export default function VendorList({ auth }) {
         fetchClientData();
     }, []);
 
-    const handleEdit = (rowData) => {
+    const handleStatusChange = async (itemId, value) => {
+        const isConfirmed = window.confirm(`Are you sure you want to update the status to ${value}?`);
+        if (!isConfirmed) return;
+    
+        try {
+            const response = await axios.post('/services/update/status', {
+                id: itemId,
+                status: value
+            });
+            
+            // Handle successful response if needed
+            
+            // Reload the page if status is updated to "confirm", "pending", or "request more"
+            if (value === 'confirm' || value === 'pending' || value === 'request more') {
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error("Error updating status:", error);
+            // Handle error here
+        }
+    };
+    
+    
+    
+
+    const handleView = (rowData) => {
         const url = `/quotation/view/${rowData.id}`;
         router.get(url);
+    };
+   
+    const handleEdit = (rowData) => {
+        const url = `/quotation/${rowData.id}/edit`;
+         router.get(url);
     };
 
     const handleGeneratePdf = (id) => {
@@ -49,13 +82,13 @@ export default function VendorList({ auth }) {
         window.open(`/quotation/generate-invoice/${id}`, '_blank');
     };
     const handleDelete = (rowData) => {
-        setData("vendor_id", rowData.id);
+        setData("quotation_id", rowData.id);
         setConfirmingUserDeletion(true);
     };
 
     const deleteUser = async () => {
         try {
-            await destroy(route("vendor.destroy"), {
+            await destroy(route("quotation.destroy"), {
                 preserveScroll: true,
                 onSuccess: () => {
                     closeModal();
@@ -66,7 +99,7 @@ export default function VendorList({ auth }) {
                 onFinish: () => reset(),
             });
         } catch (error) {
-            console.error("Error deleting client:", error);
+            console.error("Error deleting qoutation:", error);
         }
     };
     console.log(clients);
@@ -86,25 +119,32 @@ export default function VendorList({ auth }) {
         console.log("rowData", rowData?.id);
         return (
             <>
-                <button
-                    className="p-button p-button-text rounded-md px-4 py-2 bg-green-500 text-white hover:bg-blue-600 focus:outline-none mt-2 me-2" // Added mr-2 for right margin
-                    onClick={() => handleEdit(rowData)}
-                >
-                    View
-                </button> 
+                 <Button
+                icon="pi pi-eye"
+                className="p-button-rounded p-button-success p-button-text"
+                onClick={() => handleView(rowData)}
+            /> 
+             <Button
+                icon="pi pi-pencil"
+                className="p-button-rounded p-button-success p-button-text"
+                onClick={() => handleEdit(rowData)}
+            /> 
               
-                <button
-                    className="p-button p-button-text rounded-md px-4 py-2 bg-green-500 text-white hover:bg-blue-600 focus:outline-none"
-                    onClick={() => handleGeneratePdf(rowData.id)}
-                >
-                   Ticket
-                </button>
-                <button
-                    className="p-button p-button-text rounded-md px-4 py-2 bg-green-500 text-white hover:bg-blue-600 focus:outline-none"
-                    onClick={() => handleGenerateInvoice(rowData.id)}
-                >
-                    Invoice
-                </button>
+              <Button
+                icon="pi pi-ticket"  
+                className="p-button-rounded p-button-success p-button-text"
+                onClick={() => handleGeneratePdf(rowData.id)}
+            />
+            <Button
+                icon="pi pi-file"
+                className="p-button-rounded p-button-success p-button-text"
+                onClick={() => handleGenerateInvoice(rowData.id)}
+            />
+                  <Button
+                icon="pi pi-trash"
+                className="p-button-rounded p-button-success p-button-text"
+                onClick={() => handleDelete(rowData.id)}
+            />
             </>
         );
     };
@@ -147,6 +187,7 @@ export default function VendorList({ auth }) {
                         sortable
                         filter
                         filterPlaceholder="Search by ID"
+                        style={{ width: '3%' }}
                     />
                     <Column
                         field="clientName"
@@ -157,18 +198,42 @@ export default function VendorList({ auth }) {
                     />
                     <Column
                         field="staff_name"
-                        header="Staff Name"
+                        header="Staff "
                         sortable
                         filter
                         filterPlaceholder="Search by Airline Name"
                     />
                     <Column
                         field="service_type"
-                        header="Service Type  "
+                        header="Service  "
                         sortable
                         filter
                         filterPlaceholder="Search by Airline Name"
                     />
+
+<Column
+  header="update Status"
+  body={(rowData) => (
+    <div>
+      <select
+        value={selectedStatus[rowData.id] || rowData.status}
+        onChange={(e) => handleStatusChange(rowData.id, e.target.value)}
+        style={{
+          padding: '0.2rem 0.5rem',
+          borderRadius: '5px',
+          border: '1px solid #ccc',
+          backgroundColor: '#f9f9f9',
+          fontSize: '1rem'
+        }}
+      >
+        <option value="pending">Pending</option>
+        <option value="request more">Request More</option>
+        <option value="confirm">Confirm</option>
+      </select>
+    </div>
+  )}
+/>
+
 
                     <Column
                         field="departure_date"
@@ -195,10 +260,12 @@ export default function VendorList({ auth }) {
                             <div
                                 className={
                                     rowData.status === "confirm"
-                                        ? "bg-yellow-300"
+                                        ? "bg-green-500"
                                         : rowData.status === "request more"
                                         ? "bg-red-500"
-                                        : ""
+                                        : rowData.status === "pending"
+                                        ? "bg-gray-500"
+                                        :"bg-green-500"
                                 }
                                 style={{
                                     display: "inline-block",
