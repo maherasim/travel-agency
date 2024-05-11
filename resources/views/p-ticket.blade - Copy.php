@@ -23,7 +23,7 @@
                       <div class="d-flex justify-content-between flex-wrap">
                         <div class="d-flex flex-column flex-wrap" >
                         <h5 class="passanger-heading"><i class='bx bx-id-card'></i> Passenger Name</h5>
-                        <h5 class="heading-john">Mr. &nbsp; John Doe</h5>
+                        <h5 class="heading-john">Mr. &nbsp; {{@$vendor->service->passenger_name}}</h5>
                         <h5 class="passanger-heading"><i class='bx bxs-plane-take-off'></i> From</h5>
                         <h5 class="heading-john">New York, &nbsp; USA</h5>
 

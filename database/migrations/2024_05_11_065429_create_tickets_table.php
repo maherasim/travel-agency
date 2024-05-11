@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('quotations', function (Blueprint $table) {
+        Schema::create('tickets', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('client_id')->constrained()->onDelete('cascade');
             $table->string('gate')->nullable();
             $table->integer('pnr_number')->nullable();
             $table->string('seat_number')->nullable();
             $table->string('class')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -24,11 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('quotations', function (Blueprint $table) {
-            $table->dropColumn('gate');
-            $table->dropColumn('pnr_number');
-            $table->dropColumn('seat_number');
-            $table->dropColumn('class');
-        });
+        Schema::dropIfExists('tickets');
     }
 };

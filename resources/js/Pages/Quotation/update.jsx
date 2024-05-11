@@ -263,7 +263,7 @@ type="number"
                     />
                     <InputError className="mt-2" message={errors.seat_number} />
                 </div>
-                <div className="mt-4">
+                {/* <div className="mt-4">
                     <InputLabel htmlFor="seat_number" value="Pnr Number" />
 
                     <TextInput
@@ -277,7 +277,7 @@ type="number"
                        autoComplete="seat_number"
                     />
                     <InputError className="mt-2" message={errors.seat_number} />
-                </div>
+                </div> */}
                 </div>
 
                

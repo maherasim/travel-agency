@@ -21,6 +21,15 @@ class QuotationController extends Controller
         $clients = Client::select('id', 'trade_name')->get(); // Fetch only id and trade_name
         return Inertia::render('Quotation/qutationform', ['clients' => $clients]);
     }
+    
+    public function show($id)
+    {
+        $vendor = Quotation::with('service')->findOrFail($id);
+        $pdf = PDF::loadView('ticket1', ['vendor' => $vendor]);
+        return $pdf->download('ticket.pdf');
+    }
+    
+
     public function storeyeh(Request $request)
     {
 
@@ -265,6 +274,20 @@ class QuotationController extends Controller
  
          return redirect()->route('quotation.fetch.admin')->with('success', 'quotation Request Deleted Successfully');
     }
+    public function destroy1(Request $request)
+    {
+        $request->validate([
+            'service_id' => 'required',
+        ]);
+ 
+        $user_id = $request->service_id;
+ 
+        $user = ServiceRequest::where('id',$user_id);
+        $user->delete();
+ 
+         return redirect()->route('fetch.admin')->with('success', 'Service Request Deleted Successfully');
+    }
+ 
  
 
 }

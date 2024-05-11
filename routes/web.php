@@ -72,10 +72,10 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/service/update/status', [ServiceController::class, 'updateStatus']);
 
+ 
+    
 
-Route::get('/ticketview',function(){
-return view('ticket');
-});
+
 Route::get('/backview',function(){
     return view('backview');
     });
@@ -115,8 +115,10 @@ Route::get('/invoice',function(){
     Route::delete('/quotation/delete', [QuotationController::class, 'destroy'])->name('quotation.destroy');
     Route::get('/quotation/{id}/edit', [QuotationController::class, 'edit'])->name('quotation.edit');
     Route::post('/quotation/quotationupdate', [QuotationController::class, 'update'])->name('quotation.update');
+    Route::get('/ticketview/{id}', [QuotationController::class, 'show']);
 
 
+    
 
 
 

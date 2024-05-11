@@ -11,7 +11,6 @@ class Quotation extends Model
 
     protected $fillable = [
         'client_id',
-
         'airline_name',
         'service_type',
         'flight_number',

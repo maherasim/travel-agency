@@ -75,17 +75,18 @@ export default function VendorList({ auth }) {
     };
 
     const handleGeneratePdf = (id) => {
-        window.open(`/quotation/generate-pdf/${id}`, '_blank');
+        window.open(`/ticketview/${id}`, '_blank');
     };
 
     const handleGenerateInvoice = (id) => {
         window.open(`/quotation/generate-invoice/${id}`, '_blank');
     };
+ 
     const handleDelete = (rowData) => {
-        setData("quotation_id", rowData.id);
+        setData('quotation_id', rowData.id);
         setConfirmingUserDeletion(true);
-    };
-
+      };
+    
     const deleteUser = async () => {
         try {
             await destroy(route("quotation.destroy"), {
@@ -143,11 +144,13 @@ export default function VendorList({ auth }) {
                     onClick={() => handleGenerateInvoice(rowData.id)}
                     style={{ marginRight: '2px' }} // Adjust margin as needed
                 />
-                <Button
+                  <Button
                     icon="pi pi-trash"
                     className="p-button-rounded p-button-success p-button-text"
-                    onClick={() => handleDelete(rowData.id)}
+                    onClick={() => handleDelete(rowData)}
+                    style={{ marginRight: '2px' }} // Adjust margin as needed
                 />
+              
             </>
         );
     };
