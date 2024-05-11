@@ -3,9 +3,11 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\AlertController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\InvoiceController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -118,7 +120,13 @@ Route::get('/invoice',function(){
     Route::get('/ticketview/{id}', [QuotationController::class, 'show']);
 
 
-    
+
+    Route::get('/ticket/form/fetch', [TicketController::class, 'index'])->name('ticket.index');
+    Route::post('/ticket/store', [TicketController::class, 'store'])->name('ticket.store');
+
+    Route::get('/invoice/form/fetch', [InvoiceController::class, 'index'])->name('invoice.index');
+    Route::post('/invoice/store', [InvoiceController::class, 'store'])->name('invoice.store');
+
 
 
 

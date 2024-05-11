@@ -8,7 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Ticket extends Model
 {
     use HasFactory;
-
+    protected $fillable = [
+        'client_id',         
+        "seat_number",
+        "flight_class",
+        'flight',
+        "gate",
+        "pnr_number"
+    ];
 
     public function client()
     {

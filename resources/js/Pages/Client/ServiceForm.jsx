@@ -107,12 +107,25 @@ export default function ServiceForm({ auth, clients }) {
                     <span className="text-sm text-white font-semibold ">Step 1</span>
                 </div>
 
-                <div className="h-1 w-20 bg-green-500"></div>
+                <div className="h-1 w-15 bg-green-500"></div>
 
                
                 <div className="flex items-center">
                     <span className="text-sm font-semibold ml-2 bg-gray-400 text-white px-4 py-2 rounded-xl">Step 2</span>
                 </div>
+                <div className="h-1 w-15 bg-green-500"></div>
+
+               
+<div className="flex items-center">
+    <span className="text-sm font-semibold ml-2 bg-gray-400 text-white px-4 py-2 rounded-xl">Step 3</span>
+</div>
+<div className="h-1 w-15 bg-green-500"></div>
+
+               
+<div className="flex items-center">
+    <span className="text-sm font-semibold ml-2 bg-gray-400 text-white px-4 py-2 rounded-xl">Step 4</span>
+</div>
+
                 </div>)}
             <div className=' text-vermilion-700 bg-white container w-md-80 rounded-md shadow-sm p-4  mt-4'>
                 <form onSubmit={handleSubmit}>

@@ -179,7 +179,7 @@ export default function ServiceForm({ auth, clients }) {
                 if (data && data.success === true) {
                     localStorage.removeItem("selectedClient");
                     localStorage.removeItem("selectedService");
-                    window.location.href = "/services/form";
+                    window.location.href = "/ticket/form/fetch";
                 } else {
                     throw new Error("API response indicates failure.");
                 }
@@ -237,13 +237,23 @@ export default function ServiceForm({ auth, clients }) {
                     </span>
                 </div>
 
-                <div className="h-1 w-20 bg-green-500"></div>
+                <div className="h-1 w-15 bg-green-500"></div>
 
                 {/* Step 2 */}
                 <div className="flex items-center bg-green-500 border-2 px-4 py-2 rounded-xl">
                     <span className="text-sm font-semibold  text-white">
                         Step 2
                     </span>
+                </div>
+                <div className="h-1 w-15 bg-green-500"></div>
+
+                <div className="flex items-center">
+                    <span className="text-sm font-semibold ml-2 bg-gray-400 text-white px-4 py-2 rounded-xl">Step 3</span>
+                </div>
+                <div className="h-1 w-15 bg-green-500"></div>
+
+                <div className="flex items-center">
+                    <span className="text-sm font-semibold ml-2 bg-gray-400 text-white px-4 py-2 rounded-xl">Step 4</span>
                 </div>
             </div>
             <div className="text-vermilion-700 bg-white container w-md-80 rounded-md shadow-sm p-4 mt-4">

@@ -70,7 +70,7 @@
       </p>  
       <p>{{@$vendor->service->to_location	}}</p></td>
       <td>
-        <p>Invoice No - TTL/24-25/0017</p>
+        <p>Invoice No - {{@$vendor->invoice->invoice_number}}</p>
          <p> Dt - 02/05/2024</p>
       </td>
     </tr>  
@@ -82,8 +82,7 @@
       <td style="text-align: center;" > <b>Amount</b></td>
     </tr>
     <tr>
-      <td  >Air Tickets (Including Applicable Flight Taxes Collected on behalf of Airline <br>
-         and other Ancillary Charges)
+      <td  >{{@$vendor->invoice->description}}
         <br> <br>
         <p>Ahmedabad to Dehradun</p>  
         <p>Dt - 29/04/2024</p>  <br>
@@ -113,16 +112,16 @@
           <br>
           <br>
           <br>
-          <p style="text-align: right;"> 100.00</p>
-          <p style="text-align: right;"> 100.00</p>
-          <p style="text-align: right;"> 100.00</p>
+          <p style="text-align: right;"> {{@$vendor->invoice->management_fee}}</p>
+          <p style="text-align: right;"> {{@$vendor->invoice->cgst}}</p>
+          <p style="text-align: right;"> {{@$vendor->invoice->sgst}}</p>
         </td>
     </tr>
    
    <tr>
      
     <td> <p style="text-align: center;" > <b>Total Amount</b></p>   </td>
-    <td>  <p style="text-align: right;"> <b>19000.0</b></p></td>
+    <td>  <p style="text-align: right;"> <b>{{@$vendor->invoice->total}}</b></p></td>
    </tr>
    <tr>
      
@@ -151,6 +150,19 @@
    </tr>
   </table>
 </div>
+
+
+<div style="text-align: center;">
+  <button id="printButton" style="background-color: #007bff; color: #fff; padding: 10px 20px; font-size: 18px; border: none; border-radius: 5px; cursor: pointer;margin-top:1px">
+      Print
+  </button>
+</div> 
+
+<script>
+  document.getElementById("printButton").addEventListener("click", function() {
+      window.print();
+  });
+</script>
 <?php echo " "; exit; ?>
 </body>
 </html>

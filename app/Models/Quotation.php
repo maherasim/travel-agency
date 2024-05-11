@@ -34,4 +34,12 @@ class Quotation extends Model
     {
         return $this->hasOne(ServiceRequest::class,'client_id','client_id');
     }
+    public function ticket()
+    {
+        return $this->hasOne(Ticket::class,'client_id','client_id');
+    }
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class,'client_id','client_id');
+    }
 }
