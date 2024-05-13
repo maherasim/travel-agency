@@ -8,6 +8,7 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\AlertController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -120,12 +121,29 @@ Route::get('/invoice',function(){
     Route::get('/ticketview/{id}', [QuotationController::class, 'show']);
 
 
+    Route::name('razorpay.')
+    ->controller(PaymentController::class)
+    ->prefix('razorpay')
+    ->group(function () {
+        Route::view('payment', 'razorpay.index')->name('create.payment');
+        Route::post('handle-payment', 'handlePayment')->name('make.payment');
+    });
+
+
+
 
     Route::get('/ticket/form/fetch', [TicketController::class, 'index'])->name('ticket.index');
     Route::post('/ticket/store', [TicketController::class, 'store'])->name('ticket.store');
 
     Route::get('/invoice/form/fetch', [InvoiceController::class, 'index'])->name('invoice.index');
     Route::post('/invoice/store', [InvoiceController::class, 'store'])->name('invoice.store');
+
+    Route::get('/payment', [PaymentController::class, 'showPaymentForm'])->name('payment');
+    Route::post('/payment', [PaymentController::class, 'makePayment'])->name('payment.makePayment');
+    Route::get('/payment/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('/payment/failure', [PaymentController::class, 'paymentFailure'])->name('payment.failure');
+
+
 
 
 
