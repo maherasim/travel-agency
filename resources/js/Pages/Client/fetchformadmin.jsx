@@ -128,7 +128,7 @@ export default function VendorList({ auth }) {
 
   const header = (
     <div className="flex justify-between bg-pink-600 p-2 rounded-lg">
-      <h2 className="text-2xl text-white font-bold mb-4">View Service Request  </h2>
+      <h2 className="text-2xl text-white font-bold mb-4">View Service Request Admin </h2>
       <span className="p-input-icon-left">
         <InputText
           type="search"

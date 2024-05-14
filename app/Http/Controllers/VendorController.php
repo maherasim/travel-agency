@@ -123,7 +123,7 @@ public function vendorListfetch(Request $request)
 
     public function vendorListfetchadmin(Request $request)
     {        
-        $vendorList = Quotation::with('client')->get();
+        $vendorList = ServiceRequest::with('client')->get();
 
       
     return response()->json(['data'=>$vendorList],200);
