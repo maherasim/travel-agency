@@ -19,6 +19,9 @@ class InvoiceController extends Controller
     }
     public function store(Request $request)
     {
+       
+       
+
         $clientId = Auth::id();
 
         if ($request->filled('clientName')) {
@@ -33,12 +36,13 @@ class InvoiceController extends Controller
             }
         }
         $request->validate([
-            'invoice_number' => 'required|integer',
+            'invoice_number' => 'required|string',
             'description' => 'required',
             'management_fee' => 'required',
             'cgst' => 'required',
             'sgst' => 'required',
             'total' => 'required',
+            'serviceType' => 'nullable',
         ]);
     
         // Create a new invoice instance
@@ -48,6 +52,7 @@ class InvoiceController extends Controller
             'description' => $request->description,
             'management_fee' => $request->management_fee,
             'cgst' => $request->cgst,
+            'serviceType' => $request->serviceType,
             'sgst' => $request->sgst,
             'total' => $request->total,
         ]);

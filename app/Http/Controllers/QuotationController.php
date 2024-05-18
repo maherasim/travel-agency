@@ -30,11 +30,19 @@ class QuotationController extends Controller
     }
     
 
+    public function voucherqou($id)
+    {
+        $vendor = Quotation::with(['service', 'invoice', 'ticket'])->findOrFail($id);
+        
+        $pdf = PDF::loadView('vocher', ['vendor' => $vendor]);
+        return $pdf->download('voucher.pdf');
+    }
+    
+
  
     public function store(Request $request)
     {
- 
-
+        
         // Validate the incoming request data
         $validatedData = $request->validate([
             'airline_name' => 'required|string',
@@ -86,13 +94,26 @@ class QuotationController extends Controller
         // Vendor record
         return Inertia::render('Quotation/viewquation');
     }
+    public function qoutationhotel(Request $request)
+    {
+         
+        return Inertia::render('Quotation/hotelqutation');
+    }
 
     public function view($id)
     {
-        $vendor = Quotation::findOrFail($id);
+        $vendor = Quotation::with('client')->findOrFail($id);
 
         return Inertia::render('Quotation/fetchqutation', ['vendor' => $vendor]);
     }
+    public function hotelview($id)
+    {
+        $vendor = Quotation::findOrFail($id);
+        return Inertia::render('Quotation/viewhotel', ['vendor' => $vendor]);
+    }
+    
+
+
     public function generatePdf($id)
     {
         $vendor = Quotation::with('service')->findOrFail($id);
@@ -107,13 +128,18 @@ class QuotationController extends Controller
         return $pdf->download('invoice.pdf');
     }
     public function quaListfetchadmin(Request $request)
-    {
+{
+    $vendorList = Quotation::with('client')->where('service_type', 'flight')->get();
 
-        $vendorList = Quotation::with('client')->get();
+    return response()->json(['data' => $vendorList], 200);
+}
 
-        return response()->json(['data' => $vendorList], 200);
-    }
+public function quationListfetchhotel(Request $request)
+{
+    $vendorList = Quotation::with('client')->where('service_type', 'hotel')->get();
 
+    return response()->json(['data' => $vendorList], 200);
+}
 
 
     public function edit(Request $request, $id)
@@ -121,6 +147,12 @@ class QuotationController extends Controller
          $client = Quotation::find($id);
        
         return Inertia::render('Quotation/update', ['client' => $client]);
+    }
+    public function hoteledit(Request $request, $id)
+    {        
+         $client = Quotation::find($id);
+       
+        return Inertia::render('Quotation/hotelupdate', ['client' => $client]);
     }
  
 
@@ -193,6 +225,46 @@ class QuotationController extends Controller
     }
     
 
+    public function hotelupdate(Request $request)
+    {
+       
+      $date=  $request->validate([
+            
+             
+            'guest_name' => 'nullable',
+            'room_category' => 'nullable',
+            'hotel_address' => 'nullable',
+            'confirmation_no' => 'nullable',
+            'contact_no' => 'nullable',
+        ]);
+        
+        $id = $request->id;
+        $guest_name = $request->guest_name;
+        $room_category = $request->room_category;
+        $hotel_address = $request->hotel_address;
+        $confirmation_no = $request->confirmation_no;
+        $contact_no = $request->contact_no;
+
+        
+    
+        $quotation = Quotation::find($id);
+        if (!$quotation) {
+            return redirect()->back()->withErrors(['id' => 'Quotation is not found']);
+        }
+    
+        
+        $quotation->guest_name = $guest_name;
+        $quotation->room_category = $room_category;
+        $quotation->hotel_address = $hotel_address;
+        $quotation->confirmation_no = $confirmation_no;
+        $quotation->contact_no = $contact_no;
+        
+        $quotation->save();
+    
+        // Pass the updated quotation data to the Inertia.js view
+        return redirect()->route('quotation.hotel')->with('success', 'Quotation updated successfully');
+    }
+    
 
 
 
@@ -217,6 +289,21 @@ class QuotationController extends Controller
  
          return redirect()->route('quotation.fetch.admin')->with('success', 'quotation Request Deleted Successfully');
     }
+
+    public function hoteldestroy(Request $request)
+    {
+        $request->validate([
+            'quotation_id' => 'required',
+        ]);
+ 
+        $user_id = $request->quotation_id;
+ 
+        $user = Quotation::where('id',$user_id);
+        $user->delete();
+ 
+         return redirect()->route('quotation.hotel')->with('success', 'quotation Request Deleted Successfully');
+    }
+
     public function destroy1(Request $request)
     {
         $request->validate([

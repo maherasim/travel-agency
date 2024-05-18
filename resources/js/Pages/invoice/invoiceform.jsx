@@ -19,10 +19,12 @@ export default function Register({ auth }) {
         sgst: "",
         total:"",
         clientName:"",
+        serviceType:"",
     });
 
 
     const selectedClient = localStorage.getItem("selectedClient");
+    const selectedService = localStorage.getItem("selectedService");
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
     const [message, setMessage] = useState('');
@@ -34,6 +36,7 @@ export default function Register({ auth }) {
             onSuccess: () => {
                 setShowSuccess(true);
                 setMessage('Invoice created successfully');
+                localStorage.clear();
                 setTimeout(() => {
                     setShowSuccess(false);
                 }, 5000);
@@ -54,6 +57,11 @@ export default function Register({ auth }) {
         <Authenticated
             user={auth.user}
         >
+              <header className="text-center mb-5">
+                <h2 className="text-lg font-large text-black-700">Invoice Form  </h2>
+
+              
+            </header>
             <Head title="Invoice " />
             <div className="flex justify-center items-center space-x-4">
                 {/* Step 1 */}
@@ -121,6 +129,7 @@ export default function Register({ auth }) {
                                 autoComplete="organization"
                                 onChange={(e) => setData('invoice_number', e.target.value)}
                                 onClick={(e) => setData('clientName', selectedClient)}
+                               
                                 required
                             />
 
@@ -141,6 +150,7 @@ export default function Register({ auth }) {
                                 style={{ border: '2px solid pink' }} // Set border style and color inline
                                 autoComplete="organization"
                                 onChange={(e) => setData('description', e.target.value)}
+                                onClick={(e) => setData('serviceType', selectedService)}
                                 required
                             />
 

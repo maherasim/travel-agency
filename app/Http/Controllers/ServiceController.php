@@ -30,26 +30,25 @@ class ServiceController extends Controller
      * @return \Illuminate\Http\Response
      */ 
     public function preview(Request $request)
-    {
-        // Validate the incoming request data
-        $validatedData = $request->validate([
-            'service_type' => 'required',
-            'passenger_number' => 'nullable|integer',
-            'price' => 'nullable|integer',
-            'passenger_names' => 'nullable|array',
-            'domestic_international' => 'nullable|string',
-            'oneway_roundway' => 'nullable|string',
-            'from_location' => 'nullable|string',
-            'to_location' => 'nullable|string',
-            'departure_date' => 'nullable|date',
-            'airline_name' => 'nullable|string',
-        ]);
-    
-        // Pass the validated data to the preview view
-        return view('services.preview', compact('validatedData'));
-    }
-    
+{
+    // Validate the incoming request data
+    $validatedData = $request->validate([
+        'service_type' => 'required',
+        'passenger_number' => 'nullable|integer',
+        'price' => 'nullable|integer',
+        'passenger_names' => 'nullable|array',
+        'domestic_international' => 'nullable|string',
+        'oneway_roundway' => 'nullable|string',
+        'from_location' => 'nullable|string',
+        'to_location' => 'nullable|string',
+        'departure_date' => 'nullable|date',
+        'airline_name' => 'nullable|string',
+    ]);
 
+    // Pass the validated data to the preview view
+    return view('services.preview', compact('validatedData'));
+}
+    
     public function store(Request $request)
     {  
         // Validate the incoming request data
@@ -62,12 +61,22 @@ class ServiceController extends Controller
             'from_location' => 'nullable|string',
             'to_location' => 'nullable|string',
             'departure_date' => 'nullable|date',
+            'room_occupancy' => 'nullable|string',
             'return_date' => 'nullable|date', // Add validation rule for return date
             'airline_name' => 'nullable|string',
             'trade_name' => 'nullable|string', // Optional trade_name field
+             
+            'city' => 'nullable|string', // Add validation rule for city
+            'hotel_name' => 'nullable|string', // Add validation rule for hotel_name
+            'check_in' => 'nullable|date', // Add validation rule for check_in
+            'check_out' => 'nullable|date', // Add validation rule for check_out
+            'night' => 'nullable|integer', // Add validation rule for night
+            'meal_plan' => 'nullable|string', // Add validation rule for meal_plan
+            'hotel_category' => 'nullable|string', // Add validation rule for hotel_category
+            'price_module' => 'nullable|string', // Add validation rule for price_module
         ]);
-
-        session()->put('service_form',$validatedData);
+    
+        session()->put('service_form', $validatedData);
     
         // Initialize client ID variable
         $clientId = Auth::id();
@@ -98,14 +107,25 @@ class ServiceController extends Controller
             'oneway_roundway' => $validatedData['oneway_roundway'],
             'from_location' => $validatedData['from_location'],
             'to_location' => $validatedData['to_location'],
+            'room_occupancy' => $validatedData['room_occupancy'],
             'departure_date' => $validatedData['departure_date'],
             'return_date' => $validatedData['return_date'], // Store the return date
             'airline_name' => $validatedData['airline_name'],
+          
+            'city' => $validatedData['city'], // Save the city
+            'hotel_name' => $validatedData['hotel_name'], // Save the hotel_name
+            'check_in' => $validatedData['check_in'], // Save the check_in
+            'check_out' => $validatedData['check_out'], // Save the check_out
+            'night' => $validatedData['night'], // Save the night
+            'meal_plan' => $validatedData['meal_plan'], // Save the meal_plan
+            'hotel_category' => $validatedData['hotel_category'], // Save the hotel_category
+            'price_module' => $validatedData['price_module'], // Save the price_module
         ]);
     
         // Return a success response or redirect to the index page
         return redirect()->route('services.index')->with('success', 'Service request created successfully.');
     }
+    
     
      
 

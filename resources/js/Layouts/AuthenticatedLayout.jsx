@@ -202,7 +202,13 @@ export default function Authenticated({ user, children }) {
                                     <li className="p-0">
                                         <Link href="/quotation/form/fetch/admin" className="flex items-center p-2 rounded-lg text-white hover:bg-pink-600">
                                             <FiInbox className="w-10 h-10 mr-2" style={{ fill: 'pink' }} /> {/* Adjust the size of the icon */}
-                                            <span className="text-lg"> View Quotation</span> {/* Increase the font size of the text */}
+                                            <span className="text-lg"> View Quotation Flight</span> {/* Increase the font size of the text */}
+                                        </Link>
+                                    </li>
+                                    <li className="p-0">
+                                        <Link href="/quotation/form/hotel" className="flex items-center p-2 rounded-lg text-white hover:bg-pink-600">
+                                            <FiInbox className="w-10 h-10 mr-2" style={{ fill: 'pink' }} /> {/* Adjust the size of the icon */}
+                                            <span className="text-lg"> View Quotation Hotel</span> {/* Increase the font size of the text */}
                                         </Link>
                                     </li>
                                 </ul>

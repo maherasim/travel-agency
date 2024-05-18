@@ -14,7 +14,12 @@ class Ticket extends Model
         "flight_class",
         'flight',
         "gate",
-        "pnr_number"
+        "pnr_number",
+        "serviceType",
+        "booking_id",
+        "booking_pnr",
+        "booking_date",
+        "booking_status"
     ];
 
     public function client()

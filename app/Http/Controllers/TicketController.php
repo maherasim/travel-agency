@@ -14,12 +14,12 @@ class TicketController extends Controller
 {
     public function index(): Response
     {
-        $clients = Client::select('id', 'trade_name')->get(); // Fetch only id and trade_name
+        $clients = Client::select('id', 'trade_name')->get(); 
         return Inertia::render('ticket/ticketform', ['clients' => $clients]);
     }
     public function store(Request $request)
     {
-        $clientId = Auth::id();
+               $clientId = Auth::id();
 
         if ($request->filled('clientName')) {
             $client = Client::where('trade_name', $request['clientName'])->first();
@@ -34,11 +34,17 @@ class TicketController extends Controller
         }
     //   dd($clientId);
         $request->validate([
-            'gate' => 'required',
-            'pnr_number' => 'required',
-            'seat_number' => 'required',
-            'flight' => 'required',
-            'flight_class' => 'required',
+            'gate' => 'nullable',
+            'pnr_number' => 'nullable',
+            'seat_number' => 'nullable',
+            'flight' => 'nullable',
+            'serviceType' => 'nullable',
+            'flight_class' => 'nullable',
+
+            'booking_id' => 'nullable',
+            'booking_pnr' => 'nullable',
+            'booking_date' => 'nullable',
+            
         ]);
         // Create a new ticket instance
         $ticket = Ticket::create([
@@ -47,7 +53,13 @@ class TicketController extends Controller
             'pnr_number' => $request->pnr_number,
             'seat_number' => $request->seat_number,
             'flight' => $request->flight,
+            'serviceType' => $request->serviceType,
             'flight_class' => $request->flight_class,
+
+            'booking_id' => $request->booking_id,
+            'booking_pnr' => $request->booking_pnr,
+            'booking_date' => $request->booking_date,
+
         ]);
         return redirect()->route('invoice.index')->with('success', 'Ticket created successfully');
 

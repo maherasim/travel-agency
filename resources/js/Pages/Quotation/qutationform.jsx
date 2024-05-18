@@ -3,8 +3,6 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { useState, useEffect } from "react";
-import axios from "axios";
-
 export default function ServiceForm({ auth, clients }) {
     const { data, setData, post, processing, errors, reset } = useForm("");
 
@@ -19,15 +17,21 @@ export default function ServiceForm({ auth, clients }) {
             arrival_time: "",
             ourcost: "",
             name: "",
-            departure_date: "",
+            departure_date: "",           
             flight_number: "",
             flight_gate: "",
             fare_type: "",
             prf: "",
+            room_category:"",
             total_cost: "",
             flight_class: "",
             pnr_number: "",
             seat_number: "",
+            guest_name:"",
+            
+            hotel_address:"",
+            contact_no:"",
+            confirmation_no:"",
         },
     ]);
 
@@ -97,15 +101,23 @@ export default function ServiceForm({ auth, clients }) {
                         fare_type,
                         prf,
                         total_cost,
+                        
                         seat_number,
                         flight_gate,
                         flight_class,
                         pnr_number,
+                        guest_name,
+                        room_category,
+                        hotel_address,
+                        contact_no,
+                        confirmation_no,
+
                     }) => ({
                         airline_name,
                         departure_time,
                         arrival_time,
                         ourcost,
+                        guest_name,
                         departure_date,
                         name,
                         flight_number,
@@ -116,6 +128,10 @@ export default function ServiceForm({ auth, clients }) {
                         flight_gate,
                         flight_class,
                         pnr_number,
+                        room_category,
+                        hotel_address,
+                        contact_no,
+                        confirmation_no,
                     })
                 ),
             };
@@ -134,6 +150,7 @@ export default function ServiceForm({ auth, clients }) {
                         ourcost,
                         departure_date,
                         name,
+                        guest_name,
                         flight_number,
                         fare_type,
                         prf,
@@ -149,6 +166,7 @@ export default function ServiceForm({ auth, clients }) {
                         ourcost,
                         departure_date,
                         name,
+                        guest_name,
                         flight_number,
                         fare_type,
                         prf,
@@ -192,6 +210,7 @@ export default function ServiceForm({ auth, clients }) {
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Quotation" />
+            
             <nav style={{ marginBottom: "20px" }}>
                 <ul style={{ listStyle: "none", paddingLeft: 120, margin: 0 }}>
                     <li style={{ display: "inline", marginRight: "10px" }}>
@@ -237,7 +256,7 @@ export default function ServiceForm({ auth, clients }) {
                     </span>
                 </div>
 
-                <div className="h-1 w-15 bg-green-500"></div>
+                <div className="h-1 w-10 bg-green-500"></div>
 
                 {/* Step 2 */}
                 <div className="flex items-center bg-green-500 border-2 px-4 py-2 rounded-xl">
@@ -245,12 +264,12 @@ export default function ServiceForm({ auth, clients }) {
                         Step 2
                     </span>
                 </div>
-                <div className="h-1 w-15 bg-green-500"></div>
+                <div className="h-1 w-10 bg-green-500"></div>
 
                 <div className="flex items-center">
                     <span className="text-sm font-semibold ml-2 bg-gray-400 text-white px-4 py-2 rounded-xl">Step 3</span>
                 </div>
-                <div className="h-1 w-15 bg-green-500"></div>
+                <div className="h-1 w-10 bg-green-500"></div>
 
                 <div className="flex items-center">
                     <span className="text-sm font-semibold ml-2 bg-gray-400 text-white px-4 py-2 rounded-xl">Step 4</span>
@@ -264,6 +283,8 @@ export default function ServiceForm({ auth, clients }) {
                     {showError && <div className="text-red-600">{message}</div>}
                     {duplicateForms.map((formData, index) => (
                         <div key={index}>
+                            {localStorage.getItem("selectedService") == "flight" && (
+                                 <div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="mt-4">
                                     <label
@@ -322,33 +343,7 @@ export default function ServiceForm({ auth, clients }) {
                                     </select>
                                 </div>
 
-                                {/* <div className="mt-4">
-                                    <label htmlFor={`trade_name_${index}`} className="block font-medium text-sm">
-                                        Client Name
-                                    </label>
-                                    <select
-                                        id={`trade_name_${index}`}
-                                        name={`trade_name_${index}`}
-                                        value={formData.trade_name}
-                                        onChange={(e) => {
-                                            const updatedForms = [...duplicateForms];
-                                            updatedForms[index].trade_name = e.target.value;
-                                            setDuplicateForms(updatedForms);
-                                        }}
-                                        className="mt-1 block w-full rounded-md bg-white text-black"
-                                        style={{ border: '2px solid pink' }}
-                                    >
-                                        <option value="">Select Client Name</option>
-                                        {clients
-                                            .filter(client => client.trade_name !== ' ') // Filter out clients with name "Admin"
-                                            .map((client) => (
-                                                <option key={client.id} value={client.trade_name}>
-                                                    {client.trade_name}
-                                                </option>
-                                            ))
-                                        }
-                                    </select>
-                                </div> */}
+                                
                                 <div className="mt-4">
                                     <label
                                         htmlFor={`departure_date_${index}`}
@@ -551,6 +546,144 @@ export default function ServiceForm({ auth, clients }) {
                                     />
                                 </div>
                             </div>
+                            </div>
+                        )}
+
+                            {localStorage.getItem("selectedService") == "hotel" && (
+    <div>
+        <div className="grid grid-cols-3 gap-4">
+            <div className="mt-4">
+                <label
+                    htmlFor={`guest_name_${index}`}
+                    className="block font-medium text-sm"
+                >
+                    Guest Name
+                </label>
+                <TextInput
+                    id={`guest_name_${index}`}
+                    type="text"
+                    name={`guest_name_${index}`}
+                    value={formData.guest_name}
+                    onChange={(e) => {
+                        const updatedForms = [
+                            ...duplicateForms,
+                        ];
+                        updatedForms[index].guest_name =
+                            e.target.value;
+                        setDuplicateForms(updatedForms);
+                    }}
+                    className="mt-1 block w-full rounded-md bg-white text-black"
+                    style={{ border: "2px solid pink" }}
+                    required
+                />
+            </div>
+            <div className="mt-4">
+                <label
+                    htmlFor={`prf_${index}`}
+                    className="block font-medium text-sm"
+                >
+                    Room Category
+                </label>
+                <TextInput
+                    id={`room_category_${index}`}
+                    type="text"
+                    name={`room_category_${index}`}
+                    value={formData.room_category}
+                    onChange={(e) => {
+                        const updatedForms = [
+                            ...duplicateForms,
+                        ];
+                        updatedForms[index].room_category =
+                            e.target.value;
+                        setDuplicateForms(updatedForms);
+                    }}
+                    className="mt-1 block w-full rounded-md bg-white text-black"
+                    style={{ border: "2px solid pink" }}
+                    required
+                />
+            </div>
+            <div className="mt-4">
+                <label
+                    htmlFor={`prf_${index}`}
+                    className="block font-medium text-sm"
+                >
+                    Hotel Address
+                </label>
+                <TextInput
+                    id={`hotel_address_${index}`}
+                    type="text"
+                    name={`hotel_address_${index}`}
+                    value={formData.hotel_address}
+                    onChange={(e) => {
+                        const updatedForms = [
+                            ...duplicateForms,
+                        ];
+                        updatedForms[index].hotel_address =
+                            e.target.value;
+                        setDuplicateForms(updatedForms);
+                    }}
+                    className="mt-1 block w-full rounded-md bg-white text-black"
+                    style={{ border: "2px solid pink" }}
+                    required
+                />
+            </div>
+        </div>
+        <div className="grid grid-cols-3 gap-4">
+            <div className="mt-4">
+                <label
+                    htmlFor={`contact_no_${index}`}
+                    className="block font-medium text-sm"
+                >
+                    Contact No
+                </label>
+                <TextInput
+                    id={`contact_no_${index}`}
+                    type="text"
+                    name={`contact_no_${index}`}
+                    value={formData.contact_no}
+                    onChange={(e) => {
+                        const updatedForms = [
+                            ...duplicateForms,
+                        ];
+                        updatedForms[index].contact_no =
+                            e.target.value;
+                        setDuplicateForms(updatedForms);
+                    }}
+                    className="mt-1 block w-full rounded-md bg-white text-black"
+                    style={{ border: "2px solid pink" }}
+                    required
+                />
+            </div>
+            <div className="mt-4">
+                <label
+                    htmlFor={`contact_no_${index}`}
+                    className="block font-medium text-sm"
+                >
+                    Confirmation No
+                </label>
+                <TextInput
+                    id={`confirmation_no_${index}`}
+                    type="number"
+                    name={`confirmation_no_${index}`}
+                    value={formData.confirmation_no}
+                    onChange={(e) => {
+                        const updatedForms = [
+                            ...duplicateForms,
+                        ];
+                        updatedForms[index].confirmation_no =
+                            e.target.value;
+                        setDuplicateForms(updatedForms);
+                    }}
+                    className="mt-1 block w-full rounded-md bg-white text-black"
+                    style={{ border: "2px solid pink" }}
+                    required
+                />
+            </div>
+        </div>
+    </div>
+)}
+ 
+
                         </div>
                     ))}
                     <div className="flex items-center justify-between mt-4">

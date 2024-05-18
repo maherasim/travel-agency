@@ -86,6 +86,9 @@ Route::get('/backview',function(){
 Route::get('/invoice',function(){
     return view('invoice');
     });
+    Route::get('/vocher',function(){
+        return view('vocher');
+        });
 
 
 
@@ -112,13 +115,35 @@ Route::get('/invoice',function(){
     Route::get('/quotation/form/fetch/admin', [QuotationController::class, 'fetchListIndexadmin'])->name('quotation.fetch.admin');
     Route::get('/quotation/fetch/admin/ ', [QuotationController::class, 'quationListfetchadmin']);
     Route::get('/quo/fetch/admin', [QuotationController::class, 'quaListfetchadmin']);
+
+    Route::get('/quo/fetch/hotel', [QuotationController::class, 'quationListfetchhotel']);
+
+
     Route::get('/quotation/view/{id}', [QuotationController::class, 'view'])->name('quotation.view');
+    Route::get('/quotation/view/hotel/{id}', [QuotationController::class, 'hotelview'])->name('quotation.hotelview');
     Route::get('/quotation/generate-pdf/{id}', [QuotationController::class, 'generatePdf'])->name('generatePdf');
     Route::get('/quotation/generate-invoice/{id}', [QuotationController::class, 'generateInvoice'])->name('generateInvoice');
     Route::delete('/quotation/delete', [QuotationController::class, 'destroy'])->name('quotation.destroy');
+    Route::delete('/hotel/delete', [QuotationController::class, 'hoteldestroy'])->name('hotel.destroy');
+
     Route::get('/quotation/{id}/edit', [QuotationController::class, 'edit'])->name('quotation.edit');
+    Route::get('/hotelquotation/{id}/edit', [QuotationController::class, 'hoteledit'])->name('quotation.hoteledit');
+
     Route::post('/quotation/quotationupdate', [QuotationController::class, 'update'])->name('quotation.update');
-    Route::get('/ticketview/{id}', [QuotationController::class, 'show']);
+    Route::post('/hotel/quotationupdate', [QuotationController::class, 'hotelupdate'])->name('hotelquotation.update');
+
+
+    Route::get('/ticketview/{id}',  [QuotationController::class, 'show']);
+    Route::get('/voucherqou/{id}', [QuotationController::class, 'voucherqou']);
+
+
+
+    Route::get('/quotation/form/hotel', [QuotationController::class, 'qoutationhotel'])->name('quotation.hotel');
+
+
+
+
+
 
 
     Route::name('razorpay.')

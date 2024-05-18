@@ -24,8 +24,13 @@ class Quotation extends Model
         "seat_number",
         "class",
         "gate",
-        "pnr_number"
-    ];
+        "pnr_number",
+        "guest_name",
+        "room_category",
+        "hotel_address",
+        "contact_no",
+        "confirmation_no"   
+     ];
     public function client()
     {
         return $this->belongsTo(Client::class);

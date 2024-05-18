@@ -16,7 +16,8 @@ class Invoice extends Model
         'management_fee',
         "cgst",
         "sgst",
-        "total"
+        "total",
+        "serviceType"
     ];
 
 }

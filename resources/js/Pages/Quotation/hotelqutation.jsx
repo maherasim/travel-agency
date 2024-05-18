@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { InputText } from "primereact/inputtext";
-import { Dropdown } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext"; 
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import { Button } from 'primereact/button';
-
-
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head, useForm } from "@inertiajs/react";
 import axios from "axios";
@@ -17,7 +14,6 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import DangerButton from "@/Components/DangerButton";
 import { FiSearch } from "react-icons/fi";
 import { router } from "@inertiajs/react";
-
 export default function VendorList({ auth }) {
     const [clients, setClientData] = useState([]);
     const [globalFilter, setGlobalFilter] = useState("");
@@ -28,7 +24,7 @@ export default function VendorList({ auth }) {
 
     const fetchClientData = async () => {
         try {
-            const response = await axios.get("/quo/fetch/admin");
+            const response = await axios.get("/quo/fetch/hotel");
             setClientData(response.data.data);
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -65,17 +61,17 @@ export default function VendorList({ auth }) {
     
 
     const handleView = (rowData) => {
-        const url = `/quotation/view/${rowData.id}`;
+        const url = `/quotation/view/hotel/${rowData.id}`;
         router.get(url);
     };
    
     const handleEdit = (rowData) => {
-        const url = `/quotation/${rowData.id}/edit`;
+        const url = `/hotelquotation/${rowData.id}/edit`;
          router.get(url);
     };
 
-    const handleGeneratePdf = (id) => {
-        window.open(`/ticketview/${id}`, '_blank');
+    const handleGeneratevoucher = (id) => {
+        window.open(`/voucherqou/${id}`, '_blank');
     };
 
     const handleGenerateInvoice = (id) => {
@@ -89,7 +85,7 @@ export default function VendorList({ auth }) {
     
     const deleteUser = async () => {
         try {
-            await destroy(route("quotation.destroy"), {
+            await destroy(route("hotel.destroy"), {
                 preserveScroll: true,
                 onSuccess: () => {
                     closeModal();
@@ -117,37 +113,7 @@ export default function VendorList({ auth }) {
     const actions = [{ label: "edit", value: "edit" }];
 
     const actionTemplate = (rowData) => {
-        if (rowData.service_type === "hotel") {
-            // If service_type is hotel, render all icons except the ticket icon
-            return (
-                <>
-                    <Button
-                        icon="pi pi-eye"
-                        className="p-button-rounded p-button-success p-button-text mr-2"
-                        onClick={() => handleView(rowData)}
-                        style={{ marginRight: '2px' }} // Adjust margin as needed
-                    /> 
-                    <Button
-                        icon="pi pi-pencil"
-                        className="p-button-rounded p-button-success p-button-text"
-                        onClick={() => handleEdit(rowData)}
-                        style={{ marginRight: '2px' }} // Adjust margin as needed
-                    /> 
-                    <Button
-                        icon="pi pi-file"
-                        className="p-button-rounded p-button-success p-button-text"
-                        onClick={() => handleGenerateInvoice(rowData.id)}
-                        style={{ marginRight: '2px' }} // Adjust margin as needed
-                    />
-                    <Button
-                        icon="pi pi-trash"
-                        className="p-button-rounded p-button-success p-button-text"
-                        onClick={() => handleDelete(rowData)}
-                        style={{ marginRight: '2px' }} // Adjust margin as needed
-                    />
-                </>
-            );
-        }
+      
         return (
             <>
                 <Button
@@ -165,7 +131,7 @@ export default function VendorList({ auth }) {
                 <Button
                     icon="pi pi-ticket"  
                     className="p-button-rounded p-button-success p-button-text"
-                    onClick={() => handleGeneratePdf(rowData.id)}
+                    onClick={() => handleGeneratevoucher(rowData.id)}
                     style={{ marginRight: '2px' }} // Adjust margin as needed
                 />
                 <Button
@@ -187,7 +153,7 @@ export default function VendorList({ auth }) {
     const header = (
         <div className="flex justify-between bg-pink-600 p-2 rounded-lg">
             <h2 className="text-2xl text-white font-bold mb-4">
-                View Quoatation
+                View Quoatation Hotel
             </h2>
             <span className="p-input-icon-left">
                 <InputText
@@ -271,16 +237,16 @@ export default function VendorList({ auth }) {
 
 
                     <Column
-                        field="departure_date"
-                        header="Departure Date"
+                        field="guest_name"
+                        header="Guest Name"
                         sortable
                         filter
                         filterPlaceholder="Search by Airline Name"
                     />
 
                     <Column
-                        field="fare_type"
-                        header="Fare Type"
+                        field="room_category"
+                        header="Room Category"
                         sortable
                         filter
                         filterPlaceholder="Search by Fare Type"
