@@ -197,7 +197,7 @@ export default function ServiceForm({ auth, clients }) {
                 if (data && data.success === true) {
                     // localStorage.removeItem("selectedClient");
                     // localStorage.removeItem("selectedService");
-                    window.location.href = "/ticket/form/fetch";
+                    window.location.href = "/services/form";
                 } else {
                     throw new Error("API response indicates failure.");
                 }

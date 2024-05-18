@@ -135,6 +135,7 @@ Route::get('/invoice',function(){
 
     Route::get('/ticketview/{id}',  [QuotationController::class, 'show']);
     Route::get('/voucherqou/{id}', [QuotationController::class, 'voucherqou']);
+    Route::get('/voucherqout/{id}', [QuotationController::class, 'voucherqou']);
 
 
 
@@ -154,10 +155,11 @@ Route::get('/invoice',function(){
         Route::post('handle-payment', 'handlePayment')->name('make.payment');
     });
 
+    Route::get('/ticket/form/hotel/{id?}', [TicketController::class, 'ticketindex'])->name('ticket.index');
+    Route::get('/ticket/form/flight/{id?}', [TicketController::class, 'flightindex'])->name('ticket.index');
 
 
-
-    Route::get('/ticket/form/fetch', [TicketController::class, 'index'])->name('ticket.index');
+ 
     Route::post('/ticket/store', [TicketController::class, 'store'])->name('ticket.store');
 
     Route::get('/invoice/form/fetch', [InvoiceController::class, 'index'])->name('invoice.index');

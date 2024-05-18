@@ -71,8 +71,17 @@ export default function VendorList({ auth }) {
     };
 
     const handleGeneratevoucher = (id) => {
+        localStorage.setItem("selectedClient", id.clientName);
+        localStorage.setItem("selectedService", id.service_type);
+        const url = `/ticket/form/hotel/${id}`;
+        window.open(url, '_blank');
+    };
+    
+    
+    const handleGeneratevoucherconfirm = (id) => {
         window.open(`/voucherqou/${id}`, '_blank');
     };
+
 
     const handleGenerateInvoice = (id) => {
         window.open(`/quotation/generate-invoice/${id}`, '_blank');
@@ -113,7 +122,8 @@ export default function VendorList({ auth }) {
     const actions = [{ label: "edit", value: "edit" }];
 
     const actionTemplate = (rowData) => {
-      
+        const isConfirmed = rowData.status === 'confirm';
+    
         return (
             <>
                 <Button
@@ -128,18 +138,28 @@ export default function VendorList({ auth }) {
                     onClick={() => handleEdit(rowData)}
                     style={{ marginRight: '2px' }} // Adjust margin as needed
                 /> 
-                <Button
-                    icon="pi pi-ticket"  
-                    className="p-button-rounded p-button-success p-button-text"
-                    onClick={() => handleGeneratevoucher(rowData.id)}
-                    style={{ marginRight: '2px' }} // Adjust margin as needed
-                />
-                <Button
-                    icon="pi pi-file"
-                    className="p-button-rounded p-button-success p-button-text"
-                    onClick={() => handleGenerateInvoice(rowData.id)}
-                    style={{ marginRight: '2px' }} // Adjust margin as needed
-                />
+                {isConfirmed && (
+                    <>
+                        <Button
+                            icon="pi pi-ticket"  
+                            className="p-button-rounded p-button-success p-button-text"
+                            onClick={() => handleGeneratevoucher(rowData.id)}
+                            style={{ marginRight: '2px' }} // Adjust margin as needed
+                        />
+                        <Button
+                            icon="pi pi-file"
+                            className="p-button-rounded p-button-success p-button-text"
+                            onClick={() => handleGenerateInvoice(rowData.id)}
+                            style={{ marginRight: '2px' }} // Adjust margin as needed
+                        />
+                          <Button
+                            icon="pi pi-info-circle"
+                            className="p-button-rounded p-button-success p-button-text"
+                            onClick={() => handleGeneratevoucherconfirm(rowData.id)}
+                            style={{ marginRight: '2px' }} // Adjust margin as needed
+                        />
+                    </>
+                )}
                 <Button
                     icon="pi pi-trash"
                     className="p-button-rounded p-button-success p-button-text"
@@ -149,6 +169,8 @@ export default function VendorList({ auth }) {
             </>
         );
     };
+    
+    
     
     const header = (
         <div className="flex justify-between bg-pink-600 p-2 rounded-lg">

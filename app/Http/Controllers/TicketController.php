@@ -12,27 +12,39 @@ use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
-    public function index(): Response
+    public function ticketindex(): Response
     {
         $clients = Client::select('id', 'trade_name')->get(); 
-        return Inertia::render('ticket/ticketform', ['clients' => $clients]);
+        return Inertia::render('ticket/ticketformhotel', ['clients' => $clients]);
     }
+    public function flightindex(): Response
+    {
+        $clients = Client::select('id', 'trade_name')->get(); 
+        return Inertia::render('ticket/ticketformflight', ['clients' => $clients]);
+    }
+
+
     public function store(Request $request)
     {
-               $clientId = Auth::id();
-
-        if ($request->filled('clientName')) {
-            $client = Client::where('trade_name', $request['clientName'])->first();
-
-            // Check if the client exists
-            if ($client) {
-                $clientId = $client->id;
-            } else {
-                // Handle case where client is not found
-                return redirect()->back()->with('error', 'Client not found for the selected   name.');
-            }
-        }
-    //   dd($clientId);
+        
+        // $clientId = Auth::id();
+    
+        // if ($request->filled('clientName')) {
+        //     $client = Client::where('trade_name', $request['clientName'])->first();
+    
+        //     // Check if the client exists
+        //     if ($client) {
+        //         $clientId = $client->id;
+        //     } else {
+        //         // Handle case where client is not found
+        //         return redirect()->back()->with('error', 'Client not found for the selected name.');
+        //     }
+        // }
+    
+        // if ($request->filled('client_id')) {
+        //     $clientId = $request->input('client_id');
+        // }
+    
         $request->validate([
             'gate' => 'nullable',
             'pnr_number' => 'nullable',
@@ -40,29 +52,27 @@ class TicketController extends Controller
             'flight' => 'nullable',
             'serviceType' => 'nullable',
             'flight_class' => 'nullable',
-
             'booking_id' => 'nullable',
             'booking_pnr' => 'nullable',
             'booking_date' => 'nullable',
-            
         ]);
+    
         // Create a new ticket instance
         $ticket = Ticket::create([
-            'client_id' => $clientId,
+            // 'client_id' => $clientId,
             'gate' => $request->gate,
             'pnr_number' => $request->pnr_number,
             'seat_number' => $request->seat_number,
             'flight' => $request->flight,
             'serviceType' => $request->serviceType,
             'flight_class' => $request->flight_class,
-
             'booking_id' => $request->booking_id,
             'booking_pnr' => $request->booking_pnr,
             'booking_date' => $request->booking_date,
-
         ]);
+    
         return redirect()->route('invoice.index')->with('success', 'Ticket created successfully');
-
-     }
+    }
+    
     
 }

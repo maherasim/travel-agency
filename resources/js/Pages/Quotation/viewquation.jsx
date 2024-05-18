@@ -81,7 +81,10 @@ export default function VendorList({ auth }) {
     const handleGenerateInvoice = (id) => {
         window.open(`/quotation/generate-invoice/${id}`, '_blank');
     };
- 
+    const handleGeneratevoucher = (id) => {
+        const url = `/ticket/form/flight/${id}`;
+        window.open(url, '_blank');
+    };
     const handleDelete = (rowData) => {
         setData('quotation_id', rowData.id);
         setConfirmingUserDeletion(true);
@@ -115,39 +118,11 @@ export default function VendorList({ auth }) {
     };
 
     const actions = [{ label: "edit", value: "edit" }];
+    
 
     const actionTemplate = (rowData) => {
-        if (rowData.service_type === "hotel") {
-            // If service_type is hotel, render all icons except the ticket icon
-            return (
-                <>
-                    <Button
-                        icon="pi pi-eye"
-                        className="p-button-rounded p-button-success p-button-text mr-2"
-                        onClick={() => handleView(rowData)}
-                        style={{ marginRight: '2px' }} // Adjust margin as needed
-                    /> 
-                    <Button
-                        icon="pi pi-pencil"
-                        className="p-button-rounded p-button-success p-button-text"
-                        onClick={() => handleEdit(rowData)}
-                        style={{ marginRight: '2px' }} // Adjust margin as needed
-                    /> 
-                    <Button
-                        icon="pi pi-file"
-                        className="p-button-rounded p-button-success p-button-text"
-                        onClick={() => handleGenerateInvoice(rowData.id)}
-                        style={{ marginRight: '2px' }} // Adjust margin as needed
-                    />
-                    <Button
-                        icon="pi pi-trash"
-                        className="p-button-rounded p-button-success p-button-text"
-                        onClick={() => handleDelete(rowData)}
-                        style={{ marginRight: '2px' }} // Adjust margin as needed
-                    />
-                </>
-            );
-        }
+        const isConfirmed = rowData.status === 'confirm';
+    
         return (
             <>
                 <Button
@@ -162,8 +137,16 @@ export default function VendorList({ auth }) {
                     onClick={() => handleEdit(rowData)}
                     style={{ marginRight: '2px' }} // Adjust margin as needed
                 /> 
+                 {isConfirmed && (
+                     <>
                 <Button
                     icon="pi pi-ticket"  
+                    className="p-button-rounded p-button-success p-button-text"
+                    onClick={() => handleGeneratevoucher(rowData.id)}
+                    style={{ marginRight: '2px' }} // Adjust margin as needed
+                />
+                                <Button
+                    icon="pi pi-info-circle"  
                     className="p-button-rounded p-button-success p-button-text"
                     onClick={() => handleGeneratePdf(rowData.id)}
                     style={{ marginRight: '2px' }} // Adjust margin as needed
@@ -174,12 +157,15 @@ export default function VendorList({ auth }) {
                     onClick={() => handleGenerateInvoice(rowData.id)}
                     style={{ marginRight: '2px' }} // Adjust margin as needed
                 />
+                 </>
+                 )}
                 <Button
                     icon="pi pi-trash"
                     className="p-button-rounded p-button-success p-button-text"
                     onClick={() => handleDelete(rowData)}
                     style={{ marginRight: '2px' }} // Adjust margin as needed
-                />
+                    
+                />   
             </>
         );
     };

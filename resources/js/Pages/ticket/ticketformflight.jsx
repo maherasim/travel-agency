@@ -103,7 +103,7 @@ export default function Register({ auth }) {
                     {showSuccess && <AlertMessage type="success" message={message} />}
                     {showError && <AlertMessage type="error" message={message} />}
 
-                    {data.serviceType === "flight" && (
+                  
                         <div className="grid grid-cols-3 gap-4">
                             <div className="mt-4">
                                 <InputLabelRequire htmlFor="gate" value="Gate Name" />
@@ -148,58 +148,39 @@ export default function Register({ auth }) {
                                 />
                                 <InputError message={errors.seat_number} className="mt-2" />
                             </div>
-                        </div>
-                    )}
-
-                    {data.serviceType === "hotel" && (
-                        <div className="grid grid-cols-3 gap-4">
                             <div className="mt-4">
-                                <InputLabelRequire htmlFor="booking_id" value="Booking ID" />
+                                <InputLabelRequire htmlFor="flight" value="Flight Number" />
                                 <TextInput
-                                    id="booking_id"
-                                    type="booking_id"
-                                    name="booking_id"
-                                    value={data.booking_id}
+                                    id="flight"
+                                    type="flight"
+                                    name="flight"
+                                    value={data.flight}
                                     className="mt-1 block w-full rounded-md text-black bg-white"
                                     style={{ border: '2px solid pink' }}
                                     autoComplete="organization"
-                                    onChange={(e) => setData('booking_id', e.target.value)}
+                                    onChange={(e) => setData('flight', e.target.value)}
                                     required
                                 />
-                                <InputError message={errors.booking_id} className="mt-2" />
+                                <InputError message={errors.flight} className="mt-2" />
                             </div>
                             <div className="mt-4">
-                                <InputLabelRequire htmlFor="booking_pnr" value="Booking PNR" />
+                                <InputLabelRequire htmlFor="flight_class" value="Class" />
                                 <TextInput
-                                    id="booking_pnr"
-                                    type="booking_pnr"
-                                    name="booking_pnr"
-                                    value={data.booking_pnr}
+                                    id="flight_class"
+                                    type="flight_class"
+                                    name="flight_class"
+                                    value={data.flight_class}
                                     className="mt-1 block w-full rounded-md text-black bg-white"
                                     style={{ border: '2px solid pink' }}
                                     autoComplete="organization"
-                                    onChange={(e) => setData('booking_pnr', e.target.value)}
+                                    onChange={(e) => setData('flight_class', e.target.value)}
                                     required
                                 />
-                                <InputError message={errors.booking_pnr} className="mt-2" />
-                            </div>
-                            <div className="mt-4">
-                                <InputLabelRequire htmlFor="booking_date" value="Booking Date" />
-                                <TextInput
-                                    id="booking_date"
-                                    type="date"
-                                    name="booking_date"
-                                    value={data.booking_date}
-                                    className="mt-1 block w-full rounded-md text-black bg-white"
-                                    style={{ border: '2px solid pink' }}
-                                    autoComplete="organization"
-                                    onChange={(e) => setData('booking_date', e.target.value)}
-                                    required
-                                />
-                                <InputError message={errors.booking_date} className="mt-2" />
+                                <InputError message={errors.flight_class} className="mt-2" />
                             </div>
                         </div>
-                    )}
+                    
+                   
 
                     <div className="flex items-center justify-end mt-4">
                         <PrimaryButton className="ms-4" disabled={processing}>

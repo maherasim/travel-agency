@@ -108,7 +108,7 @@ class QuotationController extends Controller
     }
     public function hotelview($id)
     {
-        $vendor = Quotation::findOrFail($id);
+        $vendor = Quotation::with('client')->findOrFail($id);
         return Inertia::render('Quotation/viewhotel', ['vendor' => $vendor]);
     }
     
