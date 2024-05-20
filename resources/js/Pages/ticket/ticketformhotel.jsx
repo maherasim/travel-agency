@@ -1,24 +1,16 @@
 import { useState, useEffect } from 'react';
-import GuestLayout from '@/Layouts/GuestLayout';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
+ import InputError from '@/Components/InputError';
+ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
-import NavBar from '@/Components/NavBar';
-import InputLabelRequire from '@/Components/InputLabelRequire';
+ import InputLabelRequire from '@/Components/InputLabelRequire';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import AlertMessage from '@/Components/AlertMessage';
 
 export default function Register({ auth }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        gate: "",
-        pnr_number: "",
-        seat_number: "",
-        flight: "",
-        flight_class: "",
-        clientName: "",
-        serviceType: "",
+        
+        clientName: "",       
         booking_id: "",
         booking_pnr: "",
         booking_date: "",
@@ -30,10 +22,9 @@ export default function Register({ auth }) {
 
     useEffect(() => {
         const selectedClient = localStorage.getItem("selectedClient");
-        const selectedService = localStorage.getItem("selectedService");
+        
         if (selectedClient) setData('clientName', selectedClient);
-        if (selectedService) setData('serviceType', selectedService);
-    }, []);
+     }, []);
 
     const submit = async (e) => {
         e.preventDefault();
@@ -46,8 +37,7 @@ export default function Register({ auth }) {
                     setShowSuccess(false);
                 }, 5000);
                 // Clear local storage and redirect to the next URL after successful submission
-                localStorage.clear();
-                visit(route('invoice.index'));
+                 visit(route('invoice.index'));
             },
             onError: (errors) => {
                 setShowError(true);
@@ -115,6 +105,8 @@ export default function Register({ auth }) {
                                     style={{ border: '2px solid pink' }}
                                     autoComplete="organization"
                                     onChange={(e) => setData('booking_id', e.target.value)}
+                                    onClick={(e) => setData('clientName', selectedClient)}
+
                                     required
                                 />
                                 <InputError message={errors.booking_id} className="mt-2" />

@@ -18,21 +18,22 @@ export default function Register({ auth }) {
         flight: "",
         flight_class: "",
         clientName: "",
-        serviceType: "",
+        
         booking_id: "",
         booking_pnr: "",
         booking_date: "",
+        
     });
-
+     
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
     const [message, setMessage] = useState('');
 
     useEffect(() => {
         const selectedClient = localStorage.getItem("selectedClient");
-        const selectedService = localStorage.getItem("selectedService");
+        
         if (selectedClient) setData('clientName', selectedClient);
-        if (selectedService) setData('serviceType', selectedService);
+        
     }, []);
 
     const submit = async (e) => {
@@ -45,8 +46,7 @@ export default function Register({ auth }) {
                 setTimeout(() => {
                     setShowSuccess(false);
                 }, 5000);
-                // Clear local storage and redirect to the next URL after successful submission
-                localStorage.clear();
+                 
                 visit(route('invoice.index'));
             },
             onError: (errors) => {
@@ -115,6 +115,8 @@ export default function Register({ auth }) {
                                     style={{ border: '2px solid pink' }}
                                     autoComplete="organization"
                                     onChange={(e) => setData('gate', e.target.value)}
+                                    onClick={(e) => setData('clientName', selectedClient)}
+
                                     required
                                 />
                                 <InputError message={errors.gate} className="mt-2" />

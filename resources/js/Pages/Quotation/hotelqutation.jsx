@@ -71,8 +71,7 @@ export default function VendorList({ auth }) {
     };
 
     const handleGeneratevoucher = (id) => {
-        localStorage.setItem("selectedClient", id.clientName);
-        localStorage.setItem("selectedService", id.service_type);
+        
         const url = `/ticket/form/hotel/${id}`;
         window.open(url, '_blank');
     };

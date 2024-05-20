@@ -19,22 +19,23 @@ class InvoiceController extends Controller
     }
     public function store(Request $request)
     {
-       
-       
-
-        // $clientId = Auth::id();
-
-        // if ($request->filled('clientName')) {
-        //     $client = Client::where('trade_name', $request['clientName'])->first();
-
-        //     // Check if the client exists
-        //     if ($client) {
-        //         $clientId = $client->id;
-        //     } else {
-        //         // Handle case where client is not found
-        //         return redirect()->back()->with('error', 'Client not found for the selected   name.');
-        //     }
-        // }
+        $clientId = Auth::id();
+    
+        if ($request->filled('clientName')) {
+            $client = Client::where('trade_name', $request->clientName)->first();
+    
+            // Check if the client exists
+            if ($client) {
+                $clientId = $client->id;
+            } else {
+                // Handle case where client is not found
+                return redirect()->back()->with('error', 'Client not found for the selected name.');
+            }
+        } else {
+            // If clientName is not provided, set clientId to null
+            $clientId = null;
+        }
+    
         $request->validate([
             'invoice_number' => 'required|string',
             'description' => 'required',
@@ -47,7 +48,7 @@ class InvoiceController extends Controller
     
         // Create a new invoice instance
         $invoice = Invoice::create([
-            // 'client_id' => $clientId,
+            'client_id' => $clientId,
             'invoice_number' => $request->invoice_number,
             'description' => $request->description,
             'management_fee' => $request->management_fee,
@@ -59,5 +60,7 @@ class InvoiceController extends Controller
     
         return redirect()->route('services.index')->with('success', 'Invoice created successfully');
     }
+    
+
 }
     
