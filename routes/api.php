@@ -7,25 +7,12 @@ use App\Models\Client;
 use App\Models\Quotation;
 use App\Models\ServiceRequest;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::post('/quotationStoreApi', function (Request $request) {
     $data = $request->data;
-    //echo "<pre>";print_r($data);exit;
-   // return response()->json($data);
     $clientId = null;
     $clientName = $request->input('clientName');
 
@@ -43,6 +30,7 @@ Route::post('/quotationStoreApi', function (Request $request) {
     } catch (\Throwable $th) {
         $clientId = null;
     }
+
     foreach ($data as $item) {
         try {
             if ($request->has('serviceType')) {
@@ -58,8 +46,8 @@ Route::post('/quotationStoreApi', function (Request $request) {
                     'contact_no' => $item['contact_no'],
                     'confirmation_no' => $item['confirmation_no'],
                     'ourcost' => $item['ourcost'],
+                    'gstn' => $item['gstn'],
                     'flight_number' => $item['flight_number'],
-                    // 'gate' => $item['flight_gate'],
                     'fare_type' => $item['fare_type'],
                     'prf' => $item['prf'],
                     'total_cost' => $item['total_cost'],
@@ -77,22 +65,20 @@ Route::post('/quotationStoreApi', function (Request $request) {
                     'departure_date' => $item['departure_date'],
                     'arrival_time' => $item['arrival_time'],
                     'guest_name' => $item['guest_name'],
+                    'gstn' => $item['gstn'],
                     'room_category' => $item['room_category'], 
                     'hotel_address' => $item['hotel_address'],
-                    'confirmation_no' => $item['confirmation_no'],
                     'contact_no' => $item['contact_no'],
-
-
-                    'gate' => $item['flight_gate'],
+                    'confirmation_no' => $item['confirmation_no'],
                     'ourcost' => $item['ourcost'],
                     'flight_number' => $item['flight_number'],
                     'fare_type' => $item['fare_type'],
                     'prf' => $item['prf'],
+                    'total_cost' => $item['total_cost'],
                     'gate' => $item['flight_gate'],
                     'pnr_number' => $item['pnr_number'],
                     'seat_number' => $item['seat_number'],
-                    'class' => $item['flight_class'],
-                    'total_cost' => $item['total_cost']
+                    'class' => $item['flight_class']
                 ]);
             }
         } catch (\Throwable $th) {
@@ -101,6 +87,7 @@ Route::post('/quotationStoreApi', function (Request $request) {
     }
     return response()->json(['success' => true]);
 });
+
 
 
 

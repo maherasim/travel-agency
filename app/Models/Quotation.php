@@ -24,6 +24,7 @@ class Quotation extends Model
         "seat_number",
         "class",
         "gate",
+        "gstn",
         "pnr_number",
         "guest_name",
         "room_category",

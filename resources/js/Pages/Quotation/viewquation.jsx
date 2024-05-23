@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { InputText } from "primereact/inputtext";
-import { Dropdown } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext"; 
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import { Button } from 'primereact/button';
-
-
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head, useForm } from "@inertiajs/react";
 import axios from "axios";
 import Modal from "@/Components/Modal";
 import SecondaryButton from "@/Components/SecondaryButton";
 import DangerButton from "@/Components/DangerButton";
-import { FiSearch } from "react-icons/fi";
 import { router } from "@inertiajs/react";
 
 export default function VendorList({ auth }) {
@@ -23,7 +19,6 @@ export default function VendorList({ auth }) {
     const [globalFilter, setGlobalFilter] = useState("");
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
     const { data, setData, delete: destroy, processing, reset } = useForm();
-    const [selectedAction, setSelectedAction] = useState("Actions"); // Default value
     const [selectedStatus, setSelectedStatus] = useState({});
 
     const fetchClientData = async () => {
@@ -40,140 +35,138 @@ export default function VendorList({ auth }) {
     }, []);
 
     const handleStatusChange = async (itemId, value) => {
-        const isConfirmed = window.confirm(`Are you sure you want to update the status to ${value}?`);
-        if (!isConfirmed) return;
-    
+        setSelectedStatus({ itemId, value });
+        setConfirmingUserDeletion(true);
+    };
+
+    const confirmStatusChange = async () => {
+        const { itemId, value } = selectedStatus;
+        setConfirmingUserDeletion(false);
+
         try {
             const response = await axios.post('/qoutation/update/status', {
                 id: itemId,
                 status: value
             });
-            
-            // Handle successful response if needed
-            
+
             // Reload the page if status is updated to "confirm", "pending", or "request more"
             if (value === 'confirm' || value === 'pending' || value === 'request more') {
                 window.location.reload();
             }
         } catch (error) {
             console.error("Error updating status:", error);
-            // Handle error here
         }
     };
-    
-    
-    
+
+    const handleEdit = (rowData) => {
+        const url = `/quotation/${rowData.id}/edit`;
+       
+        router.get(url);
+    };
 
     const handleView = (rowData) => {
         const url = `/quotation/view/${rowData.id}`;
+        
         router.get(url);
     };
-   
-    const handleEdit = (rowData) => {
-        const url = `/quotation/${rowData.id}/edit`;
-         router.get(url);
+
+    const handleGenerateVoucher = (id) => {
+        const url = `/ticket/form/flight/${id}`;
+        
+        window.open(url, '_blank');
     };
 
-    const handleGeneratePdf = (id) => {
-        window.open(`/ticketview/${id}`, '_blank');
+    const handleGenerateVoucherConfirm = (id) => {
+        window.open(`/voucherqou/${id}`, '_blank');
     };
 
     const handleGenerateInvoice = (id) => {
         window.open(`/quotation/generate-invoice/${id}`, '_blank');
     };
-    const handleGeneratevoucher = (id) => {
-        const url = `/ticket/form/flight/${id}`;
-        window.open(url, '_blank');
-    };
+
     const handleDelete = (rowData) => {
+        
         setData('quotation_id', rowData.id);
         setConfirmingUserDeletion(true);
-      };
-    
+    };
+
     const deleteUser = async () => {
         try {
-            await destroy(route("quotation.destroy"), {
+            await destroy(route("hotel.destroy"), {
                 preserveScroll: true,
                 onSuccess: () => {
                     closeModal();
-                    // Refresh the table after successful deletion
                     fetchClientData();
                 },
                 onError: () => alert("Failed to delete"),
                 onFinish: () => reset(),
             });
         } catch (error) {
-            console.error("Error deleting qoutation:", error);
+            console.error("Error deleting quotation:", error);
         }
     };
-    console.log(clients);
+    const handleGeneratePdf = (id) => {
+        window.open(`/ticketview/${id}`, '_blank');
+    };
+
     const closeModal = () => {
         setConfirmingUserDeletion(false);
         reset();
     };
 
-    const handleActionChange = (e) => {
-        setSelectedAction(e.value);
-        // Handle the selected action here
-    };
-
-    const actions = [{ label: "edit", value: "edit" }];
-    
-
     const actionTemplate = (rowData) => {
-        const isConfirmed = rowData.status === 'confirm';
-    
+        const isConfirmed = rowData.status == 'confirm';
+
         return (
             <>
                 <Button
                     icon="pi pi-eye"
                     className="p-button-rounded p-button-success p-button-text mr-2"
                     onClick={() => handleView(rowData)}
-                    style={{ marginRight: '2px' }} // Adjust margin as needed
+                    style={{ marginRight: '2px' }}
                 /> 
-                <Button
+                {/* <Button
                     icon="pi pi-pencil"
                     className="p-button-rounded p-button-success p-button-text"
                     onClick={() => handleEdit(rowData)}
-                    style={{ marginRight: '2px' }} // Adjust margin as needed
-                /> 
-                 {isConfirmed && (
-                     <>
-                <Button
-                    icon="pi pi-ticket"  
-                    className="p-button-rounded p-button-success p-button-text"
-                    onClick={() => handleGeneratevoucher(rowData.id)}
-                    style={{ marginRight: '2px' }} // Adjust margin as needed
-                />
-                                <Button
-                    icon="pi pi-info-circle"  
-                    className="p-button-rounded p-button-success p-button-text"
-                    onClick={() => handleGeneratePdf(rowData.id)}
-                    style={{ marginRight: '2px' }} // Adjust margin as needed
-                />
-                <Button
-                    icon="pi pi-file"
-                    className="p-button-rounded p-button-success p-button-text"
-                    onClick={() => handleGenerateInvoice(rowData.id)}
-                    style={{ marginRight: '2px' }} // Adjust margin as needed
-                />
-                 </>
-                 )}
-                <Button
+                    style={{ marginRight: '2px' }}
+                />  */}
+                {isConfirmed && (
+                    <>
+                        <Button
+                            icon="pi pi-ticket"
+                            className="p-button-rounded p-button-success p-button-text"
+                            onClick={() => handleGenerateVoucher(rowData.id)}
+                            style={{ marginRight: '2px' }}
+                        />
+                        <Button
+                            icon="pi pi-file"
+                            className="p-button-rounded p-button-success p-button-text"
+                            onClick={() => handleGenerateInvoice(rowData.id)}
+                            style={{ marginRight: '2px' }}
+                        />
+                        <Button
+                            icon="pi pi-info-circle"
+                            className="p-button-rounded p-button-success p-button-text"
+                            onClick={() => handleGeneratePdf(rowData.id)}
+                            style={{ marginRight: '2px' }}
+                        />
+                    </>
+                )}
+                {/* <Button
                     icon="pi pi-trash"
                     className="p-button-rounded p-button-success p-button-text"
                     onClick={() => handleDelete(rowData)}
-                    style={{ marginRight: '2px' }} // Adjust margin as needed
-                    
-                />   
+                    style={{ marginRight: '2px' }}
+                /> */}
             </>
         );
     };
-    
+
     const header = (
         <div className="flex justify-between bg-pink-600 p-2 rounded-lg">
             <h2 className="text-2xl text-white font-bold mb-4">
-                View Quoatation
+                View Quotation Flight
             </h2>
             <span className="p-input-icon-left">
                 <InputText
@@ -215,69 +208,59 @@ export default function VendorList({ auth }) {
                         header="Client Name"
                         sortable
                         filter
-                        filterPlaceholder="Search by Full Name"
+                        filterPlaceholder="Search by Client Name"
                     />
                     <Column
                         field="staff_name"
-                        header="Staff "
+                        header="Staff"
                         sortable
                         filter
-                        filterPlaceholder="Search by Airline Name"
+                        filterPlaceholder="Search by Staff Name"
                     />
                     <Column
                         field="service_type"
-                        header="Service  "
+                        header="Service"
                         sortable
                         filter
-                        filterPlaceholder="Search by Airline Name"
+                        filterPlaceholder="Search by Service Type"
                     />
-
-<Column
-  header="update Status"
-  body={(rowData) => (
-    <div>
-      <select
-        value={selectedStatus[rowData.id] || rowData.status}
-        onChange={(e) => handleStatusChange(rowData.id, e.target.value)}
-        style={{
-          padding: '0.2rem 0.5rem',
-          borderRadius: '5px',
-          border: '1px solid #ccc',
-          backgroundColor: '#f9f9f9',
-          fontSize: '1rem'
-        }}
-      >
-        <option value="pending">Pending</option>
-        <option value="request more">Request More</option>
-        <option value="confirm">Confirm</option>
-      </select>
-    </div>
-  )}
-/>
-
-
                     <Column
-                        field="departure_date"
-                        header="Departure Date"
-                        sortable
-                        filter
-                        filterPlaceholder="Search by Airline Name"
+                        header="Update Status"
+                        body={(rowData) => (
+                            <div>
+                                <select
+                                    value={selectedStatus[rowData.id] || rowData.status}
+                                    onChange={(e) => handleStatusChange(rowData.id, e.target.value)}
+                                    disabled={rowData.status === 'confirm'}
+                                    style={{
+                                        padding: '0.2rem 0.5rem',
+                                        borderRadius: '5px',
+                                        border: '1px solid #ccc',
+                                        backgroundColor: rowData.status === 'confirm' ? '#e0e0e0' : '#f9f9f9',
+                                        fontSize: '1rem'
+                                    }}
+                                >
+                                    <option value="pending">Pending</option>
+                                    <option value="request more">Request More</option>
+                                    <option value="confirm">Confirm</option>
+                                </select>
+                            </div>
+                        )}
                     />
-
                     <Column
-                        field="fare_type"
-                        header="Fare Type"
+                        field="guest_name"
+                        header="Guest Name"
                         sortable
                         filter
-                        filterPlaceholder="Search by Fare Type"
+                        filterPlaceholder="Search by Guest Name"
                     />
-                          {/* <Column
-                        field=" "
-                        header="Vendor"
+                    <Column
+                        field="room_category"
+                        header="Room Category"
                         sortable
                         filter
-                        filterPlaceholder="Search by Fare Type"
-                    /> */}
+                        filterPlaceholder="Search by Room Category"
+                    />
                     <Column
                         field="status"
                         header="Status"
@@ -287,13 +270,13 @@ export default function VendorList({ auth }) {
                         body={(rowData) => (
                             <div
                                 className={
-                                    rowData.status === "confirm"
+                                    rowData.status == "confirm"
                                         ? "bg-green-500"
-                                        : rowData.status === "request more"
+                                        : rowData.status == "request more"
                                         ? "bg-red-500"
-                                        : rowData.status === "pending"
+                                        : rowData.status == "pending"
                                         ? "bg-gray-500"
-                                        :"bg-green-500"
+                                        : "bg-green-500"
                                 }
                                 style={{
                                     display: "inline-block",
@@ -305,32 +288,32 @@ export default function VendorList({ auth }) {
                             </div>
                         )}
                     />
-
                     <Column 
-                    header="Actions"
-                    body={actionTemplate} 
-                    style={{ width: '10%' }}
-                     
-                     />
+                        header="Actions"
+                        body={actionTemplate}
+                        style={{ width: '10%' }}
+                    />
                 </DataTable>
             </div>
-            <Modal show={confirmingUserDeletion} onClose={closeModal}>
-                <h2 className="text-lg font-medium text-gray-900 p-5">
-                    Are you sure you want to delete Request?
-                </h2>
-                <div className="mt-6 flex justify-end p-5">
-                    <SecondaryButton onClick={closeModal}>
-                        Cancel
-                    </SecondaryButton>
-                    <DangerButton
-                        className="ms-3"
-                        disabled={processing}
-                        onClick={deleteUser}
-                    >
-                        Delete Account
-                    </DangerButton>
-                </div>
-            </Modal>
+           <Modal show={confirmingUserDeletion} onClose={closeModal}>
+    <div className="bg-white p-6 rounded-lg shadow-lg w-96 h-auto max-h-96 mx-auto">
+        <h2 className="text-lg font-medium text-gray-900">
+            Confirm this action?
+        </h2>
+        <h3 className="mt-4 text-gray-600">
+            Are you sure you want to update the status?
+        </h3>
+        <div className="mt-6 flex justify-end">
+            <SecondaryButton onClick={closeModal}>
+                Cancel
+            </SecondaryButton>
+            <DangerButton className="ml-3" onClick={confirmStatusChange}>
+                OK
+            </DangerButton>
+        </div>
+    </div>
+</Modal>
+
         </Authenticated>
     );
 }

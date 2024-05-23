@@ -32,7 +32,19 @@ class ServiceRequest extends Model
         'return_date',
         'departure_date',
         'airline_name',
-        'trade_name'
+        'trade_name',
+        
+        'cab_type',
+        'cab_price',
+        'time_slot',
+        'cab',
+        'total_passengers',
+        'time_hour',
+        'cab_city',
+        'start_date',
+        'start_time',
+        'end_date',
+        'end_time'
        
     ];
 

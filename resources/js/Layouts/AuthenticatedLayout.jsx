@@ -159,7 +159,7 @@ export default function Authenticated({ user, children }) {
                                 className={`flex items-center justify-between p-2 rounded-lg text-white focus:outline-none ${isViewServicesDropdownOpen ? 'bg-pink-600' : 'hover:bg-pink-600'}`}
                             >
                                 <GrServices className="w-26 h-15 mr-2" style={{ fill: 'white' }} />
-                                Manage  Services
+                                Manage  Query
                                 <FiChevronDown className={`w-9 h-75 ml-auto transition-transform ${isViewServicesDropdownOpen ? 'transform rotate-180' : ''}`} />
                             </button>
                             {isViewServicesDropdownOpen && (
@@ -167,13 +167,13 @@ export default function Authenticated({ user, children }) {
                                     <li className="p-0">
                                         <Link href="/services/form" className="flex items-center p-2 rounded-lg text-white hover:bg-pink-600">
                                             <FiPackage className="w-10 h-10 mr-2" style={{ fill: 'pink' }} />
-                                            <span className="text-lg">Services Form</span>
+                                            <span className="text-lg">Generate Query</span>
                                         </Link>
                                     </li>
                                     <li className="p-0">
                                         <Link href="/services/form/fetch/admin" className="flex items-center p-2 rounded-lg text-white hover:bg-pink-600">
                                             <FiPackage className="w-10 h-10 mr-2" style={{ fill: 'pink' }} />
-                                            <span className="text-lg">View Services </span>
+                                            <span className="text-lg">View Query </span>
                                         </Link>
                                     </li>
                                 </ul>
@@ -192,13 +192,8 @@ export default function Authenticated({ user, children }) {
                             </button>
                             {isServiceDropdownOpen && (
                                 <ul className="ml-5 space-y-2">
-                                    
-                                    <li className="p-0">
-                                        <Link href="/quotation/form/fetch" className="flex items-center p-2 rounded-lg text-white hover:bg-pink-600">
-                                            <FiInbox className="w-6 h-6 mr-2" style={{ fill: 'pink' }} /> {/* Adjust the size of the icon */}
-                                            <span className="text-lg"> Generate Quotation</span> {/* Increase the font size of the text */}
-                                        </Link>
-                                    </li>
+                                   
+                                   
                                     <li className="p-0">
                                         <Link href="/quotation/form/fetch/admin" className="flex items-center p-2 rounded-lg text-white hover:bg-pink-600">
                                             <FiInbox className="w-10 h-10 mr-2" style={{ fill: 'pink' }} /> {/* Adjust the size of the icon */}

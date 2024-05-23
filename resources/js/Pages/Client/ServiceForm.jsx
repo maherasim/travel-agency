@@ -15,7 +15,20 @@ export default function ServiceForm({ auth, clients }) {
         domestic_international: '',
         oneway_roundway: '',
         from_location: '',
+        start_date:'',
         to_location: '',
+        cab_type:'',
+        cab_price:'',
+        time_slot:'',
+        cab:'',
+        total_passengers:'',
+        time_hour:'',
+        cab_city:'',
+        cab_start_date:'',
+        start_time:'',
+        end_date:'',
+        end_time:'',
+
         room_occupancy:'',
         departure_date: '',
         return_date: '',
@@ -75,9 +88,11 @@ export default function ServiceForm({ auth, clients }) {
                 }, 5000);
                 const tradeName = document.getElementById("trade_name").value;
                 const serviceType = document.getElementById("service_type").value;
+                const departurDate = document.getElementById("departure_date").value;
                 setSelectedClient(tradeName);
                 localStorage.setItem('selectedClient', tradeName);
                 localStorage.setItem('selectedService', serviceType);
+                localStorage.setItem('selectedDate', departurDate);
                 window.location.href = '/quotation/form/fetch';
 
             },
@@ -561,6 +576,214 @@ export default function ServiceForm({ auth, clients }) {
 
     </>
 )}
+
+{data.service_type === 'cab' && (
+    <>
+     <div className="mt-4">
+                                    <label htmlFor="cab" className="block font-medium text-sm ">
+                                       Cab  
+                                    </label>
+                                    <select
+                                        id="cab"
+                                        name="cab"
+                                        value={data.cab}
+                                        onChange={(e) => setData('cab', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    >
+                                        <option value="">Select Cab Type</option>
+                                        <option value="local use">Local use</option>
+                                        <option value="outstation">Outstation</option>
+                                        <option value="package">Package</option>
+                                    </select>
+                                    {errors.cab && <div className="text-red-600">{errors.cab}</div>}
+                                </div>
+
+
+
+
+
+
+{data.cab === 'local use' && (
+    <>
+     <div className="grid grid-cols-3 gap-4">
+
+      <div className="mt-4">
+                                    <label htmlFor="time_slot" className="block font-medium text-sm ">
+                                       Time Slot
+                                    </label>
+                                    <select
+                                        id="time_slot"
+                                        name="time_slot"
+                                        value={data.time_slot}
+                                        onChange={(e) => setData('time_slot', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    >
+                                        <option value="">Select Time Slot</option>
+                                        <option value="8 hour">8h 80km</option>
+                                        <option value="12 hour">12h 120km</option>
+                                        
+                                    </select>
+                                    {errors.time_slot && <div className="text-red-600">{errors.time_slot}</div>}
+                                </div>
+                                <div className="mt-4">
+                                    <label htmlFor="cab_price" className="block font-medium text-sm">
+                                        Price
+                                    </label>
+                                    <TextInput
+                                        id="cab_price"
+                                        type="text"
+                                        name="cab_price"
+                                        value={data.cab_price}
+                                        onChange={(e) => setData('cab_price', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    />
+                                    {errors.cab_price && <div className="text-red-600">{errors.cab_price}</div>}
+                                </div>
+                                <div className="mt-4">
+                                    <label htmlFor="cab_city" className="block font-medium text-sm">
+                                        city
+                                    </label>
+                                    <TextInput
+                                        id="cab_city"
+                                        type="text"
+                                        name="cab_city"
+                                        value={data.cab_city}
+                                        onChange={(e) => setData('cab_city', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    />
+                                    {errors.cab_city && <div className="text-red-600">{errors.cab_city}</div>}
+                                </div>
+                                </div>
+                                <div className="grid grid-cols-3 gap-4">
+
+                                <div className="mt-4">
+                                    <label htmlFor="cab_start_date" className="block font-medium text-sm">
+                                    Trip Start Date 
+                                    </label>
+                                    <TextInput
+                                        id="cab_start_date"
+                                        type="date"
+                                        name="cab_start_date"
+                                        value={data.cab_start_date}
+                                        onChange={(e) => setData('cab_start_date', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    />
+                                    {errors.cab_start_date && <div className="text-red-600">{errors.cab_start_date}</div>}
+                                </div>
+                                <div className="mt-4">
+                                    <label htmlFor="start_time" className="block font-medium text-sm">
+                                    Trip Start Time
+                                    </label>
+                                    <TextInput
+                                        id="start_time"
+                                        type="time"
+                                        name="start_time"
+                                        value={data.start_time}
+                                        onChange={(e) => setData('start_time', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    />
+                                    {errors.start_time && <div className="text-red-600">{errors.start_time}</div>}
+                                </div>
+
+                                <div className="mt-4">
+                                    <label htmlFor="end_date" className="block font-medium text-sm">
+                                    Trip End Date
+                                    </label>
+                                    <TextInput
+                                        id="end_date"
+                                        type="date"
+                                        name="end_date"
+                                        value={data.end_date}
+                                        onChange={(e) => setData('end_date', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    />
+                                    {errors.end_date && <div className="text-red-600">{errors.end_date}</div>}
+                                </div>
+                                </div>
+                                <div className="grid grid-cols-3 gap-4">
+
+                                <div className="mt-4">
+                                    <label htmlFor="end_time" className="block font-medium text-sm">
+                                       Trip End Time
+                                    </label>
+                                    <TextInput
+                                        id="end_time"
+                                        type="time"
+                                        name="end_time"
+                                        value={data.end_time}
+                                        onChange={(e) => setData('end_time', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    />
+                                    {errors.end_time && <div className="text-red-600">{errors.end_time}</div>}
+                                </div>
+
+                                <div className="mt-4">
+                                    <label htmlFor="cab_type" className="block font-medium text-sm ">
+                                       Cab Type 
+                                    </label>
+                                    <select
+                                        id="cab_type"
+                                        name="cab_type"
+                                        value={data.cab_type}
+                                        onChange={(e) => setData('cab_type', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    >
+                                        <option value="">Select Cab Type</option>
+                                        <option value="Sedan">Sedan</option>
+                                        <option value="SUV">SUV</option>
+                                         
+                                    </select>
+                                    {errors.cab_type && <div className="text-red-600">{errors.cab_type}</div>}
+                                </div>
+                                <div className="mt-4">
+                                    <label htmlFor="total_passengers" className="block font-medium text-sm">
+                                       Total Passengers
+                                    </label>
+                                    <TextInput
+                                        id="total_passengers"
+                                        type="number"
+                                        name="total_passengers"
+                                        value={data.total_passengers}
+                                        onChange={(e) => setData('total_passengers', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    />
+                                    {errors.total_passengers && <div className="text-red-600">{errors.total_passengers}</div>}
+                                </div>
+
+                                </div>
+
+
+
+
+    </>
+
+
+
+)}
+
+</>
+)}
+
 
                     <></>
                     <div className="flex items-center justify-end mt-4">

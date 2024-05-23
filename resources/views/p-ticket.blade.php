@@ -21,13 +21,12 @@
 	.ft111{font-size:11px;line-height:15px;font-family:Times;color:#ffffff;}
 	.ft112{font-size:11px;line-height:16px;font-family:Times;color:#ffffff;}
 	.ft113{font-size:11px;line-height:21px;font-family:Times;color:#ffffff;}
--->
 </style>
 </head>
 <body bgcolor="#A0A0A0" vlink="blue" link="blue" style="background: #323033;" >
 <div id="page1-div" style="position:relative;width:1440px;height:1015px;zoom: 0.86;">
  
-<img width="1440" height="1015" src="{{ asset('assets/ticket/design/images/target001.png') }}" alt="background image"/>
+<img width="1440" height="1015" src="{{asset('assets/ticket/design/images/target001.png')}}" alt="background image"/>
 
 
 
@@ -59,7 +58,7 @@
 <p style="position:absolute;top:131px;left:1088px;white-space:nowrap" class="ft11">Mr.{{@$vendor->service->passenger_name}}</p>
 <p style="position:absolute;top:178px;left:951px;white-space:nowrap" class="ft18">&#160;FROM</p>
 <p style="position:absolute;top:176px;left:1085px;white-space:nowrap" class="ft11">{{@$vendor->service->from_location}}</p>
-<p style="position:absolute;top:223px;left:951px;white-space:nowrap" class="ft18">&#160;TO</p>
+<p style="position:absolute;top:223px;left:951px;white-space:nowrap" class="ft18">&#160;TO sd</p>
 <p style="position:absolute;top:221px;left:1086px;white-space:nowrap" class="ft11">{{@$vendor->service->to_location}}</p>
 <p style="position:absolute;top:456px;left:382px;white-space:nowrap" class="ft10">................................................</p>
 <p style="position:absolute;top:583px;left:114px;white-space:nowrap" class="ft111">Boarding<br/>Rules</p>

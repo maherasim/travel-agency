@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react';
- import InputError from '@/Components/InputError';
- import PrimaryButton from '@/Components/PrimaryButton';
+import InputError from '@/Components/InputError';
+import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import { Head, Link, useForm } from '@inertiajs/react';
- import InputLabelRequire from '@/Components/InputLabelRequire';
+import { Head, useForm } from '@inertiajs/react';
+import InputLabelRequire from '@/Components/InputLabelRequire';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import AlertMessage from '@/Components/AlertMessage';
+import Modal from '@/Components/Modal';
+import SecondaryButton from '@/Components/SecondaryButton';
+import DangerButton from '@/Components/DangerButton';
 
 export default function Register({ auth }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        
-        clientName: "",       
+        clientName: "",
         booking_id: "",
         booking_pnr: "",
         booking_date: "",
@@ -19,16 +21,19 @@ export default function Register({ auth }) {
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
     const [message, setMessage] = useState('');
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
         const selectedClient = localStorage.getItem("selectedClient");
-        
         if (selectedClient) setData('clientName', selectedClient);
-     }, []);
+    }, []);
 
-    const submit = async (e) => {
+    const submit = (e) => {
         e.preventDefault();
+        setIsModalVisible(true);
+    };
 
+    const confirmSubmit = async () => {
         post(route('ticket.store'), {
             onSuccess: () => {
                 setShowSuccess(true);
@@ -37,7 +42,7 @@ export default function Register({ auth }) {
                     setShowSuccess(false);
                 }, 5000);
                 // Clear local storage and redirect to the next URL after successful submission
-                 visit(route('invoice.index'));
+                visit(route('invoice.index'));
             },
             onError: (errors) => {
                 setShowError(true);
@@ -47,13 +52,18 @@ export default function Register({ auth }) {
                 }, 5000);
             },
         });
+        setIsModalVisible(false);
+    };
+
+    const closeModal = () => {
+        setIsModalVisible(false);
     };
 
     return (
         <Authenticated user={auth.user}>
             <Head title="Ticket " />
             <div className="flex justify-center items-center space-x-4">
-                {/* Step 1 */}
+                {/* Step indicators */}
                 <div className="flex items-center">
                     <span className="text-sm font-semibold flex gap-2 items-center bg-green-500 text-white px-4 py-2 rounded-xl">
                         <span>Step 1</span>
@@ -74,12 +84,10 @@ export default function Register({ auth }) {
                     </span>
                 </div>
                 <div className="h-1 w-10 bg-green-500"></div>
-                {/* Step 2 */}
                 <div className="flex items-center bg-green-500 border-2 px-4 py-2 rounded-xl">
                     <span className="text-sm font-semibold text-white">Step 2</span>
                 </div>
                 <div className="h-1 w-10 bg-green-500"></div>
-                {/* Step 3 */}
                 <div className="flex items-center bg-green-500 border-2 px-4 py-2 rounded-xl">
                     <span className="text-sm font-semibold text-white">Step 3</span>
                 </div>
@@ -92,57 +100,55 @@ export default function Register({ auth }) {
                 <form onSubmit={submit}>
                     {showSuccess && <AlertMessage type="success" message={message} />}
                     {showError && <AlertMessage type="error" message={message} />}
-  
-                        <div className="grid grid-cols-3 gap-4">
-                            <div className="mt-4">
-                                <InputLabelRequire htmlFor="booking_id" value="Booking ID" />
-                                <TextInput
-                                    id="booking_id"
-                                    type="booking_id"
-                                    name="booking_id"
-                                    value={data.booking_id}
-                                    className="mt-1 block w-full rounded-md text-black bg-white"
-                                    style={{ border: '2px solid pink' }}
-                                    autoComplete="organization"
-                                    onChange={(e) => setData('booking_id', e.target.value)}
-                                    onClick={(e) => setData('clientName', selectedClient)}
 
-                                    required
-                                />
-                                <InputError message={errors.booking_id} className="mt-2" />
-                            </div>
-                            <div className="mt-4">
-                                <InputLabelRequire htmlFor="booking_pnr" value="Booking PNR" />
-                                <TextInput
-                                    id="booking_pnr"
-                                    type="booking_pnr"
-                                    name="booking_pnr"
-                                    value={data.booking_pnr}
-                                    className="mt-1 block w-full rounded-md text-black bg-white"
-                                    style={{ border: '2px solid pink' }}
-                                    autoComplete="organization"
-                                    onChange={(e) => setData('booking_pnr', e.target.value)}
-                                    required
-                                />
-                                <InputError message={errors.booking_pnr} className="mt-2" />
-                            </div>
-                            <div className="mt-4">
-                                <InputLabelRequire htmlFor="booking_date" value="Booking Date" />
-                                <TextInput
-                                    id="booking_date"
-                                    type="date"
-                                    name="booking_date"
-                                    value={data.booking_date}
-                                    className="mt-1 block w-full rounded-md text-black bg-white"
-                                    style={{ border: '2px solid pink' }}
-                                    autoComplete="organization"
-                                    onChange={(e) => setData('booking_date', e.target.value)}
-                                    required
-                                />
-                                <InputError message={errors.booking_date} className="mt-2" />
-                            </div>
+                    <div className="grid grid-cols-3 gap-4">
+                        <div className="mt-4">
+                            <InputLabelRequire htmlFor="booking_id" value="Booking ID" />
+                            <TextInput
+                                id="booking_id"
+                                type="text"
+                                name="booking_id"
+                                value={data.booking_id}
+                                className="mt-1 block w-full rounded-md text-black bg-white"
+                                style={{ border: '2px solid pink' }}
+                                autoComplete="organization"
+                                onChange={(e) => setData('booking_id', e.target.value)}
+                                required
+                            />
+                            <InputError message={errors.booking_id} className="mt-2" />
                         </div>
-                    
+                        <div className="mt-4">
+                            <InputLabelRequire htmlFor="booking_pnr" value="Booking PNR" />
+                            <TextInput
+                                id="booking_pnr"
+                                type="text"
+                                name="booking_pnr"
+                                value={data.booking_pnr}
+                                className="mt-1 block w-full rounded-md text-black bg-white"
+                                style={{ border: '2px solid pink' }}
+                                autoComplete="organization"
+                                onChange={(e) => setData('booking_pnr', e.target.value)}
+                                required
+                            />
+                            <InputError message={errors.booking_pnr} className="mt-2" />
+                        </div>
+                        <div className="mt-4">
+                            <InputLabelRequire htmlFor="booking_date" value="Booking Date" />
+                            <TextInput
+                                id="booking_date"
+                                type="date"
+                                name="booking_date"
+                                value={data.booking_date}
+                                className="mt-1 block w-full rounded-md text-black bg-white"
+                                style={{ border: '2px solid pink' }}
+                                autoComplete="organization"
+                                onChange={(e) => setData('booking_date', e.target.value)}
+                                required
+                            />
+                            <InputError message={errors.booking_date} className="mt-2" />
+                        </div>
+                    </div>
+
                     <div className="flex items-center justify-end mt-4">
                         <PrimaryButton className="ms-4" disabled={processing}>
                             Register
@@ -150,6 +156,25 @@ export default function Register({ auth }) {
                     </div>
                 </form>
             </div>
+            
+            <Modal show={isModalVisible} onClose={closeModal}>
+                <div className="bg-white p-6 rounded-lg shadow-lg w-96 h-auto max-h-96 mx-auto">
+                    <h2 className="text-lg font-medium text-gray-900">
+                        Confirm Submission
+                    </h2>
+                    <h3 className="mt-4 text-gray-600">
+                        Are you sure you want to register this ticket?
+                    </h3>
+                    <div className="mt-6 flex justify-end">
+                        <SecondaryButton onClick={closeModal}>
+                            Cancel
+                        </SecondaryButton>
+                        <DangerButton className="ml-3" onClick={confirmSubmit}>
+                            OK
+                        </DangerButton>
+                    </div>
+                </div>
+            </Modal>
         </Authenticated>
     );
 }

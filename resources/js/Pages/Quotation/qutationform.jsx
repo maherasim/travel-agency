@@ -3,13 +3,22 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { useState, useEffect } from "react";
+
 export default function ServiceForm({ auth, clients }) {
-    const { data, setData, post, processing, errors, reset } = useForm("");
+    const { data, setData, post, processing, errors, reset } = useForm({
+        clientName: localStorage.getItem("selectedClient") || "",
+        serviceType: localStorage.getItem("selectedService") || "",
+        departure_date: localStorage.getItem("selectedDate") || "",
+        prices: [],
+        airline_names: [],
+        id: auth.user.id,
+        data: []
+    });
 
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
     const [message, setMessage] = useState("");
-    const [duplicateCount, setDuplicateCount] = useState(1); // Track the number of duplicates
+    const [duplicateCount, setDuplicateCount] = useState(1);
     const [duplicateForms, setDuplicateForms] = useState([
         {
             airline_name: "",
@@ -17,18 +26,18 @@ export default function ServiceForm({ auth, clients }) {
             arrival_time: "",
             ourcost: "",
             name: "",
-            departure_date: "",           
+            departure_date: localStorage.getItem("selectedDate") || "",
             flight_number: "",
             flight_gate: "",
             fare_type: "",
             prf: "",
+            gstn:"",
             room_category:"",
             total_cost: "",
             flight_class: "",
             pnr_number: "",
             seat_number: "",
             guest_name:"",
-            
             hotel_address:"",
             contact_no:"",
             confirmation_no:"",
@@ -40,20 +49,37 @@ export default function ServiceForm({ auth, clients }) {
         setDuplicateForms((prevForms) => [
             ...prevForms,
             {
-                /* initial form data */
-            },
+                airline_name: "",
+                departure_time: "",
+                arrival_time: "",
+                ourcost: "",
+                name: "",
+                departure_date: localStorage.getItem("selectedDate") || "",
+                flight_number: "",
+                flight_gate: "",
+                fare_type: "",
+                prf: "",
+                gstn:"",
+                room_category:"",
+                total_cost: "",
+                flight_class: "",
+                pnr_number: "",
+                seat_number: "",
+                guest_name:"",
+                hotel_address:"",
+                contact_no:"",
+                confirmation_no:"",
+            }
         ]);
     };
 
-    // Function to remove duplicated fields
     const removeDuplicateFields = () => {
         if (duplicateForms.length > 1) {
-            setDuplicateCount((prevCount) => Math.max(prevCount - 1, 1)); // Ensure at least one set of fields
+            setDuplicateCount((prevCount) => Math.max(prevCount - 1, 1));
             setDuplicateForms((prevForms) => prevForms.slice(0, -1));
         }
     };
 
-    // Calculate total cost whenever ourcost or prf changes
     useEffect(() => {
         duplicateForms.forEach((formData, index) => {
             const ourcost = parseFloat(formData.ourcost) || 0;
@@ -69,116 +95,67 @@ export default function ServiceForm({ auth, clients }) {
             });
         });
     }, [duplicateForms]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Construct arrays for prices and airline names from duplicateForms
         const prices = duplicateForms.map((formData) => formData.ourcost);
-        const airlineNames = duplicateForms.map(
-            (formData) => formData.airline_name
-        );
+        const airlineNames = duplicateForms.map((formData) => formData.airline_name);
 
-        // Construct formData object
-        let selectedService = localStorage.getItem("selectedService");
-        let formData = {};
-        if (selectedService !== null && selectedService !== undefined) {
-            formData = {
-                clientName: localStorage.getItem("selectedClient"),
-                serviceType: localStorage.getItem("selectedService"),
-                prices: prices, // Make sure prices is always an array
-                airline_names: airlineNames, // Make sure airline_names is always an array
-                id: auth.user.id, // Assuming you have access to auth.user.id
-                // Add other properties based on your fields
-                data: duplicateForms.map(
-                    ({
-                        airline_name,
-                        departure_time,
-                        arrival_time,
-                        ourcost,
-                        departure_date,
-                        name,
-                        flight_number,
-                        fare_type,
-                        prf,
-                        total_cost,
-                        
-                        seat_number,
-                        flight_gate,
-                        flight_class,
-                        pnr_number,
-                        guest_name,
-                        room_category,
-                        hotel_address,
-                        contact_no,
-                        confirmation_no,
+        const formData = {
+            clientName: localStorage.getItem("selectedClient"),
+            serviceType: localStorage.getItem("selectedService"),
+            departure_date: localStorage.getItem("selectedDate"),
+            prices: prices,
+            airline_names: airlineNames,
+            id: auth.user.id,
+            data: duplicateForms.map(
+                ({
+                    airline_name,
+                    departure_time,
+                    arrival_time,
+                    ourcost,
+                    departure_date,
+                    name,
+                    flight_number,
+                    fare_type,
+                    prf,
+                    gstn,
+                    total_cost,
+                    seat_number,
+                    flight_gate,
+                    flight_class,
+                    pnr_number,
+                    guest_name,
+                    room_category,
+                    hotel_address,
+                    contact_no,
+                    confirmation_no,
+                }) => ({
+                    airline_name,
+                    departure_time,
+                    arrival_time,
+                    ourcost,
+                    guest_name,
+                    departure_date,
+                    name,
+                    flight_number,
+                    fare_type,
+                    prf,
+                    total_cost,
+                    seat_number,
+                    flight_gate,
+                    flight_class,
+                    gstn,
+                    pnr_number,
+                    room_category,
+                    hotel_address,
+                    contact_no,
+                    confirmation_no,
+                })
+            ),
+        };
 
-                    }) => ({
-                        airline_name,
-                        departure_time,
-                        arrival_time,
-                        ourcost,
-                        guest_name,
-                        departure_date,
-                        name,
-                        flight_number,
-                        fare_type,
-                        prf,
-                        total_cost,
-                        seat_number,
-                        flight_gate,
-                        flight_class,
-                        pnr_number,
-                        room_category,
-                        hotel_address,
-                        contact_no,
-                        confirmation_no,
-                    })
-                ),
-            };
-        } else {
-            formData = {
-                clientName: localStorage.getItem("selectedClient"),
-                prices: prices, // Make sure prices is always an array
-                airline_names: airlineNames, // Make sure airline_names is always an array
-                id: auth.user.id, // Assuming you have access to auth.user.id
-                // Add other properties based on your fields
-                data: duplicateForms.map(
-                    ({
-                        airline_name,
-                        departure_time,
-                        arrival_time,
-                        ourcost,
-                        departure_date,
-                        name,
-                        guest_name,
-                        flight_number,
-                        fare_type,
-                        prf,
-                        total_cost,
-                        flight_gate,
-                        seat_number,
-                        flight_class,
-                        pnr_number,
-                    }) => ({
-                        airline_name,
-                        departure_time,
-                        arrival_time,
-                        ourcost,
-                        departure_date,
-                        name,
-                        guest_name,
-                        flight_number,
-                        fare_type,
-                        prf,
-                        total_cost,
-                        seat_number,
-                        flight_class,
-                        flight_gate,
-                        pnr_number,
-                    })
-                ),
-            };
-        }
         fetch("/api/quotationStoreApi", {
             method: "POST",
             headers: {
@@ -195,8 +172,6 @@ export default function ServiceForm({ auth, clients }) {
             })
             .then((data) => {
                 if (data && data.success === true) {
-                    // localStorage.removeItem("selectedClient");
-                    // localStorage.removeItem("selectedService");
                     window.location.href = "/services/form";
                 } else {
                     throw new Error("API response indicates failure.");
@@ -285,7 +260,7 @@ export default function ServiceForm({ auth, clients }) {
                         <div key={index}>
                             {localStorage.getItem("selectedService") == "flight" && (
                                  <div>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-3 gap-4">
                                 <div className="mt-4">
                                     <label
                                         htmlFor={`airline_name_${index}`}
@@ -346,21 +321,21 @@ export default function ServiceForm({ auth, clients }) {
                                 
                                 <div className="mt-4">
                                     <label
-                                        htmlFor={`departure_date_${index}`}
+                                        htmlFor={`flight_number${index}`}
                                         className="block font-medium text-sm"
                                     >
-                                        Departure Date
+                                        Flight Number
                                     </label>
                                     <TextInput
-                                        id={`departure_date_${index}`}
-                                        type="date"
-                                        name={`departure_date_${index}`}
-                                        value={formData.departure_date}
+                                        id={`flight_number_${index}`}
+                                        type="text"
+                                        name={`flight_number_${index}`}
+                                        value={formData.flight_number}
                                         onChange={(e) => {
                                             const updatedForms = [
                                                 ...duplicateForms,
                                             ];
-                                            updatedForms[index].departure_date =
+                                            updatedForms[index].flight_number =
                                                 e.target.value;
                                             setDuplicateForms(updatedForms);
                                         }}
@@ -370,6 +345,31 @@ export default function ServiceForm({ auth, clients }) {
                                     />
                                 </div>
                              
+                                <div className="mt-4">
+                                    <label
+                                        htmlFor={`gstn${index}`}
+                                        className="block font-medium text-sm"
+                                    >
+                                        GSTN Number
+                                    </label>
+                                    <TextInput
+                                        id={`gstn_${index}`}
+                                        type="text"
+                                        name={`gstn_${index}`}
+                                        value={formData.gstn}
+                                        onChange={(e) => {
+                                            const updatedForms = [
+                                                ...duplicateForms,
+                                            ];
+                                            updatedForms[index].gstn =
+                                                e.target.value;
+                                            setDuplicateForms(updatedForms);
+                                        }}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: "2px solid pink" }}
+                                        required
+                                    />
+                                </div>
                              
                             </div>
 

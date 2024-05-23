@@ -233,8 +233,8 @@ export default function VendorList({ auth }) {
                             </div>
                         )}
                     />
-
-  <Column header="Actions" body={actionTemplate} />
+{/* 
+  <Column header="Actions" body={actionTemplate} /> */}
 </DataTable>
 
       </div>

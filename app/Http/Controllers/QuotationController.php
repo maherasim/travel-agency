@@ -119,14 +119,24 @@ class QuotationController extends Controller
         $vendor = Quotation::with('service')->findOrFail($id);
         $pdf = PDF::loadView('p-ticket', ['vendor' => $vendor]);
         return $pdf->download('ticket.pdf');
-    }
+    } 
     public function generateInvoice($id)
-    {
-        $vendor = Quotation::with(['service', 'invoice', 'ticket'])->findOrFail($id);
+{
+    $vendor = Quotation::with(['service', 'invoice', 'ticket', 'client'])->findOrFail($id);
 
-        $pdf = PDF::loadView('invoice', ['vendor' => $vendor]);
-        return $pdf->download('invoice.pdf');
-    }
+    // Fetch the trade_name and gstn of the associated client
+    $tradeName = @$vendor->client->trade_name;
+    $gstn = @$vendor->gstn;
+
+    $pdf = PDF::loadView('invoice', [
+        'vendor' => $vendor,
+        'tradeName' => $tradeName, // Pass trade_name to the view
+        'gstn' => $gstn // Pass gstn to the view
+    ]);
+    return $pdf->download('invoice.pdf');
+}
+
+    
     public function quaListfetchadmin(Request $request)
 {
     $vendorList = Quotation::with('client')->where('service_type', 'flight')->get();

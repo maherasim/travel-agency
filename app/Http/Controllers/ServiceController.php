@@ -51,6 +51,9 @@ class ServiceController extends Controller
     
     public function store(Request $request)
     {  
+
+       
+
         // Validate the incoming request data
         $validatedData = $request->validate([
             'service_type' => 'required',
@@ -74,6 +77,24 @@ class ServiceController extends Controller
             'meal_plan' => 'nullable|string', // Add validation rule for meal_plan
             'hotel_category' => 'nullable|string', // Add validation rule for hotel_category
             'price_module' => 'nullable|string', // Add validation rule for price_module
+
+
+//Cab type
+
+            'cab_type' => 'nullable|string', 
+            'time_slot' => 'nullable|string', 
+            'cab_price' => 'nullable|string', 
+            'cab' => 'nullable|string', 
+            'total_passengers' => 'nullable|string', 
+            'time_hour' => 'nullable|string', 
+            'cab_city' => 'nullable|string', 
+            'start_date' => 'nullable|string', 
+            'start_time' => 'nullable|string', 
+            'end_date' => 'nullable|string', 
+            'end_time' => 'nullable|string', 
+
+
+
         ]);
     
         session()->put('service_form', $validatedData);
@@ -120,6 +141,23 @@ class ServiceController extends Controller
             'meal_plan' => $validatedData['meal_plan'], // Save the meal_plan
             'hotel_category' => $validatedData['hotel_category'], // Save the hotel_category
             'price_module' => $validatedData['price_module'], // Save the price_module
+
+//Cab type
+
+
+            'cab_type' => $validatedData['cab_type'], 
+            'cab_price' => $validatedData['cab_price'], 
+            'time_slot' => $validatedData['time_slot'], 
+            'cab' => $validatedData['cab'], 
+            'total_passengers' => $validatedData['total_passengers'], 
+            'time_hour' => $validatedData['time_hour'], 
+            'cab_city' => $validatedData['cab_city'], 
+            'start_date' => $validatedData['start_date'], 
+            'start_time' => $validatedData['start_time'], 
+            'end_date' => $validatedData['end_date'], 
+            'end_time' => $validatedData['end_time'], 
+
+
         ]);
     
         // Return a success response or redirect to the index page

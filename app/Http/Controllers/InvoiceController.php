@@ -38,11 +38,11 @@ class InvoiceController extends Controller
     
         $request->validate([
             'invoice_number' => 'required|string',
-            'description' => 'required',
+            'description' => 'nullable',
             'management_fee' => 'required',
-            'cgst' => 'required',
-            'sgst' => 'required',
-            'total' => 'required',
+            'cgst' => 'nullable',
+            'sgst' => 'nullable',
+            'total' => 'nullable',
             'serviceType' => 'nullable',
         ]);
     
