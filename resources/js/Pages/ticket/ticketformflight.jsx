@@ -10,14 +10,16 @@ import Modal from '@/Components/Modal';
 import SecondaryButton from '@/Components/SecondaryButton';
 import DangerButton from '@/Components/DangerButton';
 
-export default function Register({ auth }) {
+export default function Register({ auth, passengerName }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         gate: "",
         pnr_number: "",
         seat_number: "",
         flight: "",
+        meal_included: false,
         flight_class: "",
         clientName: "",
+        client_id: "",
         booking_id: "",
         booking_pnr: "",
         booking_date: "",
@@ -30,8 +32,15 @@ export default function Register({ auth }) {
 
     useEffect(() => {
         const selectedClient = localStorage.getItem("selectedClient");
-        if (selectedClient) setData('clientName', selectedClient);
-    }, []);
+        const selectedClientId = localStorage.getItem("selectedClientId");
+        
+        setData((prevData) => ({
+            ...prevData,
+            clientName: selectedClient || prevData.clientName,
+            client_id: selectedClientId || prevData.client_id,
+            gate: passengerName || prevData.gate,
+        }));
+    }, [passengerName]);
 
     const submit = (e) => {
         e.preventDefault();
@@ -87,15 +96,15 @@ export default function Register({ auth }) {
                         </svg>
                     </span>
                 </div>
-                <div className="h-1 w-20 bg-green-500"></div>
+                <div className="h-1 w-10 bg-green-500"></div>
                 <div className="flex items-center bg-green-500 border-2 px-4 py-2 rounded-xl">
                     <span className="text-sm font-semibold text-white">Step 2</span>
                 </div>
-                <div className="h-1 w-15 bg-green-500"></div>
+                <div className="h-1 w-10 bg-green-500"></div>
                 <div className="flex items-center bg-green-500 border-2 px-4 py-2 rounded-xl">
                     <span className="text-sm font-semibold text-white">Step 3</span>
                 </div>
-                <div className="h-1 w-15 bg-green-500"></div>
+                <div className="h-1 w-10 bg-green-500"></div>
                 <div className="flex items-center">
                     <span className="text-sm font-semibold ml-2 bg-gray-400 text-white px-4 py-2 rounded-xl">Step 4</span>
                 </div>
@@ -107,7 +116,7 @@ export default function Register({ auth }) {
 
                     <div className="grid grid-cols-3 gap-4">
                         <div className="mt-4">
-                            <InputLabelRequire htmlFor="gate" value="Gate Name" />
+                            <InputLabelRequire htmlFor="gate" value="Passenger Name" />
                             <TextInput
                                 id="gate"
                                 name="gate"
@@ -147,9 +156,20 @@ export default function Register({ auth }) {
                                 onChange={(e) => setData('seat_number', e.target.value)}
                                 required
                             />
+                            <div className="flex items-center mt-2">
+                                <input
+                                    id="meal_included"
+                                    type="checkbox"
+                                    name="meal_included"
+                                    checked={data.meal_included}
+                                    onChange={(e) => setData('meal_included', e.target.checked)}
+                                    className="mr-2"
+                                />
+                                <label htmlFor="meal_included" className="text-sm">Meal Included</label>
+                            </div>
                             <InputError message={errors.seat_number} className="mt-2" />
                         </div>
-                        <div className="mt-4">
+                        {/* <div className="mt-4">
                             <InputLabelRequire htmlFor="flight" value="Flight Number" />
                             <TextInput
                                 id="flight"
@@ -163,7 +183,7 @@ export default function Register({ auth }) {
                                 required
                             />
                             <InputError message={errors.flight} className="mt-2" />
-                        </div>
+                        </div> */}
                         <div className="mt-4">
                             <InputLabelRequire htmlFor="flight_class" value="Class" />
                             <TextInput
@@ -183,7 +203,7 @@ export default function Register({ auth }) {
 
                     <div className="flex items-center justify-end mt-4">
                         <PrimaryButton className="ms-4" disabled={processing}>
-                            Register
+                            Confirm
                         </PrimaryButton>
                     </div>
                 </form>

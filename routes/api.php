@@ -13,6 +13,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/quotationStoreApi', function (Request $request) {
     $data = $request->data;
+  
     $clientId = null;
     $clientName = $request->input('clientName');
 
@@ -46,6 +47,7 @@ Route::post('/quotationStoreApi', function (Request $request) {
                     'contact_no' => $item['contact_no'],
                     'confirmation_no' => $item['confirmation_no'],
                     'ourcost' => $item['ourcost'],
+                    'room_no' => $item['room_no'],
                     'gstn' => $item['gstn'],
                     'flight_number' => $item['flight_number'],
                     'fare_type' => $item['fare_type'],
@@ -70,6 +72,7 @@ Route::post('/quotationStoreApi', function (Request $request) {
                     'hotel_address' => $item['hotel_address'],
                     'contact_no' => $item['contact_no'],
                     'confirmation_no' => $item['confirmation_no'],
+                    'room_no' => $item['room_no'],
                     'ourcost' => $item['ourcost'],
                     'flight_number' => $item['flight_number'],
                     'fare_type' => $item['fare_type'],

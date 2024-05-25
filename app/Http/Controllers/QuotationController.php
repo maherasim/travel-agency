@@ -18,9 +18,25 @@ class QuotationController extends Controller
 {
     public function index(): Response
     {
-        $clients = Client::select('id', 'trade_name')->get(); // Fetch only id and trade_name
-        return Inertia::render('Quotation/qutationform', ['clients' => $clients]);
+        $clients = Client::select('id', 'trade_name')->get(); 
+        $serviceRequest = Client::latest()->first();
+         
+        $passengerName = $serviceRequest ? $serviceRequest->gstin_number : '';
+
+        return Inertia::render('Quotation/qutationform', [
+            'clients' => $clients,
+            'passengerName' => $passengerName // Pass the actual passenger name
+
+        ]);
     }
+    public function index2(): Response
+{
+    $clients = Client::select('id', 'trade_name', 'gstin_number')->get();
+    $clients = Client::select('id', 'gstin_number')->get();
+    
+
+    return Inertia::render('Quotation/qutationform', ['clients' => $clients]);
+}
     
     public function show($id)
     {
@@ -121,20 +137,23 @@ class QuotationController extends Controller
         return $pdf->download('ticket.pdf');
     } 
     public function generateInvoice($id)
-{
-    $vendor = Quotation::with(['service', 'invoice', 'ticket', 'client'])->findOrFail($id);
-
-    // Fetch the trade_name and gstn of the associated client
-    $tradeName = @$vendor->client->trade_name;
-    $gstn = @$vendor->gstn;
-
-    $pdf = PDF::loadView('invoice', [
-        'vendor' => $vendor,
-        'tradeName' => $tradeName, // Pass trade_name to the view
-        'gstn' => $gstn // Pass gstn to the view
-    ]);
-    return $pdf->download('invoice.pdf');
-}
+    {
+        $vendor = Quotation::with(['service', 'invoice', 'ticket', 'client'])->findOrFail($id);
+    
+        // Fetch the trade_name, gstn, and roundway of the associated client
+        $tradeName = @$vendor->client->trade_name;
+        $gstn = @$vendor->gstn;
+        $roundway = @$vendor->service->oneway_roundway; // Corrected the variable name
+    
+        $pdf = PDF::loadView('invoice', [
+            'vendor' => $vendor,
+            'tradeName' => $tradeName, // Pass trade_name to the view
+            'gstn' => $gstn, // Pass gstn to the view
+            'roundway'=> $roundway // Pass roundway to the view
+        ]);
+        return $pdf->download('invoice.pdf');
+    }
+    
 
     
     public function quaListfetchadmin(Request $request)

@@ -15,6 +15,9 @@ export default function Register({ auth }) {
         clientName: "",
         booking_id: "",
         booking_pnr: "",
+        confirmation_number: "",
+        voucher: "",
+        
         booking_date: "",
     });
 
@@ -146,6 +149,36 @@ export default function Register({ auth }) {
                                 required
                             />
                             <InputError message={errors.booking_date} className="mt-2" />
+                        </div>
+                        <div className="mt-4">
+                            <InputLabelRequire htmlFor="confirmation_number" value="Confirmation Number" />
+                            <TextInput
+                                id="confirmation_number"
+                                type="number"
+                                name="confirmation_number"
+                                value={data.confirmation_number}
+                                className="mt-1 block w-full rounded-md text-black bg-white"
+                                style={{ border: '2px solid pink' }}
+                                autoComplete="organization"
+                                onChange={(e) => setData('confirmation_number', e.target.value)}
+                                required
+                            />
+                            <InputError message={errors.confirmation_number} className="mt-2" />
+                        </div>
+                        <div className="mt-4">
+                            <InputLabelRequire htmlFor="voucher" value="Voucher" />
+                            <TextInput
+                                id="voucher"
+                                type="text"
+                                name="voucher"
+                                value={data.voucher}
+                                className="mt-1 block w-full rounded-md text-black bg-white"
+                                style={{ border: '2px solid pink' }}
+                                autoComplete="organization"
+                                onChange={(e) => setData('voucher', e.target.value)}
+                                required
+                            />
+                            <InputError message={errors.voucher} className="mt-2" />
                         </div>
                     </div>
 

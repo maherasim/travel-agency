@@ -15,25 +15,25 @@ export default function ServiceForm({ auth, clients }) {
         domestic_international: '',
         oneway_roundway: '',
         from_location: '',
-        start_date:'',
+        start_date: '',
         to_location: '',
-        cab_type:'',
-        cab_price:'',
-        time_slot:'',
-        cab:'',
-        total_passengers:'',
-        time_hour:'',
-        cab_city:'',
-        cab_start_date:'',
-        start_time:'',
-        end_date:'',
-        end_time:'',
+        cab_type: '',
+        cab_price: '',
+        time_slot: '',
+        cab: '',
+        total_passengers: '',
+        time_hour: '',
+        cab_city: '',
+        cab_start_date: '',
+        start_time: '',
+        end_date: '',
+        end_time: '',
 
-        room_occupancy:'',
+        room_occupancy: '',
         departure_date: '',
         return_date: '',
         airline_name: '',
-        name: '',  
+        name: '',
         price: '', // Add price field
         city: '', // Add city field
         hotel_name: '', // Add hotel_name field
@@ -44,7 +44,7 @@ export default function ServiceForm({ auth, clients }) {
         hotel_category: '', // Add hotel_category field
         price_module: '', // Add price_module field
     });
-    
+
 
     const { data, setData, post, processing, errors } = useForm(formData);
 
@@ -62,6 +62,15 @@ export default function ServiceForm({ auth, clients }) {
         }
     }, []);
 
+    useEffect(() => {
+        if (data.check_in && data.check_out) {
+            const checkInDate = new Date(data.check_in);
+            const checkOutDate = new Date(data.check_out);
+            const timeDifference = checkOutDate.getTime() - checkInDate.getTime();
+            const nightCount = Math.ceil(timeDifference / (1000 * 3600 * 24)); // Calculate nights
+            setData('night', nightCount); // Update night count in formData
+        }
+    }, [data.check_in, data.check_out]); // Watch for changes in check-in and check-out dates
 
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
@@ -88,11 +97,9 @@ export default function ServiceForm({ auth, clients }) {
                 }, 5000);
                 const tradeName = document.getElementById("trade_name").value;
                 const serviceType = document.getElementById("service_type").value;
-                const departurDate = document.getElementById("departure_date").value;
                 setSelectedClient(tradeName);
                 localStorage.setItem('selectedClient', tradeName);
                 localStorage.setItem('selectedService', serviceType);
-                localStorage.setItem('selectedDate', departurDate);
                 window.location.href = '/quotation/form/fetch';
 
             },
@@ -106,7 +113,6 @@ export default function ServiceForm({ auth, clients }) {
             },
         });
     };
-
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Service Request Form" />
@@ -375,414 +381,397 @@ export default function ServiceForm({ auth, clients }) {
                         </>
                     )}
 
-{data.service_type === 'hotel' && (
-    <>
-     <div className="grid grid-cols-3 gap-4">
+                    {data.service_type === 'hotel' && (
+                        <>
+                            <div className="grid grid-cols-3 gap-4">
 
-        <div className="mt-4">
-            <label htmlFor="domestic_international" className="block font-medium text-sm">
-                Domestic/International
-            </label>
-            <select
-                id="domestic_international"
-                name="domestic_international"
-                value={data.domestic_international}
-                onChange={(e) => setData('domestic_international', e.target.value)}
-                className="mt-1 block w-full rounded-md bg-white text-black"
-                style={{ border: '2px solid pink' }}
-                required
-            >
-                <option value="">Select Option</option>
-                <option value="domestic">Domestic</option>
-                <option value="international">International</option>
-            </select>
-            {errors.domestic_international && <div className="text-red-600">{errors.domestic_international}</div>}
-        </div>
+                                <div className="mt-4">
+                                    <label htmlFor="domestic_international" className="block font-medium text-sm">
+                                        Domestic/International
+                                    </label>
+                                    <select
+                                        id="domestic_international"
+                                        name="domestic_international"
+                                        value={data.domestic_international}
+                                        onChange={(e) => setData('domestic_international', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    >
+                                        <option value="">Select Option</option>
+                                        <option value="domestic">Domestic</option>
+                                        <option value="international">International</option>
+                                    </select>
+                                    {errors.domestic_international && <div className="text-red-600">{errors.domestic_international}</div>}
+                                </div>
 
-        <div className="mt-4">
-            <label htmlFor="city" className="block font-medium text-sm">
-                City
-            </label>
-            <TextInput
-                id="city"
-                type="text"
-                name="city"
-                value={data.city}
-                onChange={(e) => setData('city', e.target.value)}
-                className="mt-1 block w-full rounded-md bg-white text-black"
-                style={{ border: '2px solid pink' }}
-                required
-            />
-            {errors.city && <div className="text-red-600">{errors.city}</div>}
-        </div>
-        <div className="mt-4">
-            <label htmlFor="hotel_name" className="block font-medium text-sm">
-                Hotel Name
-            </label>
-            <TextInput
-                id="hotel_name"
-                type="text"
-                name="hotel_name"
-                value={data.hotel_name}
-                onChange={(e) => setData('hotel_name', e.target.value)}
-                className="mt-1 block w-full rounded-md bg-white text-black"
-                style={{ border: '2px solid pink' }}
-                required
-            />
-            {errors.hotel_name && <div className="text-red-600">{errors.city}</div>}
-        </div>
-      
+                                <div className="mt-4">
+                                    <label htmlFor="city" className="block font-medium text-sm">
+                                        City
+                                    </label>
+                                    <TextInput
+                                        id="city"
+                                        type="text"
+                                        name="city"
+                                        value={data.city}
+                                        onChange={(e) => setData('city', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    />
+                                    {errors.city && <div className="text-red-600">{errors.city}</div>}
+                                </div>
+                                <div className="mt-4">
+                                    <label htmlFor="hotel_name" className="block font-medium text-sm">
+                                        Hotel Name
+                                    </label>
+                                    <TextInput
+                                        id="hotel_name"
+                                        type="text"
+                                        name="hotel_name"
+                                        value={data.hotel_name}
+                                        onChange={(e) => setData('hotel_name', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
 
+                                    />
+                                    {errors.hotel_name && <div className="text-red-600">{errors.city}</div>}
+                                </div>
 
 
-        </div>
-        <div className="grid grid-cols-3 gap-4">
 
-        <div className="mt-4">
-                                        <label htmlFor="check_in" className="block font-medium text-sm">
+
+                            </div>
+                            <div className="grid grid-cols-3 gap-4">
+
+                                <div className="mt-4">
+                                    <label htmlFor="check_in" className="block font-medium text-sm">
                                         Check In Date
-                                        </label>
-                                        <TextInput
-                                            id="check_in"
-                                            type="date"
-                                            name="check_in"
-                                            value={data.check_in}
-                                            onChange={(e) => setData('check_in', e.target.value)}
-                                            className="mt-1 block w-full rounded-md bg-white text-black"
-                                            style={{ border: '2px solid pink' }}
-                                            required
-                                        />
-                                        {errors.check_in && <div className="text-red-600">{errors.check_in}</div>}
-                                    </div> 
-                                    <div className="mt-4">
-                                        <label htmlFor="check_out" className="block font-medium text-sm">
+                                    </label>
+                                    <TextInput
+                                        id="check_in"
+                                        type="date"
+                                        name="check_in"
+                                        value={data.check_in}
+                                        onChange={(e) => setData('check_in', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    />
+                                    {errors.check_in && <div className="text-red-600">{errors.check_in}</div>}
+                                </div>
+                                <div className="mt-4">
+                                    <label htmlFor="check_out" className="block font-medium text-sm">
                                         Check Out Date
-                                        </label>
-                                        <TextInput
-                                            id="check_out"
-                                            type="date"
-                                            name="check_out"
-                                            value={data.check_out}
-                                            onChange={(e) => setData('check_out', e.target.value)}
-                                            className="mt-1 block w-full rounded-md bg-white text-black"
-                                            style={{ border: '2px solid pink' }}
-                                            required
-                                        />
-                                        {errors.check_out && <div className="text-red-600">{errors.check_out}</div>}
-                                    </div> 
+                                    </label>
+                                    <TextInput
+                                        id="check_out"
+                                        type="date"
+                                        name="check_out"
+                                        value={data.check_out}
+                                        onChange={(e) => setData('check_out', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    />
+                                    {errors.check_out && <div className="text-red-600">{errors.check_out}</div>}
+                                </div>
 
-                                    <div className="mt-4">
-                                        <label htmlFor="night" className="block font-medium text-sm">
-                                     No. of Nights
-                                        </label>
-                                        <TextInput
-                                            id="night"
-                                            type="number"
-                                            name="night"
-                                            value={data.night}
-                                            onChange={(e) => setData('night', e.target.value)}
-                                            className="mt-1 block w-full rounded-md bg-white text-black"
-                                            style={{ border: '2px solid pink' }}
-                                            required
-                                        />
-                                        {errors.night && <div className="text-red-600">{errors.night}</div>}
-                                    </div> 
+                                <div className="mt-4">
+                                    <label htmlFor="night" className="block font-medium text-sm">
+                                        No. of Nights
+                                    </label>
+                                    <TextInput
+                                        id="night"
+                                        type="number"
+                                        name="night"
+                                        value={data.night}
+                                        onChange={(e) => setData('night', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    />
+                                    {errors.night && <div className="text-red-600">{errors.night}</div>}
+                                </div>
 
-                                    <div className="mt-4">
-            <label htmlFor="meal_plan" className="block font-medium text-sm">
-               Meal Plan
-            </label>
-            <select
-                id="meal_plan"
-                name="meal_plan"
-                value={data.meal_plan}
-                onChange={(e) => setData('meal_plan', e.target.value)}
-                className="mt-1 block w-full rounded-md bg-white text-black"
-                style={{ border: '2px solid pink' }}
-                required
-            >
-                <option value="">Select Option</option>
-                <option value="Only Room">Only Room</option>
-                <option value="Room With Breakfast">Room With Breakfast</option>
-                <option value="Room + Breakfast + Lunch Or Dinner"> Room + Breakfast + Lunch Or Dinner</option>
-                <option value="Room + Breakfast + Lunch + Dinner"> Room + Breakfast + Lunch + Dinner</option>
-            </select>
-            {errors.meal_plan && <div className="text-red-600">{errors.meal_plan}</div>}
-        </div>
-        <div className="mt-4">
-            <label htmlFor="hotel_category" className="block font-medium text-sm">
-              Hotel Category
-            </label>
-            <select
-                id="hotel_category"
-                name="hotel_category"
-                value={data.hotel_category}
-                onChange={(e) => setData('hotel_category', e.target.value)}
-                className="mt-1 block w-full rounded-md bg-white text-black"
-                style={{ border: '2px solid pink' }}
-                required
-            >
-                <option value="">Select Option</option>
-                <option value="*">1 Star</option>
-                <option value=" **">2 Star</option>
-                <option value="***"> 3 Star</option>
-                <option value="****"> 4 Star</option>
-                <option value="*****"> 5 Star</option>
-            </select>
-            {errors.hotel_category && <div className="text-red-600">{errors.hotel_category}</div>}
-        </div>
+                                <div className="mt-4">
+                                    <label htmlFor="meal_plan" className="block font-medium text-sm">
+                                        Meal Plan
+                                    </label>
+                                    <select
+                                        id="meal_plan"
+                                        name="meal_plan"
+                                        value={data.meal_plan}
+                                        onChange={(e) => setData('meal_plan', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    >
+                                        <option value="">Select Option</option>
+                                        <option value="Only Room">Only Room</option>
+                                        <option value="Room With Breakfast">Room With Breakfast</option>
+                                        <option value="Room + Breakfast + Lunch Or Dinner"> Room + Breakfast + Lunch Or Dinner</option>
+                                        <option value="Room + Breakfast + Lunch + Dinner"> Room + Breakfast + Lunch + Dinner</option>
+                                    </select>
+                                    {errors.meal_plan && <div className="text-red-600">{errors.meal_plan}</div>}
+                                </div>
+                                <div className="mt-4">
+                                    <label htmlFor="hotel_category" className="block font-medium text-sm">
+                                        Hotel Category
+                                    </label>
+                                    <select
+                                        id="hotel_category"
+                                        name="hotel_category"
+                                        value={data.hotel_category}
+                                        onChange={(e) => setData('hotel_category', e.target.value)}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: '2px solid pink' }}
+                                        required
+                                    >
+                                        <option value="">Select Option</option>
+                                        <option value="*">1 Star</option>
+                                        <option value=" **">2 Star</option>
+                                        <option value="***"> 3 Star</option>
+                                        <option value="****"> 4 Star</option>
+                                        <option value="*****"> 5 Star</option>
+                                    </select>
+                                    {errors.hotel_category && <div className="text-red-600">{errors.hotel_category}</div>}
+                                </div>
+ 
+                            </div>
+                            <div className="mt-4">
+                                <label htmlFor="room_occupancy" className="block font-medium text-sm">
+                                    Room Occupancy
+                                </label>
+                                <select
+                                    id="room_occupancy"
+                                    name="room_occupancy"
+                                    value={data.room_occupancy}
+                                    onChange={(e) => setData('room_occupancy', e.target.value)}
+                                    className="mt-1 block w-full rounded-md bg-white text-black"
+                                    style={{ border: '2px solid pink' }}
+                                    required
+                                >
+                                    <option value="">Select Option</option>
+                                    <option value="single">single</option>
+                                    <option value="Double">Double</option>
+                                    <option value="Triple"> Triple</option>
+                                    <option value="Quad"> Quad</option>
+                                </select>
+                                {errors.room_occupancy && <div className="text-red-600">{errors.room_occupancy}</div>}
+                            </div>
 
-        <div className="mt-4">
-                                        <label htmlFor="price_module" className="block font-medium text-sm">
-                                   Price Module
-                                        </label>
-                                        <TextInput
-                                            id="price_module"
-                                            type="number"
-                                            name="price_module"
-                                            value={data.price_module}
-                                            onChange={(e) => setData('price_module', e.target.value)}
-                                            className="mt-1 block w-full rounded-md bg-white text-black"
-                                            style={{ border: '2px solid pink' }}
-                                            required
-                                        />
-                                        {errors.price_module && <div className="text-red-600">{errors.price_module}</div>}
+
+
+                        </>
+                    )}
+
+                    {data.service_type === 'cab' && (
+                        <>
+                            <div className="mt-4">
+                                <label htmlFor="cab" className="block font-medium text-sm ">
+                                    Cab
+                                </label>
+                                <select
+                                    id="cab"
+                                    name="cab"
+                                    value={data.cab}
+                                    onChange={(e) => setData('cab', e.target.value)}
+                                    className="mt-1 block w-full rounded-md bg-white text-black"
+                                    style={{ border: '2px solid pink' }}
+                                    required
+                                >
+                                    <option value="">Select Cab Type</option>
+                                    <option value="local use">Local use</option>
+                                    <option value="outstation">Outstation</option>
+                                    <option value="package">Package</option>
+                                </select>
+                                {errors.cab && <div className="text-red-600">{errors.cab}</div>}
+                            </div>
+
+
+
+
+
+
+                            {data.cab === 'local use' && (
+                                <>
+                                    <div className="grid grid-cols-3 gap-4">
+
+                                        <div className="mt-4">
+                                            <label htmlFor="time_slot" className="block font-medium text-sm ">
+                                                Time Slot
+                                            </label>
+                                            <select
+                                                id="time_slot"
+                                                name="time_slot"
+                                                value={data.time_slot}
+                                                onChange={(e) => setData('time_slot', e.target.value)}
+                                                className="mt-1 block w-full rounded-md bg-white text-black"
+                                                style={{ border: '2px solid pink' }}
+                                                required
+                                            >
+                                                <option value="">Select Time Slot</option>
+                                                <option value="8 hour">8h 80km</option>
+                                                <option value="12 hour">12h 120km</option>
+
+                                            </select>
+                                            {errors.time_slot && <div className="text-red-600">{errors.time_slot}</div>}
+                                        </div>
+                                        <div className="mt-4">
+                                            <label htmlFor="cab_price" className="block font-medium text-sm">
+                                                Price
+                                            </label>
+                                            <TextInput
+                                                id="cab_price"
+                                                type="text"
+                                                name="cab_price"
+                                                value={data.cab_price}
+                                                onChange={(e) => setData('cab_price', e.target.value)}
+                                                className="mt-1 block w-full rounded-md bg-white text-black"
+                                                style={{ border: '2px solid pink' }}
+                                                required
+                                            />
+                                            {errors.cab_price && <div className="text-red-600">{errors.cab_price}</div>}
+                                        </div>
+                                        <div className="mt-4">
+                                            <label htmlFor="cab_city" className="block font-medium text-sm">
+                                                city
+                                            </label>
+                                            <TextInput
+                                                id="cab_city"
+                                                type="text"
+                                                name="cab_city"
+                                                value={data.cab_city}
+                                                onChange={(e) => setData('cab_city', e.target.value)}
+                                                className="mt-1 block w-full rounded-md bg-white text-black"
+                                                style={{ border: '2px solid pink' }}
+                                                required
+                                            />
+                                            {errors.cab_city && <div className="text-red-600">{errors.cab_city}</div>}
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-3 gap-4">
+
+                                        <div className="mt-4">
+                                            <label htmlFor="cab_start_date" className="block font-medium text-sm">
+                                                Trip Start Date
+                                            </label>
+                                            <TextInput
+                                                id="cab_start_date"
+                                                type="date"
+                                                name="cab_start_date"
+                                                value={data.cab_start_date}
+                                                onChange={(e) => setData('cab_start_date', e.target.value)}
+                                                className="mt-1 block w-full rounded-md bg-white text-black"
+                                                style={{ border: '2px solid pink' }}
+                                                required
+                                            />
+                                            {errors.cab_start_date && <div className="text-red-600">{errors.cab_start_date}</div>}
+                                        </div>
+                                        <div className="mt-4">
+                                            <label htmlFor="start_time" className="block font-medium text-sm">
+                                                Trip Start Time
+                                            </label>
+                                            <TextInput
+                                                id="start_time"
+                                                type="time"
+                                                name="start_time"
+                                                value={data.start_time}
+                                                onChange={(e) => setData('start_time', e.target.value)}
+                                                className="mt-1 block w-full rounded-md bg-white text-black"
+                                                style={{ border: '2px solid pink' }}
+                                                required
+                                            />
+                                            {errors.start_time && <div className="text-red-600">{errors.start_time}</div>}
+                                        </div>
+
+                                        <div className="mt-4">
+                                            <label htmlFor="end_date" className="block font-medium text-sm">
+                                                Trip End Date
+                                            </label>
+                                            <TextInput
+                                                id="end_date"
+                                                type="date"
+                                                name="end_date"
+                                                value={data.end_date}
+                                                onChange={(e) => setData('end_date', e.target.value)}
+                                                className="mt-1 block w-full rounded-md bg-white text-black"
+                                                style={{ border: '2px solid pink' }}
+                                                required
+                                            />
+                                            {errors.end_date && <div className="text-red-600">{errors.end_date}</div>}
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-3 gap-4">
+
+                                        <div className="mt-4">
+                                            <label htmlFor="end_time" className="block font-medium text-sm">
+                                                Trip End Time
+                                            </label>
+                                            <TextInput
+                                                id="end_time"
+                                                type="time"
+                                                name="end_time"
+                                                value={data.end_time}
+                                                onChange={(e) => setData('end_time', e.target.value)}
+                                                className="mt-1 block w-full rounded-md bg-white text-black"
+                                                style={{ border: '2px solid pink' }}
+                                                required
+                                            />
+                                            {errors.end_time && <div className="text-red-600">{errors.end_time}</div>}
+                                        </div>
+
+                                        <div className="mt-4">
+                                            <label htmlFor="cab_type" className="block font-medium text-sm ">
+                                                Cab Type
+                                            </label>
+                                            <select
+                                                id="cab_type"
+                                                name="cab_type"
+                                                value={data.cab_type}
+                                                onChange={(e) => setData('cab_type', e.target.value)}
+                                                className="mt-1 block w-full rounded-md bg-white text-black"
+                                                style={{ border: '2px solid pink' }}
+                                                required
+                                            >
+                                                <option value="">Select Cab Type</option>
+                                                <option value="Sedan">Sedan</option>
+                                                <option value="SUV">SUV</option>
+
+                                            </select>
+                                            {errors.cab_type && <div className="text-red-600">{errors.cab_type}</div>}
+                                        </div>
+                                        <div className="mt-4">
+                                            <label htmlFor="total_passengers" className="block font-medium text-sm">
+                                                Total Passengers
+                                            </label>
+                                            <TextInput
+                                                id="total_passengers"
+                                                type="number"
+                                                name="total_passengers"
+                                                value={data.total_passengers}
+                                                onChange={(e) => setData('total_passengers', e.target.value)}
+                                                className="mt-1 block w-full rounded-md bg-white text-black"
+                                                style={{ border: '2px solid pink' }}
+                                                required
+                                            />
+                                            {errors.total_passengers && <div className="text-red-600">{errors.total_passengers}</div>}
+                                        </div>
+
                                     </div>
 
-                                     </div>
-                                     <div className="mt-4">
-            <label htmlFor="room_occupancy" className="block font-medium text-sm">
-              Room Occupancy
-            </label>
-            <select
-                id="room_occupancy"
-                name="room_occupancy"
-                value={data.room_occupancy}
-                onChange={(e) => setData('room_occupancy', e.target.value)}
-                className="mt-1 block w-full rounded-md bg-white text-black"
-                style={{ border: '2px solid pink' }}
-                required
-            >
-                <option value="">Select Option</option>
-                <option value="single">single</option>
-                <option value="Double">Double</option>
-                <option value="Triple"> Triple</option>
-                <option value="Quad"> Quad</option>
-            </select>
-            {errors.room_occupancy && <div className="text-red-600">{errors.room_occupancy}</div>}
-        </div>
 
 
 
-    </>
-)}
-
-{data.service_type === 'cab' && (
-    <>
-     <div className="mt-4">
-                                    <label htmlFor="cab" className="block font-medium text-sm ">
-                                       Cab  
-                                    </label>
-                                    <select
-                                        id="cab"
-                                        name="cab"
-                                        value={data.cab}
-                                        onChange={(e) => setData('cab', e.target.value)}
-                                        className="mt-1 block w-full rounded-md bg-white text-black"
-                                        style={{ border: '2px solid pink' }}
-                                        required
-                                    >
-                                        <option value="">Select Cab Type</option>
-                                        <option value="local use">Local use</option>
-                                        <option value="outstation">Outstation</option>
-                                        <option value="package">Package</option>
-                                    </select>
-                                    {errors.cab && <div className="text-red-600">{errors.cab}</div>}
-                                </div>
+                                </>
 
 
 
+                            )}
 
-
-
-{data.cab === 'local use' && (
-    <>
-     <div className="grid grid-cols-3 gap-4">
-
-      <div className="mt-4">
-                                    <label htmlFor="time_slot" className="block font-medium text-sm ">
-                                       Time Slot
-                                    </label>
-                                    <select
-                                        id="time_slot"
-                                        name="time_slot"
-                                        value={data.time_slot}
-                                        onChange={(e) => setData('time_slot', e.target.value)}
-                                        className="mt-1 block w-full rounded-md bg-white text-black"
-                                        style={{ border: '2px solid pink' }}
-                                        required
-                                    >
-                                        <option value="">Select Time Slot</option>
-                                        <option value="8 hour">8h 80km</option>
-                                        <option value="12 hour">12h 120km</option>
-                                        
-                                    </select>
-                                    {errors.time_slot && <div className="text-red-600">{errors.time_slot}</div>}
-                                </div>
-                                <div className="mt-4">
-                                    <label htmlFor="cab_price" className="block font-medium text-sm">
-                                        Price
-                                    </label>
-                                    <TextInput
-                                        id="cab_price"
-                                        type="text"
-                                        name="cab_price"
-                                        value={data.cab_price}
-                                        onChange={(e) => setData('cab_price', e.target.value)}
-                                        className="mt-1 block w-full rounded-md bg-white text-black"
-                                        style={{ border: '2px solid pink' }}
-                                        required
-                                    />
-                                    {errors.cab_price && <div className="text-red-600">{errors.cab_price}</div>}
-                                </div>
-                                <div className="mt-4">
-                                    <label htmlFor="cab_city" className="block font-medium text-sm">
-                                        city
-                                    </label>
-                                    <TextInput
-                                        id="cab_city"
-                                        type="text"
-                                        name="cab_city"
-                                        value={data.cab_city}
-                                        onChange={(e) => setData('cab_city', e.target.value)}
-                                        className="mt-1 block w-full rounded-md bg-white text-black"
-                                        style={{ border: '2px solid pink' }}
-                                        required
-                                    />
-                                    {errors.cab_city && <div className="text-red-600">{errors.cab_city}</div>}
-                                </div>
-                                </div>
-                                <div className="grid grid-cols-3 gap-4">
-
-                                <div className="mt-4">
-                                    <label htmlFor="cab_start_date" className="block font-medium text-sm">
-                                    Trip Start Date 
-                                    </label>
-                                    <TextInput
-                                        id="cab_start_date"
-                                        type="date"
-                                        name="cab_start_date"
-                                        value={data.cab_start_date}
-                                        onChange={(e) => setData('cab_start_date', e.target.value)}
-                                        className="mt-1 block w-full rounded-md bg-white text-black"
-                                        style={{ border: '2px solid pink' }}
-                                        required
-                                    />
-                                    {errors.cab_start_date && <div className="text-red-600">{errors.cab_start_date}</div>}
-                                </div>
-                                <div className="mt-4">
-                                    <label htmlFor="start_time" className="block font-medium text-sm">
-                                    Trip Start Time
-                                    </label>
-                                    <TextInput
-                                        id="start_time"
-                                        type="time"
-                                        name="start_time"
-                                        value={data.start_time}
-                                        onChange={(e) => setData('start_time', e.target.value)}
-                                        className="mt-1 block w-full rounded-md bg-white text-black"
-                                        style={{ border: '2px solid pink' }}
-                                        required
-                                    />
-                                    {errors.start_time && <div className="text-red-600">{errors.start_time}</div>}
-                                </div>
-
-                                <div className="mt-4">
-                                    <label htmlFor="end_date" className="block font-medium text-sm">
-                                    Trip End Date
-                                    </label>
-                                    <TextInput
-                                        id="end_date"
-                                        type="date"
-                                        name="end_date"
-                                        value={data.end_date}
-                                        onChange={(e) => setData('end_date', e.target.value)}
-                                        className="mt-1 block w-full rounded-md bg-white text-black"
-                                        style={{ border: '2px solid pink' }}
-                                        required
-                                    />
-                                    {errors.end_date && <div className="text-red-600">{errors.end_date}</div>}
-                                </div>
-                                </div>
-                                <div className="grid grid-cols-3 gap-4">
-
-                                <div className="mt-4">
-                                    <label htmlFor="end_time" className="block font-medium text-sm">
-                                       Trip End Time
-                                    </label>
-                                    <TextInput
-                                        id="end_time"
-                                        type="time"
-                                        name="end_time"
-                                        value={data.end_time}
-                                        onChange={(e) => setData('end_time', e.target.value)}
-                                        className="mt-1 block w-full rounded-md bg-white text-black"
-                                        style={{ border: '2px solid pink' }}
-                                        required
-                                    />
-                                    {errors.end_time && <div className="text-red-600">{errors.end_time}</div>}
-                                </div>
-
-                                <div className="mt-4">
-                                    <label htmlFor="cab_type" className="block font-medium text-sm ">
-                                       Cab Type 
-                                    </label>
-                                    <select
-                                        id="cab_type"
-                                        name="cab_type"
-                                        value={data.cab_type}
-                                        onChange={(e) => setData('cab_type', e.target.value)}
-                                        className="mt-1 block w-full rounded-md bg-white text-black"
-                                        style={{ border: '2px solid pink' }}
-                                        required
-                                    >
-                                        <option value="">Select Cab Type</option>
-                                        <option value="Sedan">Sedan</option>
-                                        <option value="SUV">SUV</option>
-                                         
-                                    </select>
-                                    {errors.cab_type && <div className="text-red-600">{errors.cab_type}</div>}
-                                </div>
-                                <div className="mt-4">
-                                    <label htmlFor="total_passengers" className="block font-medium text-sm">
-                                       Total Passengers
-                                    </label>
-                                    <TextInput
-                                        id="total_passengers"
-                                        type="number"
-                                        name="total_passengers"
-                                        value={data.total_passengers}
-                                        onChange={(e) => setData('total_passengers', e.target.value)}
-                                        className="mt-1 block w-full rounded-md bg-white text-black"
-                                        style={{ border: '2px solid pink' }}
-                                        required
-                                    />
-                                    {errors.total_passengers && <div className="text-red-600">{errors.total_passengers}</div>}
-                                </div>
-
-                                </div>
-
-
-
-
-    </>
-
-
-
-)}
-
-</>
-)}
+                        </>
+                    )}
 
 
                     <></>

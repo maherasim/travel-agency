@@ -19,6 +19,7 @@ class InvoiceController extends Controller
     }
     public function store(Request $request)
     {
+       
         $clientId = Auth::id();
     
         if ($request->filled('clientName')) {
@@ -40,22 +41,21 @@ class InvoiceController extends Controller
             'invoice_number' => 'required|string',
             'description' => 'nullable',
             'management_fee' => 'required',
-            'cgst' => 'nullable',
-            'sgst' => 'nullable',
-            'total' => 'nullable',
+            'prf' => 'nullable',
+            'ourcost' => 'nullable',
+            'total_cost' => 'nullable',
             'serviceType' => 'nullable',
         ]);
     
         // Create a new invoice instance
         $invoice = Invoice::create([
             'client_id' => $clientId,
-            'invoice_number' => $request->invoice_number,
-            'description' => $request->description,
+            'invoice_number' => $request->invoice_number,           
             'management_fee' => $request->management_fee,
-            'cgst' => $request->cgst,
+            'prf' => $request->prf,
             'serviceType' => $request->serviceType,
-            'sgst' => $request->sgst,
-            'total' => $request->total,
+            'ourcost' => $request->ourcost,
+            'total_cost' => $request->total_cost,
         ]);
     
         return redirect()->route('services.index')->with('success', 'Invoice created successfully');

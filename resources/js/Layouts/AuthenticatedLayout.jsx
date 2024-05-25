@@ -152,67 +152,7 @@ export default function Authenticated({ user, children }) {
                             <span className="text-lg">Dashboard</span> {/* Increase the font size of the text */}
                         </Link>
                     </li>
-                    {user.role_id == 1 && (
-                        <li className="relative p-0">
-                            <button
-                                onClick={toggleViewServicesDropdown}
-                                className={`flex items-center justify-between p-2 rounded-lg text-white focus:outline-none ${isViewServicesDropdownOpen ? 'bg-pink-600' : 'hover:bg-pink-600'}`}
-                            >
-                                <GrServices className="w-26 h-15 mr-2" style={{ fill: 'white' }} />
-                                Manage  Query
-                                <FiChevronDown className={`w-9 h-75 ml-auto transition-transform ${isViewServicesDropdownOpen ? 'transform rotate-180' : ''}`} />
-                            </button>
-                            {isViewServicesDropdownOpen && (
-                                <ul className="ml-5 space-y-2">
-                                    <li className="p-0">
-                                        <Link href="/services/form" className="flex items-center p-2 rounded-lg text-white hover:bg-pink-600">
-                                            <FiPackage className="w-10 h-10 mr-2" style={{ fill: 'pink' }} />
-                                            <span className="text-lg">Generate Query</span>
-                                        </Link>
-                                    </li>
-                                    <li className="p-0">
-                                        <Link href="/services/form/fetch/admin" className="flex items-center p-2 rounded-lg text-white hover:bg-pink-600">
-                                            <FiPackage className="w-10 h-10 mr-2" style={{ fill: 'pink' }} />
-                                            <span className="text-lg">View Query </span>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            )}
-                        </li>
-                    )}
-                    {user.role_id == 1 && (
-                        <li className="relative p-0">
-                            <button
-                                onClick={toggleServiceDropdown}
-                                className={`flex items-center justify-between p-2 rounded-lg text-white focus:outline-none ${isServiceDropdownOpen ? 'bg-pink-600' : 'hover:bg-pink-600'}`}
-                            >
-                                <GrServices className="w-26 h-15 mr-2" style={{ fill: isServiceIconpink ? 'pink' : 'white' }} />
-                                Manage Quotation
-                                <FiChevronDown className={`w-9 h-75 ml-auto transition-transform ${isServiceDropdownOpen ? 'transform rotate-180' : ''}`} />
-                            </button>
-                            {isServiceDropdownOpen && (
-                                <ul className="ml-5 space-y-2">
-                                   
-                                   
-                                    <li className="p-0">
-                                        <Link href="/quotation/form/fetch/admin" className="flex items-center p-2 rounded-lg text-white hover:bg-pink-600">
-                                            <FiInbox className="w-10 h-10 mr-2" style={{ fill: 'pink' }} /> {/* Adjust the size of the icon */}
-                                            <span className="text-lg"> View Quotation Flight</span> {/* Increase the font size of the text */}
-                                        </Link>
-                                    </li>
-                                    <li className="p-0">
-                                        <Link href="/quotation/form/hotel" className="flex items-center p-2 rounded-lg text-white hover:bg-pink-600">
-                                            <FiInbox className="w-10 h-10 mr-2" style={{ fill: 'pink' }} /> {/* Adjust the size of the icon */}
-                                            <span className="text-lg"> View Quotation Hotel</span> {/* Increase the font size of the text */}
-                                        </Link>
-                                    </li>
-                                </ul>
-                            )}
-                        </li>
-                    )}
-
-                  
-
+                    
 {user.role_id == 1 && (
                         <li className="relative p-0">
                             <button
@@ -279,6 +219,67 @@ export default function Authenticated({ user, children }) {
                             )}
                         </li>
                     )}
+                    {user.role_id == 1 && (
+                        <li className="relative p-0">
+                            <button
+                                onClick={toggleViewServicesDropdown}
+                                className={`flex items-center justify-between p-2 rounded-lg text-white focus:outline-none ${isViewServicesDropdownOpen ? 'bg-pink-600' : 'hover:bg-pink-600'}`}
+                            >
+                                <GrServices className="w-26 h-15 mr-2" style={{ fill: 'white' }} />
+                                Manage  Query
+                                <FiChevronDown className={`w-9 h-75 ml-auto transition-transform ${isViewServicesDropdownOpen ? 'transform rotate-180' : ''}`} />
+                            </button>
+                            {isViewServicesDropdownOpen && (
+                                <ul className="ml-5 space-y-2">
+                                    <li className="p-0">
+                                        <Link href="/services/form" className="flex items-center p-2 rounded-lg text-white hover:bg-pink-600">
+                                            <FiPackage className="w-10 h-10 mr-2" style={{ fill: 'pink' }} />
+                                            <span className="text-lg">Generate Query</span>
+                                        </Link>
+                                    </li>
+                                    <li className="p-0">
+                                        <Link href="/services/form/fetch/admin" className="flex items-center p-2 rounded-lg text-white hover:bg-pink-600">
+                                            <FiPackage className="w-10 h-10 mr-2" style={{ fill: 'pink' }} />
+                                            <span className="text-lg">View Query </span>
+                                        </Link>
+                                    </li>
+                                </ul>
+                            )}
+                        </li>
+                    )}
+                    {user.role_id == 1 && (
+                        <li className="relative p-0">
+                            <button
+                                onClick={toggleServiceDropdown}
+                                className={`flex items-center justify-between p-2 rounded-lg text-white focus:outline-none ${isServiceDropdownOpen ? 'bg-pink-600' : 'hover:bg-pink-600'}`}
+                            >
+                                <GrServices className="w-26 h-15 mr-2" style={{ fill: isServiceIconpink ? 'pink' : 'white' }} />
+                                Manage Quotation
+                                <FiChevronDown className={`w-9 h-75 ml-auto transition-transform ${isServiceDropdownOpen ? 'transform rotate-180' : ''}`} />
+                            </button>
+                            {isServiceDropdownOpen && (
+                                <ul className="ml-5 space-y-2">
+                                   
+                                   
+                                    <li className="p-0">
+                                        <Link href="/quotation/form/fetch/admin" className="flex items-center p-2 rounded-lg text-white hover:bg-pink-600">
+                                            <FiInbox className="w-10 h-10 mr-2" style={{ fill: 'pink' }} /> {/* Adjust the size of the icon */}
+                                            <span className="text-lg"> View Quotation Flight</span> {/* Increase the font size of the text */}
+                                        </Link>
+                                    </li>
+                                    <li className="p-0">
+                                        <Link href="/quotation/form/hotel" className="flex items-center p-2 rounded-lg text-white hover:bg-pink-600">
+                                            <FiInbox className="w-10 h-10 mr-2" style={{ fill: 'pink' }} /> {/* Adjust the size of the icon */}
+                                            <span className="text-lg"> View Quotation Hotel</span> {/* Increase the font size of the text */}
+                                        </Link>
+                                    </li>
+                                </ul>
+                            )}
+                        </li>
+                    )}
+
+                  
+
                      {user.role_id == 2 && (
                         <li className="p-0">
                             <Link href="/services/form" className="flex items-center p-2 rounded-lg text-white hover:bg-pink-600">

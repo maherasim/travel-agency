@@ -26,7 +26,7 @@ export default function VendorList({ auth }) {
 
   const fetchClientData = async () => {
     try {
-      const response = await axios.get('/services/fetch/admin');
+      const response = await axios.get('/services/fetch/client');
       setClientData(response.data.data);
     } catch (error) {
       console.error('Error fetching data:', error);

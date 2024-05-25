@@ -20,6 +20,7 @@ class Quotation extends Model
         'fare_type',
         'ourcost',
         'prf',
+        'room_no',
         'total_cost',
         "seat_number",
         "class",

@@ -10,6 +10,11 @@
       padding: 20px;
     }
 
+    @media print {
+        #printButton {
+            display: none;
+        }
+    }
     .container {
       margin: 0 auto;
       max-width: 800px;
@@ -55,12 +60,12 @@
     <tr id="pan">
       <td colspan="2">
         <p>Web www.tripxcia.com<br>
-        GST No {{ @$vendor->gstn }}</p>
+        GST No {{ @$gstn }}</p>
       </td>
     </tr>
     <tr>
       <td>Bill To:
-       <p class="heading-john">Mr. &nbsp; {{ $tradeName }}</p>
+       <p class="heading-john">Mr. &nbsp; {{ @$tradeName }}</p>
        <p class="heading-john">{{ @$vendor->service->from_location }}</p>
        <p>{{ @$vendor->service->to_location }}</p></td>
       <td>
@@ -75,15 +80,22 @@
     <tr>
       <td>All Tickets (Including Application Flight Taxes Collected on behalf of Airline and other Ancillary Charges)
         <br><br>
-        <p>Ahmedabad to Dehradun</p>  
-        <p>Dt - 29/04/2024</p>  <br>
-        <p>{{ @$vendor->service->from_location }} to {{ @$vendor->service->to_location }}</p>  
-        <p>Dt - {{ date('d-m-Y', strtotime(@$vendor->service->departure_date)) }}</p>   
-        <p>Pax - 1</p> <br>
+        @if ($roundway == 'oneway')
+        <p>{{ @$vendor->service->from_location }} to {{ @$vendor->service->to_location }}</p> <br> <p>Departure Date - {{ date('d-m-Y', strtotime(@$vendor->service->departure_date)) }}</p>
+           
+        @else
+            <p>{{ @$vendor->service->from_location }} to {{ @$vendor->service->to_location }}</p> 
+            <p>Departure Date - {{ date('d-m-Y', strtotime(@$vendor->service->departure_date)) }}</p>
+            <br>
+            <p>{{ @$vendor->service->to_location }} to {{ @$vendor->service->from_location }}</p>            
+            <p>Return  Date - {{ date('d-m-Y', strtotime(@$vendor->service->return_date)) }}</p>
+        @endif
+        
+        <p>Pax - 1</p><br>
         <p style="text-align: right;">Management Fees</p>
 
         <?php
-        $gst_first_two_digits = substr(@$vendor->gstn, 0, 2);
+        $gst_first_two_digits = substr(@$gstn, 0, 2);
         if ($gst_first_two_digits == '24') {
             echo '<p style="text-align: right;">CGST 9%</p>';
             echo '<p style="text-align: right;">SGST 9%</p>';
@@ -91,11 +103,9 @@
             echo '<p style="text-align: right;">IGST 18%</p>';
         }
         ?>
-
       </td>
       <td>
-        <p style="text-align: right;">{{ @$vendor->total_cost }}</p>
-        <br><br><br><br><br><br><br><br><br><br>
+        <p style="text-align: right;">{{ @$vendor->total_cost }}</p><br><br><br><br><br><br><br><br><br><br>
         <p style="text-align: right;">{{ @$vendor->invoice->management_fee }}</p>
       </td>
     </tr>
@@ -112,6 +122,7 @@
         <p># Payment within Due Date otherwise 21% Per Annum interest will be charged</p>
         <p># Subject to Ahmedabad Jurisdiction</p>
         <p># Errors and Omissions Excepted</p>
+        <p>Computerized invoice, stamp and sign are not required</p>
       </td>
       <td>
         <p><b>For, Tripxcia Trips LLP</b></p>

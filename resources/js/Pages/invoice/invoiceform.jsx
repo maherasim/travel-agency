@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
@@ -15,12 +15,11 @@ import DangerButton from '@/Components/DangerButton';
 
 export default function Register({ auth }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        invoice_number: "",
-        description: "",
-        management_fee: "",
-        cgst: "",
-        sgst: "",
-        total: "",
+        invoice_number: "",        
+        management_fee: "",        
+        prf: "",
+        ourcost: "",
+        total_cost: "0.0",        
         clientName: "",
     });
 
@@ -29,11 +28,25 @@ export default function Register({ auth }) {
         if (selectedClient) setData('clientName', selectedClient);
     }, []);
 
-    const selectedClient = localStorage.getItem("selectedClient");
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
     const [message, setMessage] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [showPriceModule, setShowPriceModule] = useState(false);
+
+    // Function to calculate total cost
+    useEffect(() => {
+        const calculateTotalCost = () => {
+            const prf = parseFloat(data.prf);
+            const ourcost = parseFloat(data.ourcost);
+            const totalCost = prf + ourcost;
+            setData('total_cost', totalCost.toString());
+        };
+
+        if (showPriceModule) {
+            calculateTotalCost();
+        }
+    }, [data.prf, data.ourcost, showPriceModule]);
 
     const submit = (e) => {
         e.preventDefault();
@@ -70,6 +83,7 @@ export default function Register({ auth }) {
         <Authenticated user={auth.user}>
             <Head title="Invoice " />
             <div className="flex justify-center items-center space-x-4">
+                {/* Step indicators */}
                 {/* Step indicators */}
                 <div className="flex items-center">
                     <span className="text-sm font-semibold flex gap-2 items-center bg-green-500 text-white px-4 py-2 rounded-xl">
@@ -141,39 +155,67 @@ export default function Register({ auth }) {
                             <InputError message={errors.management_fee} className="mt-2" />
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                        
-                        {/* <div className="mt-4">
-                            <InputLabel htmlFor="sgst" value="SGST" />
-                            <TextInput
-                                id="sgst"
-                                name="sgst"
-                                type="number"
-                                value={data.sgst}
-                                className="mt-1 block w-full text-black"
-                                style={{ border: '2px solid pink' }}
-                                autoComplete="url"
-                                onChange={(e) => setData('sgst', e.target.value)}
+
+                    <div className="mt-4">
+                        <label className="flex items-center">
+                            <input
+                                type="checkbox"
+                                checked={showPriceModule}
+                                onChange={(e) => setShowPriceModule(e.target.checked)}
+                                className="form-checkbox"
                             />
-                            <InputError message={errors.sgst} className="mt-2" />
-                        </div> */}
-                        {/* <div className="mt-4">
-                            <InputLabel htmlFor="total" value="Total" />
-                            <TextInput
-                                id="total"
-                                name="total"
-                                type="number"
-                                value={data.total}
-                                className="mt-1 block w-full text-black"
-                                style={{ border: '2px solid pink' }}
-                                autoComplete="url"
-                                onChange={(e) => setData('total', e.target.value)}
-                            />
-                            <InputError message={errors.total} className="mt-2" />
-                        </div> */}
+                            <span className="ml-2">Do you want to change the price?</span>
+                        </label>
                     </div>
+
+                    {showPriceModule && (
+                          <div className="grid grid-cols-3 gap-4">
+                           <div className="mt-4">
+                            <InputLabelRequire htmlFor="ourcost" value="Our Cost" />
+                            <TextInput
+                                id="ourcost"
+                                type="number"
+                                name="ourcost"
+                                value={data.ourcost}
+                                className="mt-1 block w-full rounded-md text-black bg-white"
+                                style={{ border: '2px solid pink' }}
+                                onChange={(e) => setData('ourcost', e.target.value)}
+                                required
+                            />
+                            <InputError message={errors.ourcost} className="mt-2" />
+                        </div>
+                        <div className="mt-4">
+                            <InputLabelRequire htmlFor="prf" value="PRF" />
+                            <TextInput
+                                id="prf"
+                                type="number"
+                                name="prf"
+                                value={data.prf}
+                                className="mt-1 block w-full rounded-md text-black bg-white"
+                                style={{ border: '2px solid pink' }}
+                                onChange={(e) => setData('prf', e.target.value)}
+                                required
+                            />
+                            <InputError message={errors.prf} className="mt-2" />
+                        </div>
+                        <div className="mt-4">
+                            <InputLabelRequire htmlFor="total_cost" value="Total Cost" />
+                            <TextInput
+                                id="total_cost"
+                                type="number"
+                                name="total_cost"
+                                value={data.total_cost}
+                                className="mt-1 block w-full rounded-md text-black bg-white"
+                                style={{ border: '2px solid pink' }}
+                                onChange={(e) => setData('total_cost', e.target.value)}
+                                required
+                            />
+                            <InputError message={errors.total_cost} className="mt-2" />
+                        </div>
+                      </div>
+                    )}
                     <div className="flex items-center justify-end mt-4">
-                        <PrimaryButton className="ms-4" disabled={processing}>
+                        <PrimaryButton type="submit" className="ms-4" disabled={processing}>
                             Confirm
                         </PrimaryButton>
                     </div>

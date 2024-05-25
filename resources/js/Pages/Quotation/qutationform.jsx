@@ -4,7 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { useState, useEffect } from "react";
 
-export default function ServiceForm({ auth, clients }) {
+export default function ServiceForm({ auth, clients,passengerName }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         clientName: localStorage.getItem("selectedClient") || "",
         serviceType: localStorage.getItem("selectedService") || "",
@@ -26,6 +26,7 @@ export default function ServiceForm({ auth, clients }) {
             arrival_time: "",
             ourcost: "",
             name: "",
+            room_no:"",
             departure_date: localStorage.getItem("selectedDate") || "",
             flight_number: "",
             flight_gate: "",
@@ -60,6 +61,7 @@ export default function ServiceForm({ auth, clients }) {
                 fare_type: "",
                 prf: "",
                 gstn:"",
+                room_no:"",
                 room_category:"",
                 total_cost: "",
                 flight_class: "",
@@ -93,6 +95,7 @@ export default function ServiceForm({ auth, clients }) {
                 };
                 return updatedForms;
             });
+        
         });
     }, [duplicateForms]);
 
@@ -121,6 +124,7 @@ export default function ServiceForm({ auth, clients }) {
                     fare_type,
                     prf,
                     gstn,
+                    room_no,
                     total_cost,
                     seat_number,
                     flight_gate,
@@ -151,6 +155,7 @@ export default function ServiceForm({ auth, clients }) {
                     room_category,
                     hotel_address,
                     contact_no,
+                    room_no,
                     confirmation_no,
                 })
             ),
@@ -554,10 +559,10 @@ export default function ServiceForm({ auth, clients }) {
         <div className="grid grid-cols-3 gap-4">
             <div className="mt-4">
                 <label
-                    htmlFor={`guest_name_${index}`}
+                    htmlFor={`hotel_name_${index}`}
                     className="block font-medium text-sm"
                 >
-                    Guest Name
+                    Hotel Name
                 </label>
                 <TextInput
                     id={`guest_name_${index}`}
@@ -656,7 +661,7 @@ export default function ServiceForm({ auth, clients }) {
             </div>
             <div className="mt-4">
                 <label
-                    htmlFor={`contact_no_${index}`}
+                    htmlFor={`confirmation_no_${index}`}
                     className="block font-medium text-sm"
                 >
                     Confirmation No
@@ -679,7 +684,111 @@ export default function ServiceForm({ auth, clients }) {
                     required
                 />
             </div>
+            <div className="mt-4">
+                <label
+                    htmlFor={`room_no_${index}`}
+                    className="block font-medium text-sm"
+                >
+                    Room No
+                </label>
+                <TextInput
+                    id={`room_no_${index}`}
+                    type="number"
+                    name={`room_no_${index}`}
+                    value={formData.room_no}
+                    onChange={(e) => {
+                        const updatedForms = [
+                            ...duplicateForms,
+                        ];
+                        updatedForms[index].room_no =
+                            e.target.value;
+                        setDuplicateForms(updatedForms);
+                    }}
+                    className="mt-1 block w-full rounded-md bg-white text-black"
+                    style={{ border: "2px solid pink" }}
+                    required
+                />
+            </div>
         </div>
+        <div className="grid grid-cols-3 gap-4">
+                                <div className="mt-4">
+                                    <label
+                                        htmlFor={`ourcost_${index}`}
+                                        className="block font-medium text-sm"
+                                    >
+                                        Our Cost
+                                    </label>
+                                    <TextInput
+                                        id={`ourcost_${index}`}
+                                        type="number"
+                                        name={`ourcost_${index}`}
+                                        value={formData.ourcost}
+                                        onChange={(e) => {
+                                            const updatedForms = [
+                                                ...duplicateForms,
+                                            ];
+                                            updatedForms[index].ourcost =
+                                                e.target.value;
+                                            setDuplicateForms(updatedForms);
+                                        }}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: "2px solid pink" }}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="mt-4">
+                                    <label
+                                        htmlFor={`prf_${index}`}
+                                        className="block font-medium text-sm"
+                                    >
+                                        PRF
+                                    </label>
+                                    <TextInput
+                                        id={`prf_${index}`}
+                                        type="number"
+                                        name={`prf_${index}`}
+                                        value={formData.prf}
+                                        onChange={(e) => {
+                                            const updatedForms = [
+                                                ...duplicateForms,
+                                            ];
+                                            updatedForms[index].prf =
+                                                e.target.value;
+                                            setDuplicateForms(updatedForms);
+                                        }}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: "2px solid pink" }}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="mt-4">
+                                    <label
+                                        htmlFor={`total_cost_${index}`}
+                                        className="block font-medium text-sm"
+                                    >
+                                        Total Cost
+                                    </label>
+                                    <TextInput
+                                        id={`total_cost_${index}`}
+                                        type="number"
+                                        name={`total_cost_${index}`}
+                                        value={formData.total_cost}
+                                        onChange={(e) => {
+                                            const updatedForms = [
+                                                ...duplicateForms,
+                                            ];
+                                            updatedForms[index].total_cost =
+                                                e.target.value;
+                                            setDuplicateForms(updatedForms);
+                                        }}
+                                        className="mt-1 block w-full rounded-md bg-white text-black"
+                                        style={{ border: "2px solid pink" }}
+                                        required
+                                    />
+                                </div>
+                            </div>
     </div>
 )}
  

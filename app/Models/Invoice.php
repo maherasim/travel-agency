@@ -12,11 +12,11 @@ class Invoice extends Model
     protected $fillable = [
         'client_id',         
         "invoice_number",
-        "description",
+         "prf",
+         "ourcost",
+         "total_cost",
         'management_fee',
-        "cgst",
-        "sgst",
-        "total",
+        
         "serviceType"
     ];
 

@@ -52,4 +52,5 @@ class ServiceRequest extends Model
     {
         return $this->belongsTo(Client::class);
     }
+    
 }

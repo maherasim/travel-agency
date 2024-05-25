@@ -27,7 +27,7 @@ class VendorController extends Controller
      
         $requestData = $request->validate([
             'id' => 'required|integer',
-            'status' => 'required|string|in:request more,confirm,pending', // Adjust the validation as needed
+            'status' => 'required|string|in:request more,confirm,pending,cancel', // Adjust the validation as needed
 
       
       
@@ -121,13 +121,16 @@ public function vendorListfetch(Request $request)
  }
 
 
-    public function vendorListfetchadmin(Request $request)
-    {        
-        $vendorList = ServiceRequest::with('client')->get();
-
-      
-    return response()->json(['data'=>$vendorList],200);
-    }
+ public function vendorListfetchadmin(Request $request)
+ {        
+     try {
+         $vendorList = ServiceRequest::with('client')->get();
+         return response()->json(['data' => $vendorList], 200);
+     } catch (\Exception $e) {
+         return response()->json(['error' => $e->getMessage()], 500);
+     }
+ }
+ 
 
     public function vendorListfetchclient(Request $request)
     {        

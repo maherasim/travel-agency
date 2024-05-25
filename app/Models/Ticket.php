@@ -19,7 +19,10 @@ class Ticket extends Model
         "booking_id",
         "booking_pnr",
         "booking_date",
-        "booking_status"
+        "booking_status",
+        "meal_included",
+        "confirmation_number",
+        "voucher"
     ];
 
     public function client()
