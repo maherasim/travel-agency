@@ -40,8 +40,13 @@ export default function ServiceForm({ auth, clients,passengerName }) {
             seat_number: "",
             guest_name:"",
             hotel_address:"",
+            
             contact_no:"",
             confirmation_no:"",
+            check_in: localStorage.getItem("selectedCheckin") || "",
+            check_out: localStorage.getItem("selectedCheckout") || "",
+
+          
         },
     ]);
 
@@ -71,6 +76,8 @@ export default function ServiceForm({ auth, clients,passengerName }) {
                 hotel_address:"",
                 contact_no:"",
                 confirmation_no:"",
+                check_in: "",
+                check_out: "",
             }
         ]);
     };
@@ -135,6 +142,8 @@ export default function ServiceForm({ auth, clients,passengerName }) {
                     hotel_address,
                     contact_no,
                     confirmation_no,
+                    check_in,
+                    check_out
                 }) => ({
                     airline_name,
                     departure_time,
@@ -157,6 +166,8 @@ export default function ServiceForm({ auth, clients,passengerName }) {
                     contact_no,
                     room_no,
                     confirmation_no,
+                    check_in,
+                    check_out
                 })
             ),
         };
@@ -701,6 +712,57 @@ export default function ServiceForm({ auth, clients,passengerName }) {
                             ...duplicateForms,
                         ];
                         updatedForms[index].room_no =
+                            e.target.value;
+                        setDuplicateForms(updatedForms);
+                    }}
+                    className="mt-1 block w-full rounded-md bg-white text-black"
+                    style={{ border: "2px solid pink" }}
+                    required
+                />
+            </div>
+            <div className="mt-4">
+                <label
+                    htmlFor={`check_in_${index}`}
+                    className="block font-medium text-sm"
+                >
+                   Check In Date
+                </label>
+                <TextInput
+                    id={`check_in_${index}`}
+                    type="date"
+                    name={`check_in_${index}`}
+                    value={formData.check_in}
+                    onChange={(e) => {
+                        const updatedForms = [
+                            ...duplicateForms,
+                        ];
+                        updatedForms[index].check_in =
+                            e.target.value;
+                        setDuplicateForms(updatedForms);
+                    }}
+                    className="mt-1 block w-full rounded-md bg-white text-black"
+                    style={{ border: "2px solid pink" }}
+                    required
+                />
+            </div>
+
+            <div className="mt-4">
+                <label
+                    htmlFor={`check_out_${index}`}
+                    className="block font-medium text-sm"
+                >
+                   Check Out Date
+                </label>
+                <TextInput
+                    id={`check_out_${index}`}
+                    type="date"
+                    name={`check_out_${index}`}
+                    value={formData.check_out}
+                    onChange={(e) => {
+                        const updatedForms = [
+                            ...duplicateForms,
+                        ];
+                        updatedForms[index].check_out =
                             e.target.value;
                         setDuplicateForms(updatedForms);
                     }}

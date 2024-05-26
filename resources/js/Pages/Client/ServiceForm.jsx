@@ -97,9 +97,15 @@ export default function ServiceForm({ auth, clients }) {
                 }, 5000);
                 const tradeName = document.getElementById("trade_name").value;
                 const serviceType = document.getElementById("service_type").value;
+                const checkIn = document.getElementById("check_in").value;
+                const checkOut = document.getElementById("check_out").value;
+
+
                 setSelectedClient(tradeName);
                 localStorage.setItem('selectedClient', tradeName);
                 localStorage.setItem('selectedService', serviceType);
+                localStorage.setItem('selectedCheckin', checkIn);
+                localStorage.setItem('selectedCheckout', checkOut);
                 window.location.href = '/quotation/form/fetch';
 
             },

@@ -18,26 +18,18 @@ class QuotationController extends Controller
 {
     public function index(): Response
     {
-        $clients = Client::select('id', 'trade_name')->get(); 
-        $serviceRequest = Client::latest()->first();
-         
-        $passengerName = $serviceRequest ? $serviceRequest->gstin_number : '';
-
+        // Fetch clients
+        $clients = Client::select('id', 'trade_name')->get();
+    
+        // Fetch check_in and check_out columns from the servicerequest table
+        $serviceRequests = ServiceRequest::select('check_in', 'check_out')->get();
+    
         return Inertia::render('Quotation/qutationform', [
             'clients' => $clients,
-            'passengerName' => $passengerName // Pass the actual passenger name
-
+            'serviceRequests' => $serviceRequests,
         ]);
     }
-    public function index2(): Response
-{
-    $clients = Client::select('id', 'trade_name', 'gstin_number')->get();
-    $clients = Client::select('id', 'gstin_number')->get();
-    
-
-    return Inertia::render('Quotation/qutationform', ['clients' => $clients]);
-}
-    
+     
     public function show($id)
     {
         $vendor = Quotation::with(['service', 'invoice', 'ticket'])->findOrFail($id);

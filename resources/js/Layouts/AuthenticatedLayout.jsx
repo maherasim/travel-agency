@@ -305,7 +305,7 @@ export default function Authenticated({ user, children }) {
                            }`}
                        >
                            <FiGrid className="w-6 h-7 mr-2" style={{ fill: 'pink' }} />
-                           <span className="text-lg">Completed Request</span> {/* Increase the font size of the text */}
+                           <span className="text-lg">Confirmed Booking</span> {/* Increase the font size of the text */}
                            {route().current('completed/request') && <span className="ml-auto">Selected Indicator</span>}
                        </Link>
                    </li>

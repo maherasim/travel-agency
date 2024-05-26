@@ -31,7 +31,9 @@ class Quotation extends Model
         "room_category",
         "hotel_address",
         "contact_no",
-        "confirmation_no"   
+        "confirmation_no" ,
+        "check_in",
+        "check_out"  
      ];
     public function client()
     {

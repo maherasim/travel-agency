@@ -41,6 +41,11 @@ main {
   margin-left: 4rem;
   margin-right: 4rem;
 }
+@media print {
+        #printButton {
+            display: none;
+        }
+    }
 
 .Top-profile img {
   width: 22rem;
@@ -511,13 +516,13 @@ main {
             <div class="check-in">
                 <h3>Check In</h3>
                 <h2>03:00 PM</h2>
-                <p>{{@$vendor->service->check_out}}</p>
+                <p>{{@$vendor->check_in}}</p>
             </div>
 
             <div class="check-out">
                 <h3>Check Out</h3>
                 <h2>12:00 PM</h2>
-                <p>{{@$vendor->service->check_in}}</p>
+                <p>{{@$vendor->check_out}}</p>
             </div>
         </div>
         <p id="last-p"><span>Reservation for -</span>{{ $vendor->guest_name ?? 'N/A' }} (Primary Guest) + 4 Others</p>

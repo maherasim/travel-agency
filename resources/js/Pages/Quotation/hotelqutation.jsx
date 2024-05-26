@@ -50,7 +50,7 @@ export default function VendorList({ auth }) {
             });
 
             // Reload the page if status is updated to "confirm", "pending", or "request more"
-            if (value === 'confirm' || value === 'pending' || value === 'request more') {
+            if (value === 'confirm' || value === 'pending' || value === 'request more'||value==='cancel') {
                 window.location.reload();
             }
         } catch (error) {
@@ -236,6 +236,7 @@ export default function VendorList({ auth }) {
                                     <option value="pending">Pending</option>
                                     <option value="request more">Request More</option>
                                     <option value="confirm">Confirm</option>
+                                    <option value="cancel">Cancel</option>
                                 </select>
                             </div>
                         )}

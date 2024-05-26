@@ -17,19 +17,24 @@ class TicketController extends Controller
         $clients = Client::select('id', 'trade_name')->get(); 
         return Inertia::render('ticket/ticketformhotel', ['clients' => $clients]);
     }
-public function flightindex(): Response
-{
-    $clients = Client::select('id', 'trade_name')->get();
-
-    // Retrieve the latest service request (or adjust to your specific logic)
-    $serviceRequest = ServiceRequest::latest()->first();
-    $passengerName = $serviceRequest ? $serviceRequest->passenger_name : '';
-
-    return Inertia::render('ticket/ticketformflight', [
-        'clients' => $clients,
-        'passengerName' => $passengerName // Pass the actual passenger name
-    ]);
-}
+    public function flightindex($id): Response
+    {
+        // Fetch clients with id and trade_name
+        $clients = Client::select('id', 'trade_name')->get();
+    
+        // Retrieve the latest service request by ID
+        $serviceRequest = ServiceRequest::findOrFail($id);
+    
+        // Check if a service request is found and get the passenger name
+        $passengerName = $serviceRequest ? $serviceRequest->passenger_name : '';
+    
+        // Render the Inertia component with the necessary data
+        return Inertia::render('ticket/ticketformflight', [
+            'clients' => $clients,
+            'passengerName' => $passengerName // Pass the actual passenger name
+        ]);
+    }
+    
 
 
     public function store(Request $request)
