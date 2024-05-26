@@ -78,47 +78,73 @@ export default function ServiceForm({ auth, clients }) {
     const [selectedClient, setSelectedClient] = useState(0);
     const handleSubmit = async (e) => {
         e.preventDefault();
-        localStorage.getItem('formData', {
-            ...data,
-            passenger_names: data.passenger_names, // Include passenger names in the request payload
-        });
-
-
-        post(route('services.store'), {
-            data: {
+    
+        // Get values of required fields
+        const tradeName = document.getElementById("trade_name").value;
+        const serviceType = document.getElementById("service_type").value;
+    
+        // Check if required fields are filled
+        if (tradeName && serviceType) {
+            localStorage.getItem('formData', {
                 ...data,
                 passenger_names: data.passenger_names, // Include passenger names in the request payload
-            },
-            onSuccess: () => {
-                setShowSuccess(true);
-                setMessage('Service Request submitted successfully');
-                setTimeout(() => {
-                    setShowSuccess(false);
-                }, 5000);
-                const tradeName = document.getElementById("trade_name").value;
-                const serviceType = document.getElementById("service_type").value;
-                const checkIn = document.getElementById("check_in").value;
-                const checkOut = document.getElementById("check_out").value;
+            });
+    
+            // Submit form data
+            post(route('services.store'), {
+                data: {
+                    ...data,
+                    passenger_names: data.passenger_names, // Include passenger names in the request payload
+                },
+                onSuccess: () => {
+                    setShowSuccess(true);
+                    setMessage('Service Request submitted successfully');
+                    setTimeout(() => {
+                        setShowSuccess(false);
+                    }, 5000);
+    
+                    const checkInElement = document.getElementById("check_in");
+                    const checkOutElement = document.getElementById("check_out");
+                     // const checkIn = document.getElementById("check_in").value;
+                    // const checkOut = document.getElementById("check_out").value;
+                    const checkIn = checkInElement ? checkInElement.value : null;
+                    const checkOut = checkOutElement ? checkOutElement.value : null;
+                     const departureDateElement = document.getElementById("departure_date");
+                    const departureDate = departureDateElement ? departureDateElement.value : null;
 
-
-                setSelectedClient(tradeName);
-                localStorage.setItem('selectedClient', tradeName);
-                localStorage.setItem('selectedService', serviceType);
-                localStorage.setItem('selectedCheckin', checkIn);
-                localStorage.setItem('selectedCheckout', checkOut);
-                window.location.href = '/quotation/form/fetch';
-
-            },
-            onError: (errors) => {
-                setShowError(true);
-                console.log(errors);
-                setMessage('Unable to submit Service Request');
-                setTimeout(() => {
-                    setShowError(false);
-                }, 5000);
-            },
-        });
+                    setSelectedClient(tradeName);
+                    localStorage.setItem('selectedClient', tradeName);
+                    localStorage.setItem('selectedService', serviceType);
+                    if (checkIn !== null) {
+                        localStorage.setItem('selectedCheckin', checkIn);
+                    }
+                    if (checkOut !== null) {
+                        localStorage.setItem('selectedCheckout', checkOut);
+                    }
+                    if (departureDate !== null) {
+                        localStorage.setItem('selectedDate', departureDate);
+                    }
+                    window.location.href = '/quotation/form/fetch';
+                },
+                onError: (errors) => {
+                    setShowError(true);
+                    console.log(errors);
+                    setMessage('Unable to submit Service Request');
+                    setTimeout(() => {
+                        setShowError(false);
+                    }, 5000);
+                },
+            });
+        } else {
+            // Display error message if required fields are not filled
+            setShowError(true);
+            setMessage('Please fill in all required fields (Client Name, Service Type)');
+            setTimeout(() => {
+                setShowError(false);
+            }, 5000);
+        }
     };
+    
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Service Request Form" />
