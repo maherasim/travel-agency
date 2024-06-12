@@ -19,9 +19,7 @@ class ClientController extends Controller
     }
 
     public function store(Request $request)
-    {
-      
-       
+    {       
         $request->validate([
             'trade_name' => 'required',
             'address' => 'required',
@@ -32,11 +30,10 @@ class ClientController extends Controller
             'contact_person_email' => 'nullable|email',
             'contact_person_phone_number' => 'nullable',
             'birthdate' => 'nullable|date',
-            'pan_number' => 'required',
-           
+            'pan_number' => 'required',           
             'tan' => 'nullable',
-            'cin' => 'nullable',
-            'gstin' => 'nullable',
+            'cin_number' => 'nullable',
+            'gstin_number' => 'nullable',
         ]);
     
         // Hash the password
@@ -69,11 +66,11 @@ class ClientController extends Controller
             'contact_person_email' => $request->contact_person_email,
             'contact_person_phone_number' => $request->contact_person_phone_number,
             'birthdate' => $request->birthdate,
-            'pan_number' => $request->pan,
+            'pan_number' => $request->pan_number,
             'tan' => $request->tan,
-            'cin' => $request->cin,
-            'gstin' => $request->gstin,
-            'password' => $hashedPassword, // Store hashed password
+            'cin_number' => $request->cin_number,
+            'gstin_number' => $request->gstin_number,
+            'password' => $hashedPassword,  
         ]);
     
         // Create a new User instance
@@ -131,6 +128,8 @@ class ClientController extends Controller
             'website' => 'required',
             'password' => 'required',
             'gstin_number' => 'required',
+            'pan_number' => 'required',
+            'cin_number' => 'required',
             
         ]);
     
@@ -142,6 +141,8 @@ class ClientController extends Controller
         $contact_person_email = $request->contact_person_email; 
         $contact_person_phone_number = $request->contact_person_phone_number; 
         $birthdate = $request->birthdate; 
+        $cin_number = $request->cin_number;
+        $pan_number=$request->pan_number;
         $tan_number = $request->tan_number; 
         $website = $request->website; 
         $password = Hash::make($request->password); // Hash the password
@@ -161,6 +162,10 @@ class ClientController extends Controller
         $user->birthdate = $birthdate;
         $user->tan_number = $tan_number;
         $user->gstin_number = $gstin_number;
+        $user->pan_number= $pan_number;
+        $user->cin_number= $cin_number;
+
+
         $user->website = $website;
         $user->password = $password; // Assign hashed password
         $user->phone_number = $phone_number; // Assign phone_number to the correct property

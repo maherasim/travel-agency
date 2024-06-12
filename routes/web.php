@@ -117,12 +117,14 @@ Route::get('/invoice',function(){
     Route::get('/quo/fetch/admin', [QuotationController::class, 'quaListfetchadmin']);
 
     Route::get('/quo/fetch/hotel', [QuotationController::class, 'quationListfetchhotel']);
+    Route::get('/quo/fetch/cab', [QuotationController::class, 'quationListfetchcab']);
 
 
     Route::get('/quotation/view/{id}', [QuotationController::class, 'view'])->name('quotation.view');
     Route::get('/quotation/view/hotel/{id}', [QuotationController::class, 'hotelview'])->name('quotation.hotelview');
     Route::get('/quotation/generate-pdf/{id}', [QuotationController::class, 'generatePdf'])->name('generatePdf');
     Route::get('/quotation/generate-invoice/{id}', [QuotationController::class, 'generateInvoice'])->name('generateInvoice');
+    Route::get('/quotation/generate-invoice-hotel/{id}', [QuotationController::class, 'generateInvoicehotel'])->name('generateInvoicehotel');
     Route::delete('/quotation/delete', [QuotationController::class, 'destroy'])->name('quotation.destroy');
     Route::delete('/hotel/delete', [QuotationController::class, 'hoteldestroy'])->name('hotel.destroy');
 
@@ -135,11 +137,23 @@ Route::get('/invoice',function(){
 
     Route::get('/ticketview/{id}',  [QuotationController::class, 'show']);
     Route::get('/voucherqou/{id}', [QuotationController::class, 'voucherqou']);
-    Route::get('/voucherqout/{id}', [QuotationController::class, 'voucherqou']);
+ 
 
-
+    use App\Models\Client;
+    use Illuminate\Http\Request;
+    
+    Route::get('/api/client/{id}/gstn', function ($id) {
+        $client = Client::find($id);
+        if ($client) {
+            return response()->json(['gstn' => $client->gstin_number]);
+        } else {
+            return response()->json(['error' => 'Client not found'], 404);
+        }
+    });
+    
 
     Route::get('/quotation/form/hotel', [QuotationController::class, 'qoutationhotel'])->name('quotation.hotel');
+    Route::get('/quotation/form/cab', [QuotationController::class, 'qoutationcab'])->name('quotation.cab');
 
 
 
@@ -154,9 +168,10 @@ Route::get('/invoice',function(){
         Route::view('payment', 'razorpay.index')->name('create.payment');
         Route::post('handle-payment', 'handlePayment')->name('make.payment');
     });
-
-    Route::get('/ticket/form/hotel/{id?}', [TicketController::class, 'ticketindex'])->name('ticket.index');
+     
+    Route::get('/ticket/form/hotel/{id?}', [TicketController::class, 'ticketindex'])->name('hotel.index');
     Route::get('/ticket/form/flight/{id?}', [TicketController::class, 'flightindex'])->name('ticket.index');
+    Route::get('/ticket/form/cab/{id?}', [TicketController::class, 'cabindex'])->name('cab.index');
 
 
  

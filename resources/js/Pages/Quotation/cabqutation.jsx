@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { InputText } from "primereact/inputtext"; 
+import { InputText } from "primereact/inputtext";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+
 import { Button } from 'primereact/button';
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head, useForm } from "@inertiajs/react";
@@ -22,11 +23,25 @@ export default function VendorList({ auth }) {
     const { data, setData, delete: destroy, processing, reset } = useForm();
     const [selectedStatus, setSelectedStatus] = useState({});
     const [selectedClient, setSelectedClient] = useState(null); // State to hold the selected client
-    const [filledForms, setFilledForms] = useState({}); // State to track filled forms
+    const [vendors, setVendors] = useState([]);
+
+    const fetchVendorData = async () => {
+        try {
+            const response = await axios.get("/api/vendors");
+            setVendors(response.data);
+        } catch (error) {
+            console.error("Error fetching vendor data:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchVendorData();
+    }, []);
+
 
     const fetchClientData = async () => {
         try {
-            const response = await axios.get("/quo/fetch/admin");
+            const response = await axios.get("/quo/fetch/cab");
             setClientData(response.data.data);
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -35,8 +50,6 @@ export default function VendorList({ auth }) {
 
     useEffect(() => {
         fetchClientData();
-        const filledFormsFromStorage = JSON.parse(localStorage.getItem('filledForms')) || {};
-        setFilledForms(filledFormsFromStorage);
     }, []);
 
     const handleStatusChange = async (itemId, value) => {
@@ -45,22 +58,18 @@ export default function VendorList({ auth }) {
     };
 
     const handleGenerateVoucher = (id) => {
-        const url = `/ticket/form/flight/${id}`;
+
+        const url = `/ticket/form/cab/${id}`;
         window.open(url, '_blank');
     };
-
     const handleGeneratePdf = (id) => {
         window.open(`/ticketview/${id}`, '_blank');
     };
 
-    const handleGenerateVoucherConfirm = (id) => {
-        window.open(`/voucherqou/${id}`, '_blank');
-    };
 
     const handleGenerateInvoice = (id) => {
         window.open(`/quotation/generate-invoice/${id}`, '_blank');
     };
-
     const confirmStatusChange = async () => {
         const { itemId, value } = selectedStatus;
         setConfirmingStatusUpdate(false); // Close the confirmation modal for status update
@@ -79,12 +88,14 @@ export default function VendorList({ auth }) {
             console.error("Error updating status:", error);
         }
     };
+    const handleGenerateVoucherConfirm = (id) => {
+        window.open(`/voucherqou/${id}`, '_blank');
+    };
 
     const handleView = (rowData) => {
         setSelectedClient(rowData); // Set the selected client
         setViewingClientDetails(true); // Open the modal for viewing client details
     };
-
     const [copiedToClipboard, setCopiedToClipboard] = useState(false); // State to track if client details are copied
 
     const copyClientDetailsToClipboard = () => {
@@ -92,14 +103,11 @@ export default function VendorList({ auth }) {
             const clientDetailsText = `
                 Client Name: ${selectedClient.client.trade_name}
                 Staff Name: ${selectedClient.staff_name}
-                Service Type: ${selectedClient.service_type}
-                Departure Date: ${selectedClient.departure_date}
-                Departure Time: ${selectedClient.departure_time}
-                Airline Name: ${selectedClient.airline_name}
-                Arrival Time: ${selectedClient.arrival_time}
-                Total Cost: ${selectedClient.total_cost}
-                Fare Type: ${selectedClient.fare_type}
-                Flight Number: ${selectedClient.flight_number}
+                Service Type: ${selectedClient.service_type}                
+                Extra Hours Price(pr hr): ${selectedClient.extra_hour_price}
+                Base Price: ${selectedClient.base_price}
+                Extra KM Price(pr km): ${selectedClient.extra_km_price}
+               
                 Status: ${selectedClient.status}
             `;
             navigator.clipboard.writeText(clientDetailsText);
@@ -109,6 +117,27 @@ export default function VendorList({ auth }) {
             }, 3000);
         }
     };
+    const handleVendorChange = (itemId, value) => {
+        // Update the selected vendor for the specific item
+        const updatedClients = clients.map((client) => {
+            if (client.id === itemId) {
+                return { ...client, selectedVendor: value };
+            }
+            return client;
+        });
+        setClientData(updatedClients);
+
+        // Send the selected vendor data to the backend
+        axios.post('/api/update-client-vendor', {
+            id: itemId,
+            vendor: value
+        }).then(response => {
+            console.log('Vendor data updated successfully:', response.data);
+        }).catch(error => {
+            console.error('Error updating vendor data:', error);
+        });
+    };
+
 
     const closeModal = () => {
         setConfirmingStatusUpdate(false); // Close the confirmation modal for status update
@@ -117,8 +146,7 @@ export default function VendorList({ auth }) {
     };
 
     const actionTemplate = (rowData) => {
-        const isConfirmed = rowData.status === 'confirm';
-        const isFormFilled = filledForms[rowData.id];
+        const isConfirmed = rowData.status == 'confirm';
 
         return (
             <>
@@ -127,22 +155,15 @@ export default function VendorList({ auth }) {
                     className="p-button-rounded p-button-success p-button-text mr-2"
                     onClick={() => handleView(rowData)}
                     style={{ marginRight: '2px' }}
-                /> 
-                {!isFormFilled && isConfirmed && (
-                    <Button
-                        icon="pi pi-ticket"
-                        className="p-button-rounded p-button-success p-button-text"
-                        onClick={() => {
-                            handleGenerateVoucher(rowData.id);
-                            const updatedFilledForms = { ...filledForms, [rowData.id]: true };
-                            setFilledForms(updatedFilledForms);
-                            localStorage.setItem('filledForms', JSON.stringify(updatedFilledForms));
-                        }}
-                        style={{ marginRight: '2px' }}
-                    />
-                )}
+                />
                 {isConfirmed && (
                     <>
+                        <Button
+                            icon="pi pi-ticket"
+                            className="p-button-rounded p-button-success p-button-text"
+                            onClick={() => handleGenerateVoucher(rowData.id)}
+                            style={{ marginRight: '2px' }}
+                        />
                         <Button
                             icon="pi pi-file"
                             className="p-button-rounded p-button-success p-button-text"
@@ -152,7 +173,7 @@ export default function VendorList({ auth }) {
                         <Button
                             icon="pi pi-info-circle"
                             className="p-button-rounded p-button-success p-button-text"
-                            onClick={() => handleGeneratePdf(rowData.id)}
+                            onClick={() => handleGenerateVoucherConfirm(rowData.id)}
                             style={{ marginRight: '2px' }}
                         />
                     </>
@@ -164,7 +185,7 @@ export default function VendorList({ auth }) {
     const header = (
         <div className="flex justify-between bg-pink-600 p-2 rounded-lg">
             <h2 className="text-2xl text-white font-bold mb-4">
-                View Quotation Flight
+                View Quotation Cab
             </h2>
             <span className="p-input-icon-left">
                 <InputText
@@ -208,6 +229,9 @@ export default function VendorList({ auth }) {
                         filter
                         filterPlaceholder="Search by Client Name"
                     />
+             
+
+
                     <Column
                         field="staff_name"
                         header="Staff"
@@ -229,9 +253,10 @@ export default function VendorList({ auth }) {
                                 <select
                                     value={selectedStatus[rowData.id] || rowData.status}
                                     onChange={(e) => handleStatusChange(rowData.id, e.target.value)}
-                                    disabled={rowData.status === 'confirm'}
+                                    disabled={rowData.status == 'confirm'}
                                     style={{
-                                        padding: '0.2rem 0.5rem',
+                                        padding:
+                                            '0.2rem 0.5rem',
                                         borderRadius: '5px',
                                         border: '1px solid #ccc',
                                         backgroundColor: rowData.status === 'confirm' ? '#e0e0e0' : '#f9f9f9',
@@ -247,20 +272,20 @@ export default function VendorList({ auth }) {
                         )}
                     />
                     <Column
-                        field="flight_number"
-                        header="Flight Number"
+                        field="extra_km_price"
+                        header="Extra KM Price(pr km)"
                         sortable
                         filter
                         filterPlaceholder="Search by Guest Name"
                     />
                     <Column
-                        field="airline_name"
-                        header="AirLine  Name"
+                        field="extra_hour_price"
+                        header="Extra Hours Price"
                         sortable
                         filter
                         filterPlaceholder="Search by Room Category"
                     />
-                    <Column 
+                    <Column
                         header="Actions"
                         body={actionTemplate}
                         style={{ width: '10%' }}
@@ -295,16 +320,17 @@ export default function VendorList({ auth }) {
                             <h2 className="text-lg font-semibold mb-2">{selectedClient.client.trade_name}</h2>
                             <p className="text-gray-600">Staff Name: {selectedClient.staff_name}</p>
                             <p className="text-gray-600">Service Type: {selectedClient.service_type}</p>
-                            <p className="text-gray-600">Departure Date: {selectedClient.departure_date}</p>
-                            <p className="text-gray-600">Departure Time: {selectedClient.departure_time}</p>
-                            <p className="text-gray-600">Airline Name: {selectedClient.airline_name}</p>
-                            <p className="text-gray-600">Arrival Time: {selectedClient.arrival_time}</p>  
-                            <p className="text-gray-600">Total Cost: {selectedClient.total_cost}</p> 
-                            <p className="text-gray-600">Fare Type: {selectedClient.fare_type}</p>
-                            <p className="text-gray-600">Flight Number: {selectedClient.flight_number}</p>
+                            <p className="text-gray-600">Base Price : {selectedClient.base_price}</p>
+
+                            <p className="text-gray-600">Extra Hours Price(pr hr)   : {selectedClient.extra_hour_price}</p>
+                            <p className="text-gray-600">Extra KM Price(pr km): {selectedClient.extra_km_price}</p>
+                             
                             <p className="text-gray-600">Status: <span className={`status ${selectedClient.status === 'confirm' ? 'bg-yellow-300' : selectedClient.status === 'request more' ? 'bg-red-500' : 'bg-gray-400'} text-black px-2 py-1 rounded-md`}>{selectedClient.status}</span></p>
                         </div>
                     )}
+
+
+
                     <div className="mt-6 flex justify-end">
                         <SecondaryButton onClick={closeModal}>
                             Close

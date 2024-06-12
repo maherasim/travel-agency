@@ -52,7 +52,7 @@ class ServiceController extends Controller
     public function store(Request $request)
     {  
 
-       
+       // dd($request->all());    
 
         // Validate the incoming request data
         $validatedData = $request->validate([
@@ -68,7 +68,7 @@ class ServiceController extends Controller
             'return_date' => 'nullable|date', // Add validation rule for return date
             'airline_name' => 'nullable|string',
             'trade_name' => 'nullable|string', // Optional trade_name field
-             
+           //Hotel  
             'city' => 'nullable|string', // Add validation rule for city
             'hotel_name' => 'nullable|string', // Add validation rule for hotel_name
             'check_in' => 'nullable|date', // Add validation rule for check_in
@@ -76,7 +76,13 @@ class ServiceController extends Controller
             'night' => 'nullable|integer', // Add validation rule for night
             'meal_plan' => 'nullable|string', // Add validation rule for meal_plan
             'hotel_category' => 'nullable|string', // Add validation rule for hotel_category
-            'price_module' => 'nullable|string', // Add validation rule for price_module
+            'price_module' => 'nullable|string',
+
+            'no_rooms' => 'nullable|string',
+            'no_guests' => 'nullable|string',
+            'no_adults' => 'nullable|string',
+            'no_kidsseven' => 'nullable|string',
+            'no_kidssix' => 'nullable|string',
 
 
 //Cab type
@@ -140,7 +146,13 @@ class ServiceController extends Controller
             'night' => $validatedData['night'], // Save the night
             'meal_plan' => $validatedData['meal_plan'], // Save the meal_plan
             'hotel_category' => $validatedData['hotel_category'], // Save the hotel_category
-            'price_module' => $validatedData['price_module'], // Save the price_module
+            'price_module' => $validatedData['price_module'], 
+
+            'no_rooms' => $validatedData['no_rooms'], 
+            'no_guests' => $validatedData['no_guests'], 
+            'no_adults' => $validatedData['no_adults'], 
+            'no_kidsseven' => $validatedData['no_kidsseven'], 
+            'no_kidssix' => $validatedData['no_kidssix'], 
 
 //Cab type
 

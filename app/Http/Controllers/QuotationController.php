@@ -6,7 +6,7 @@ use App\Models\Quotation;
 use App\Models\ServiceRequest;
 use Inertia\Response;
 use Inertia\Inertia;
-use App\Models\User;
+use App\Models\Vendor;
 use App\Models\Client;
 use PDF;
 use Illuminate\Support\Facades\Auth;
@@ -19,14 +19,11 @@ class QuotationController extends Controller
     public function index(): Response
     {
         // Fetch clients
-        $clients = Client::select('id', 'trade_name')->get();
-    
-        // Fetch check_in and check_out columns from the servicerequest table
-        $serviceRequests = ServiceRequest::select('check_in', 'check_out')->get();
-    
+        $clients = Client::select('id', 'trade_name')->get();         
+        
         return Inertia::render('Quotation/qutationform', [
             'clients' => $clients,
-            'serviceRequests' => $serviceRequests,
+            
         ]);
     }
      
@@ -40,7 +37,9 @@ class QuotationController extends Controller
 
     public function voucherqou($id)
     {
-        $vendor = Quotation::with(['service', 'invoice', 'ticket'])->findOrFail($id);
+        $vendor = Quotation::with(['service', 'invoice', 'ticket' ])->findOrFail($id);
+    
+       // $vendor = Quotation::with(['service', 'invoice', 'ticket'])->findOrFail($id);
         
         $pdf = PDF::loadView('vocher', ['vendor' => $vendor]);
         return $pdf->download('voucher.pdf');
@@ -104,8 +103,23 @@ class QuotationController extends Controller
     }
     public function qoutationhotel(Request $request)
     {
-         
-        return Inertia::render('Quotation/hotelqutation');
+        // Fetch trade names from the Vendor model
+        $vendors = Vendor::select('trade_name')->get();
+    
+        // Pass the trade names to the view
+        return Inertia::render('Quotation/hotelqutation', [
+            'vendors' => $vendors,
+        ]);
+    }
+    public function qoutationcab(Request $request)
+    {
+        // Fetch trade names from the Vendor model
+        $vendors = Vendor::select('trade_name')->get();
+    
+        // Pass the trade names to the view
+        return Inertia::render('Quotation/cabqutation', [
+            'vendors' => $vendors,
+        ]);
     }
 
     public function view($id)
@@ -146,6 +160,23 @@ class QuotationController extends Controller
         return $pdf->download('invoice.pdf');
     }
     
+    public function generateInvoicehotel($id)
+    {
+        $vendor = Quotation::with(['service', 'invoice', 'ticket', 'client'])->findOrFail($id);
+    
+        // Fetch the trade_name, gstn, and roundway of the associated client
+        $tradeName = @$vendor->client->trade_name;
+        $gstn = @$vendor->gstn;
+        $roundway = @$vendor->service->oneway_roundway; // Corrected the variable name
+    
+        $pdf = PDF::loadView('hotel_invoice', [
+            'vendor' => $vendor,
+            'tradeName' => $tradeName, // Pass trade_name to the view
+            'gstn' => $gstn, // Pass gstn to the view
+            'roundway'=> $roundway // Pass roundway to the view
+        ]);
+        return $pdf->download('invoice.pdf');
+    }
 
     
     public function quaListfetchadmin(Request $request)
@@ -161,7 +192,12 @@ public function quationListfetchhotel(Request $request)
 
     return response()->json(['data' => $vendorList], 200);
 }
+public function quationListfetchcab(Request $request)
+{
+    $vendorList = Quotation::with('client')->where('service_type', 'cab')->get();
 
+    return response()->json(['data' => $vendorList], 200);
+}
 
     public function edit(Request $request, $id)
     {        
@@ -197,6 +233,8 @@ public function quationListfetchhotel(Request $request)
             'flight_class' => 'nullable',
             'pnr_number' => 'nullable',
             'seat_number' => 'nullable',
+            'vendor_trade_name' => 'nullable|string', // Add validation for vendor trade name
+
         ]);
         
         $id = $request->id;
@@ -204,6 +242,7 @@ public function quationListfetchhotel(Request $request)
         $departure_time = $request->departure_time;
         $arrival_time = $request->arrival_time;
         $ourcost = $request->ourcost;
+        $vendor_trade_name = $request->vendor_trade_name;
         
         $departure_date = $request->departure_date;
         $flight_number = $request->flight_number;
@@ -227,6 +266,9 @@ public function quationListfetchhotel(Request $request)
         $quotation->departure_time = $departure_time;
         $quotation->arrival_time = $arrival_time;
         $quotation->ourcost = $ourcost;
+        if ($vendor_trade_name) {
+            $quotation->vendor_trade_name = $vendor_trade_name;
+        }
         
         $quotation->departure_date = $departure_date;
         $quotation->flight_number = $flight_number;

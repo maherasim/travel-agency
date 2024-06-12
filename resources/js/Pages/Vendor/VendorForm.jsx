@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import Authenticated from '@/Layouts/AuthenticatedLayout';
+ import Authenticated from '@/Layouts/AuthenticatedLayout';
 import InputError from '@/Components/InputError';
 import InputLabelRequire from '@/Components/InputLabelRequire';
 import PrimaryButton from '@/Components/PrimaryButton';
@@ -7,8 +6,10 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import TextInput from '@/Components/TextInput';
 import AlertMessage from '@/Components/AlertMessage';
 import InputLabel from '@/Components/InputLabel';
+import React, { useState } from 'react';
 
 export default function Register({ auth }) {
+    const [showModal, setShowModal] = useState(false); // State to manage modal visibility
     const { data, setData, post, processing, errors, reset } = useForm({
         trade_name: '',
         address: '',
@@ -51,7 +52,20 @@ export default function Register({ auth }) {
             },
         });
     };
+    const openModal = (e) => {
+        e.preventDefault();
+        setShowModal(true); // Open modal
+    };
 
+    const closeModal = () => {
+        setShowModal(false); // Close modal
+    };
+
+    const confirmSubmit = (e) => {
+        e.preventDefault();
+        setShowModal(false); // Close modal
+        submit(e); // Proceed with form submission
+    };
     const handleVendorTypeChange = (e) => {
         const value = e.target.value;
         setData('vendor_type', value);
@@ -69,7 +83,7 @@ export default function Register({ auth }) {
                     
                     <div className="grid grid-cols-3 gap-4">
                         <div className="mt-4">
-                            <InputLabelRequire htmlFor="trade_name" value="Trade Name" />
+                            <InputLabelRequire htmlFor="trade_name" value="Vendor Name" />
                             <TextInput
                                 id="trade_name"
                                 name="trade_name"
@@ -274,20 +288,7 @@ export default function Register({ auth }) {
         <InputError message={errors.birthdate} className="mt-2" />
     </div>
 
-    <div className="mt-4">
-        <InputLabelRequire htmlFor="pan_number" value="PAN Number" />
-        <TextInput
-            id="pan_number"
-            name="pan_number"
-            value={data.pan_number}
-            className="mt-1 block w-full text-black"
-            style={{ border: '2px solid pink' }}
-            autoComplete="off"
-            onChange={(e) => setData('pan_number', e.target.value)}
-            required
-        />
-        <InputError message={errors.pan_number} className="mt-2" />
-    </div>
+    
 
    
 
@@ -296,12 +297,40 @@ export default function Register({ auth }) {
 
 
                     <div className="flex items-center justify-end mt-4">                      
-                        <PrimaryButton className="ms-4" disabled={processing}>
+                        <PrimaryButton className="ms-4" disabled={processing} onClick={openModal}>
                             Register
                         </PrimaryButton>
                     </div>
                 </form>
             </div>
+            {showModal && (
+    <div className="fixed z-50 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div className="flex items-center justify-center min-h-screen">
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onClick={closeModal}></div>
+            <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+                <div className="px-6 py-4">
+                    <div className="flex items-center justify-between">
+                        <h3 className="text-lg font-bold" id="modal-title">Confirm Submission</h3>
+                        <button onClick={closeModal} className="text-gray-600 hover:text-gray-800 focus:outline-none">
+                            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <p className="text-gray-700 mt-2">Are you sure you want to Register?</p>
+                </div>
+                <div className="px-6 py-4 bg-gray-50 flex justify-end">
+                    <button onClick={closeModal} className="text-gray-600 hover:text-gray-800 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-gray-300">
+                        Cancel
+                    </button>
+                    <button onClick={confirmSubmit} className="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md ml-2 focus:outline-none focus:ring focus:ring-red-300">
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+)}
         </Authenticated>
     );
 }

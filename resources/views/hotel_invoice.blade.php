@@ -110,16 +110,8 @@
             <th>Description</th>
             <th >Amount</th>
         </tr>
- 
         <tr>
-
-
-            <td><p>
-              All Tickets (Including Application Flight Taxes
-               Collected on behalf of <br> Airline and other Ancillary Charges)
-            </p> <br>
-              
-               <br> {{ @$vendor->service->from_location }} To  {{ @$vendor->service->to_location }}<br> Departure Date: {{ date('d-m-Y', strtotime(@$vendor->service->departure_date)) }}<br> Pax - 1   <br>
+            <td>{{@$vendor->guest_name}}, {{ @$vendor->hotel_address }} <br>Check in Dt - {{ @$vendor->check_in}}<br>Check out Dt - {{ @$vendor->check_out}}<br>{{ @$vendor->room_category}}<br>1 Night with CPAI <br> <br> <br>
                
                 
                         
@@ -277,25 +269,25 @@
     </table>
     <!-- table 4 -->
     <table class="table4" width="98%" align="center" >
-         
-        <tr>
-          <td># All Cheques should drawn in favour of "Tripxcia Trips LLP" 
+        <tr> <td><img style="padding-left: 140px;" src="https://tse1.mm.bing.net/th?id=OIP.fk94ZuiFaeI_fZe1wmDG6AHaHa&pid=Api&P=0&h=220" alt="" width="100px" hight="100px">
+        </td> <td><h3>For, Tripxcia Trips LLP <br> <br> <br> Authorized Signatory </h3><td> 
+       </tr>
+        <tr><td># All Cheques should drawn in favour of  "Tripxcia Trips LLP" 
         </td><td>Bank Name - Kotak Mahindra</td></tr>
         <tr><td> # Payment within Due Date otherwise 21% Per Annum interset <br>
             will be charged</td><td>A/c No - 6049380547</td> </tr>
          <tr><td># Subject to Ahmedabad Jurisdiction</td> <td>IFSC Code - KKBK0002563</td></tr>
          <tr><td># Errors and Omissions Excepted</td> <td>Branch - Odhav Ring Road, Ahmedabad</td>
          </tr>
-         <tr> <td>Computerized invoice, stamp and sign are not required</td></tr>
          <tr><td> <td>Payment by UPI ID - tripxcia@kotak</td></tr></td></tr>
         
     </table>
-    
+    <div class="line">
+        <h3> <b>This is computer generated invoice no signature & sign required</b> </h3>
+    </div>
 </div>
 
-<div style="text-align: center;">   <br> <br> <br> <br> <br> <br> <br> <br> <br>
-  <br> <br> <br> <br> <br> <br> <br> <br> <br><br> <br> <br> <br> <br> <br> <br> <br> <br><br> <br> <br> <br> <br> <br> <br> <br> <br>
-  <br> <br> <br> <br> <br> <br> <br> <br> <br><br> <br> <br> <br>   <br> <br> <br> <br> <br> <br> <br> 
+<div style="text-align: center;">   <br> <br> <br> <br> <br> <br> <br> <br> <br> 
     <button id="printButton" style="background-color: #007bff; color: #fff; padding: 10px 20px; font-size: 18px; border: none; border-radius: 5px; cursor: pointer; margin-top:1px">
         Print
     </button> 

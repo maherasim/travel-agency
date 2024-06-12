@@ -42,7 +42,9 @@ Route::post('/quotationStoreApi', function (Request $request) {
                     'departure_date' => $item['departure_date'],
                     'arrival_time' => $item['arrival_time'],
                     'guest_name' => $item['guest_name'],
-                    'room_category' => $item['room_category'],                      
+                    'room_category' => json_encode($item['room_category']),                      
+
+                  //  'room_category' => $item['room_category'],                      
                     'hotel_address' => $item['hotel_address'],
                     'contact_no' => $item['contact_no'],
                     'confirmation_no' => $item['confirmation_no'],
@@ -50,7 +52,9 @@ Route::post('/quotationStoreApi', function (Request $request) {
                     'room_no' => $item['room_no'],
                     'check_in' => $item['check_in'],
                     'check_out' => $item['check_out'],
-
+                    'base_price'=> $item['base_price'],
+                    'extra_hour_price'=> $item['extra_hour_price'],
+                    'extra_km_price'=> $item['extra_km_price'],
 
                     'gstn' => $item['gstn'],
                     'flight_number' => $item['flight_number'],
@@ -72,7 +76,9 @@ Route::post('/quotationStoreApi', function (Request $request) {
                     'arrival_time' => $item['arrival_time'],
                     'guest_name' => $item['guest_name'],
                     'gstn' => $item['gstn'],
-                    'room_category' => $item['room_category'], 
+                    'room_category' => json_encode($item['room_category']), 
+
+                  //  'room_category' => $item['room_category'], 
                     'hotel_address' => $item['hotel_address'],
                     'contact_no' => $item['contact_no'],
                     'confirmation_no' => $item['confirmation_no'],
@@ -80,6 +86,10 @@ Route::post('/quotationStoreApi', function (Request $request) {
                     'ourcost' => $item['ourcost'],
                     'check_in' => $item['check_in'],
                     'check_out' => $item['check_out'],
+
+                    'extra_km_price' => $item['extra_km_price'],
+                    'extra_hour_price' => $item['extra_hour_price'],
+                    'base_price' => $item['base_price'],
 
 
                     'flight_number' => $item['flight_number'],

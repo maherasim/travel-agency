@@ -13,7 +13,7 @@ import Modal from '@/Components/Modal';
 import SecondaryButton from '@/Components/SecondaryButton';
 import DangerButton from '@/Components/DangerButton';
 
-export default function Register({ auth }) {
+export default function Register({ auth, vendors }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         invoice_number: "",        
         management_fee: "",        
@@ -28,25 +28,23 @@ export default function Register({ auth }) {
         if (selectedClient) setData('clientName', selectedClient);
     }, []);
 
+ 
+
+    useEffect(() => {
+        // Calculate total_cost whenever prf or ourcost changes
+        const totalCost = parseFloat(data.prf) + parseFloat(data.ourcost);
+        setData(prevData => ({
+            ...prevData,
+            total_cost: isNaN(totalCost) ? "0.0" : totalCost.toFixed(2)
+        }));
+    }, [data.prf, data.ourcost]);
+
+
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
     const [message, setMessage] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [showPriceModule, setShowPriceModule] = useState(false);
-
-    // Function to calculate total cost
-    useEffect(() => {
-        const calculateTotalCost = () => {
-            const prf = parseFloat(data.prf);
-            const ourcost = parseFloat(data.ourcost);
-            const totalCost = prf + ourcost;
-            setData('total_cost', totalCost.toString());
-        };
-
-        if (showPriceModule) {
-            calculateTotalCost();
-        }
-    }, [data.prf, data.ourcost, showPriceModule]);
 
     const submit = (e) => {
         e.preventDefault();
@@ -58,6 +56,7 @@ export default function Register({ auth }) {
             onSuccess: () => {
                 setShowSuccess(true);
                 setMessage('Invoice created successfully');
+                 
                 setTimeout(() => {
                     setShowSuccess(false);
                 }, 5000);
@@ -133,25 +132,29 @@ export default function Register({ auth }) {
                                 style={{ border: '2px solid pink' }}
                                 autoComplete="organization"
                                 onChange={(e) => setData('invoice_number', e.target.value)}
-                                onClick={(e) => setData('clientName', selectedClient)}
                                 required
                             />
                             <InputError message={errors.invoice_number} className="mt-2" />
                         </div>
                        
                         <div className="mt-4">
-                            <InputLabelRequire htmlFor="management_fee" value="Management Fee" />
-                            <TextInput
-                                id="management_fee"
-                                type="number"
-                                name="management_fee"
-                                value={data.management_fee}
+                            <InputLabelRequire htmlFor="management_fee" value="Vendor Name" />
+                            <select
+                                id="vendor"
+                                name="vendor"
+                                value={data.vendor}
                                 className="mt-1 block w-full rounded-md text-black bg-white"
                                 style={{ border: '2px solid pink' }}
-                                autoComplete="organization"
-                                onChange={(e) => setData('management_fee', e.target.value)}
+                                onChange={(e) => setData('vendor', e.target.value)}
                                 required
-                            />
+                            >
+                                <option value="">Select Vendor Name</option>
+                                {vendors.map((vendor) => (
+                                    <option key={vendor.id} value={vendor.trade_name}>
+                                        {vendor.trade_name}
+                                    </option>
+                                ))}
+                            </select>
                             <InputError message={errors.management_fee} className="mt-2" />
                         </div>
                     </div>

@@ -5,6 +5,7 @@ use Inertia\Response;
 use Inertia\Inertia;
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\Vendor;
 use Illuminate\Support\Facades\Auth;
  
 use Illuminate\Http\Request;
@@ -15,11 +16,15 @@ class InvoiceController extends Controller
     public function index(): Response
     {
         $clients = Client::select('id', 'trade_name')->get(); // Fetch only id and trade_name
-        return Inertia::render('invoice/invoiceform', ['clients' => $clients]);
+        $vendors = Vendor::select('id', 'trade_name')->get(); // Fetch only id and trade_name
+        return Inertia::render('invoice/invoiceform', ['clients' => $clients,
+        'vendors' => $vendors,
+    ]);
     }
     public function store(Request $request)
     {
-       
+        
+      
         $clientId = Auth::id();
     
         if ($request->filled('clientName')) {
@@ -40,11 +45,12 @@ class InvoiceController extends Controller
         $request->validate([
             'invoice_number' => 'required|string',
             'description' => 'nullable',
-            'management_fee' => 'required',
+            'management_fee' => 'nullable',
             'prf' => 'nullable',
             'ourcost' => 'nullable',
             'total_cost' => 'nullable',
             'serviceType' => 'nullable',
+            'vendor' => 'nullable',
         ]);
     
         // Create a new invoice instance
@@ -55,6 +61,7 @@ class InvoiceController extends Controller
             'prf' => $request->prf,
             'serviceType' => $request->serviceType,
             'ourcost' => $request->ourcost,
+            'vendor' => $request->vendor,
             'total_cost' => $request->total_cost,
         ]);
     

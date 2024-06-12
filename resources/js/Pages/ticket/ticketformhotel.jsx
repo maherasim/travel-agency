@@ -11,14 +11,40 @@ import SecondaryButton from '@/Components/SecondaryButton';
 import DangerButton from '@/Components/DangerButton';
 
 export default function Register({ auth }) {
+    const getCurrentDate = () => {
+        const today = new Date();
+        return today.toISOString().split('T')[0]; // Format the date as YYYY-MM-DD
+    };
+
+    // Function to generate a new booking ID
+    const generateBookingId = () => {
+        const prefix = "TXC";
+        let currentNumber = localStorage.getItem("currentBookingNumber");
+
+        if (currentNumber == null) {
+            currentNumber = 1001; // Start from 1001 if no value is stored
+        } else {
+            currentNumber = parseInt(currentNumber) + 1; // Increment the current number
+        }
+
+        localStorage.setItem("currentBookingNumber", currentNumber); // Store the new number
+
+        return `${prefix}${currentNumber}`;
+    };
+
     const { data, setData, post, processing, errors, reset } = useForm({
         clientName: "",
-        booking_id: "",
+        booking_id: generateBookingId(),
         booking_pnr: "",
         confirmation_number: "",
+        contact_no: "",
+        room_no:"",
+        guest_name:"",
+        arrival_time:"",
+        departure_time:"",
         voucher: "",
-        
-        booking_date: "",
+        email:"",
+        booking_date: getCurrentDate(),
     });
 
     const [showSuccess, setShowSuccess] = useState(false);
@@ -44,6 +70,12 @@ export default function Register({ auth }) {
                 setTimeout(() => {
                     setShowSuccess(false);
                 }, 5000);
+
+                // Mark the form as filled in local storage
+                const filledForms = JSON.parse(localStorage.getItem('filledForms')) || {};
+                filledForms[data.booking_id] = true;
+                localStorage.setItem('filledForms', JSON.stringify(filledForms));
+
                 // Clear local storage and redirect to the next URL after successful submission
                 visit(route('invoice.index'));
             },
@@ -117,23 +149,26 @@ export default function Register({ auth }) {
                                 autoComplete="organization"
                                 onChange={(e) => setData('booking_id', e.target.value)}
                                 required
+                                readOnly
                             />
                             <InputError message={errors.booking_id} className="mt-2" />
                         </div>
                         <div className="mt-4">
-                            <InputLabelRequire htmlFor="booking_pnr" value="Booking PNR" />
+                            <label htmlFor="name" className="block font-medium text-sm">
+                                Guest Name
+                            </label>
                             <TextInput
-                                id="booking_pnr"
+                                id="guest_name"
                                 type="text"
-                                name="booking_pnr"
-                                value={data.booking_pnr}
+                                name="guest_name"
+                                value={data.guest_name}
                                 className="mt-1 block w-full rounded-md text-black bg-white"
                                 style={{ border: '2px solid pink' }}
                                 autoComplete="organization"
-                                onChange={(e) => setData('booking_pnr', e.target.value)}
+                                onChange={(e) => setData('guest_name', e.target.value)}
                                 required
                             />
-                            <InputError message={errors.booking_pnr} className="mt-2" />
+                            <InputError message={errors.guest_name} className="mt-2" />
                         </div>
                         <div className="mt-4">
                             <InputLabelRequire htmlFor="booking_date" value="Booking Date" />
@@ -151,40 +186,107 @@ export default function Register({ auth }) {
                             <InputError message={errors.booking_date} className="mt-2" />
                         </div>
                         <div className="mt-4">
-                            <InputLabelRequire htmlFor="confirmation_number" value="Confirmation Number" />
+                            <label htmlFor="confirmation_name" className="block font-medium text-sm">
+                                Confirmation No
+                            </label>
                             <TextInput
                                 id="confirmation_number"
-                                type="number"
+                                type="text"
                                 name="confirmation_number"
                                 value={data.confirmation_number}
                                 className="mt-1 block w-full rounded-md text-black bg-white"
                                 style={{ border: '2px solid pink' }}
                                 autoComplete="organization"
                                 onChange={(e) => setData('confirmation_number', e.target.value)}
-                                required
                             />
                             <InputError message={errors.confirmation_number} className="mt-2" />
                         </div>
                         <div className="mt-4">
-                            <InputLabelRequire htmlFor="voucher" value="Voucher" />
+                            <InputLabelRequire htmlFor="contact_no" value="Contact Number" />
                             <TextInput
-                                id="voucher"
-                                type="text"
-                                name="voucher"
-                                value={data.voucher}
+                                id="contact_no"
+                                type="number"
+                                name="contact_no"
+                                value={data.contact_no}
                                 className="mt-1 block w-full rounded-md text-black bg-white"
                                 style={{ border: '2px solid pink' }}
                                 autoComplete="organization"
-                                onChange={(e) => setData('voucher', e.target.value)}
+                                onChange={(e) => setData('contact_no', e.target.value)}
                                 required
                             />
-                            <InputError message={errors.voucher} className="mt-2" />
+                            <InputError message={errors.contact_no} className="mt-2" />
+                        </div>
+                        <div className="mt-4">
+                            <label htmlFor="email" className="block font-medium text-sm">
+                               Hotel Email
+                            </label>
+                            <TextInput
+                                id="email"
+                                type="text"
+                                name="email"
+                                value={data.email}
+                                className="mt-1 block w-full rounded-md text-black bg-white"
+                                style={{ border: '2px solid pink' }}
+                                autoComplete="organization"
+                                onChange={(e) => setData('email', e.target.value)}
+                            />
+                            <InputError message={errors.email} className="mt-2" />
+                        </div>
+                        <div className="mt-4">
+                            <label htmlFor="room_no" className="block font-medium text-sm">
+                                Room No
+                            </label>
+                            <TextInput
+                                id="room_no"
+                                type="text"
+                                name="room_no"
+                                value={data.room_no}
+                                className="mt-1 block w-full rounded-md text-black bg-white"
+                                style={{ border: '2px solid pink' }}
+                                autoComplete="organization"
+                                onChange={(e) => setData('room_no', e.target.value)}
+                            />
+                            <InputError message={errors.room_no} className="mt-2" />
+                        </div>
+                        <div className="mt-4">
+                            <label htmlFor="arrival_time" className="block font-medium text-sm">
+                               Arrival Time
+                            </label>
+                            <TextInput
+                                id="arrival_time"
+                                type="time"
+                                name="arrival_time"
+                                value={data.arrival_time}
+                                className="mt-1 block w-full rounded-md text-black bg-white"
+                                style={{ border: '2px solid pink' }}
+                                autoComplete="organization"
+                                onChange={(e) => setData('arrival_time', e.target.value)}
+                                required
+                            />
+                            <InputError message={errors.arrival_time} className="mt-2" />
+                        </div>
+                        <div className="mt-4">
+                            <label htmlFor="departure_time" className="block font-medium text-sm">
+                               Departure Time
+                            </label>
+                            <TextInput
+                                id="departure_time"
+                                type="time"
+                                name="departure_time"
+                                value={data.departure_time}
+                                className="mt-1 block w-full rounded-md text-black bg-white"
+                                style={{ border: '2px solid pink' }}
+                                autoComplete="organization"
+                                onChange={(e) => setData('departure_time', e.target.value)}
+                                required
+                            />
+                            <InputError message={errors.departure_time} className="mt-2" />
                         </div>
                     </div>
 
                     <div className="flex items-center justify-end mt-4">
                         <PrimaryButton className="ms-4" disabled={processing}>
-                            Register
+                            Confirm
                         </PrimaryButton>
                     </div>
                 </form>

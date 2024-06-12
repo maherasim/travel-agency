@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voucher</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-        <style>
-          @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+</head>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 * {
   margin: 0;
@@ -21,42 +21,65 @@
 }
 
 body {
-  background-color: rgb(209, 210, 211);
   font-family: "Roboto", sans-serif;
+  background-color: rgb(224, 224, 224);
+}
+
+p {
+  font-size: 12px !important;
+}
+@media print {
+  .print-margin-none {
+                margin: 0 !important;
+            }
+        #printButton {
+            display: none;
+        }
+        
+    }
+
+ul li {
+  font-size: 12px !important;
 }
 
 main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   height: auto;
-  width: 90%;
-  background-color: white;
+  width: 100%;
   margin: 4rem auto;
   padding: 1rem;
+}
+
+.ticket-container {
+  width: 95%;
+  background-color: white;
+}
+
+.ticket-content {
+  margin: 2rem;
+}
+
+.checked {
+  font-size: 15px !important;
 }
 
 .Top-profile {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 3rem;
-  margin-left: 4rem;
-  margin-right: 4rem;
+  /* margin-left: 2rem;
+  margin-right: 2rem; */
 }
-@media print {
-        #printButton {
-            display: none;
-        }
-    }
 
 .Top-profile img {
-  width: 22rem;
-  border-radius: 50%;
-  margin-top: 2rem;
+  height: 55px;
+  width: 235px;
 }
 
-.profile h3 {
-  font-size: 30px;
-  color: black;
-  font-weight: 800;
+.profile h2 {
   margin-bottom: 8px;
 }
 
@@ -68,7 +91,7 @@ main {
 }
 
 .profile ul li {
-  font-size: 20px;
+  font-size: 16px;
   color: black;
   line-height: 1.5rem;
 }
@@ -78,9 +101,9 @@ main {
   justify-content: space-between;
   align-items: center;
   margin-top: 3rem;
-  margin-left: 4rem;
-  margin-right: 4rem;
   margin-bottom: 3rem;
+  /* margin-left: 3rem;
+  margin-right: 3rem; */
 }
 
 #Booking-id h3,
@@ -99,8 +122,8 @@ main {
 }
 
 #confirm-btn button {
-  width: 110%;
   height: 40px;
+  padding: 8px;
   border: none;
   border-radius: 20px;
   background-color: rgb(138, 252, 138);
@@ -114,12 +137,10 @@ main {
 
 .ratings-details {
   display: flex;
-  margin-left: 3rem;
 }
 
 #top-heading h3 {
-  font-size: 22px;
-  font-weight: 300;
+  /* font-size: 22px; */
   margin-top: 1.5rem;
   margin-bottom: 3px;
 }
@@ -150,11 +171,11 @@ main {
 .rating-btn button {
   height: 3rem;
   background-color: rgb(134, 134, 235);
-  width: 10%;
   border: none;
   color: blue;
   font-size: 16px;
-  margin-right: 4rem;
+  padding: 8px;
+  /* margin-right: 4rem; */
   border-radius: 6px;
 }
 
@@ -165,7 +186,6 @@ main {
 .detail-content {
   display: flex;
   flex-direction: column;
-  margin-left: 3rem;
 }
 
 .detail-content ul li {
@@ -178,28 +198,25 @@ main {
   justify-content: space-between;
   align-items: center;
   margin-top: 3rem;
-  margin-left: 4rem;
-  margin-right: 4rem;
   margin-bottom: 3rem;
+  /* margin-left: 3rem;
+  margin-right: 2rem; */
 }
 
 .check-point img {
   height: 10rem;
 }
 
-.check-in {
-  margin-right: 40rem;
-}
 
 .check-in h3 {
-  font-size: 22px;
-  font-weight: 500;
+  /* font-size: 22px;
+  font-weight: 500; */
   margin-bottom: 3px;
 }
 
 .check-in h2 {
-  font-size: 30px;
-  font-weight: 600;
+  /* font-size: 30px;
+  font-weight: 600; */
   margin-bottom: 3px;
 }
 
@@ -209,14 +226,14 @@ main {
 }
 
 .check-out h3 {
-  font-size: 22px;
-  font-weight: 500;
+  /* font-size: 22px;
+  font-weight: 500; */
   margin-bottom: 3px;
 }
 
 .check-out h2 {
-  font-size: 30px;
-  font-weight: 600;
+  /* font-size: 30px;
+  font-weight: 600; */
   margin-bottom: 3px;
 }
 
@@ -241,7 +258,7 @@ main {
 .rooms-collection {
   display: flex;
   flex-direction: column;
-  margin-left: 3rem;
+  /* margin-left: 3rem; */
   gap: 5px;
 }
 
@@ -312,12 +329,12 @@ main {
 .guest-details {
   display: flex;
   flex-direction: column;
-  margin-left: 3rem;
+  /* margin-left: 3rem; */
   margin-top: 2rem;
 }
 
 .guest-details h3 {
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 800;
 }
 
@@ -329,7 +346,7 @@ main {
 .important-info {
   display: flex;
   flex-direction: column;
-  margin-left: 3rem;
+  /* margin-left: 3rem; */
   margin-top: 2rem;
   justify-content: center;
 }
@@ -363,7 +380,7 @@ main {
 }
 
 #id-proof span {
-  font-size: 22px;
+  /* font-size: 22px; */
   font-weight: 600;
   margin-top: 4px;
 }
@@ -375,139 +392,83 @@ main {
   margin-left: 2rem;
 }
 
-/* Media Queries for Responsive Design and Print */
 @media print {
-  main {
-    margin: 0;
-    padding: 1rem;
-  }
-
-  .Top-profile,
-  .booking-details,
-  .check-point,
-  .rating-btn,
-  .rooms-collection,
-  .guest-details,
-  .important-info,
-  .guest-list {
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .rating-btn button,
-  #confirm-btn button,
-  #info-btn button {
-    width: auto;
-  }
-
-  .Top-profile img,
-  .check-point img {
-    width: 100px;
-    height: 100px;
-  }
-
-  body {
-    background-color: white;
-  }
-
   @page {
-    size: A4;
-    margin: 1cm;
+    size: "A4" !important;
+    margin: 0 !important;
+  }
+
+  .ticket-container {
+    background-color: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .body {
+    background-color: rgb(224, 224, 224) !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }
-
-@media (max-width: 768px) {
-  .Top-profile,
-  .booking-details,
-  .check-point,
-  .rating-btn,
-  .rooms-collection,
-  .guest-details,
-  .important-info,
-  .guest-list {
-    flex-direction: column;
-    align-items: flex-start;
-    margin: 1rem;
-  }
-
-  .rating-btn button,
-  #confirm-btn button,
-  #info-btn button {
-    width: 100%;
-  }
-
-  .check-in,
-  .check-out {
-    margin-right: 0;
-  }
-}
-
-        </style>
-</head>
+</style>
 
 <body>
     <main>
+        <div class="ticket-container">
+            <div class="ticket-content">
         <div class="Top-profile">
             <div class="logo">
                 <img src="https://cdn.durable.co/blocks/25Kh43IltNsfqC64MMri5Ug3o16Jw88prgnzyLsk8SQQJJwsGBw9S1X7jCS7vz2S.png" alt="Tripxcia">
             </div>
             <div class="profile">
-                <h3>Tripxcia Trips LLP</h3>
+                <h2>Tripxcia Trips LLP</h2>
                 <ul>
                     <li>27 Alfa Bazar, 100 Feet</li>
                     <li>Road, Praladhngar</li>
                     <li>Contact Number-6352428105</li>
-                    <li>Email ID-ota@tripxcia.com</li>
+                    {{-- <li>Email ID-ota@tripxcia.com</li> --}}
                 </ul>
             </div>
         </div>
         <hr>
 
         <div class="booking-details">
-          <div id="Booking-id">
-            <h3>Booking-id</h3>
-            <p>{{ $vendor->ticket->booking_id ?? 'N/A' }}</p>
-        </div>
-        <div id="booking-pnr">
-            <h3>Booking PNR</h3>
-            <p>{{ $vendor->ticket->booking_pnr ?? 'N/A' }}</p>
-        </div>
-        <div id="booking-date">
-            <h3>Booking Date</h3>
-            <p>{{ $vendor->ticket->booking_date ?? 'N/A' }}</p>
-        </div>
-        
+            <div id="Booking-id">
+                <h3>Booking-id</h3>
+                
+                <p>{{@$vendor->ticket->booking_id}} </p>
+            </div>
+           
+            <div id="booking-date">
+                <h3>Booking Date</h3>
+                <p>{{ $vendor->ticket->booking_date ?? 'N/A' }}</p>
+            </div>
             <div id="confirm-btn">
                 <button><i class="fa-solid fa-circle-check"></i>BOOKING CONFIRMED</button>
             </div>
         </div>
         <hr>
         <div class="ratings-details">
-            <div id="top-heading">
-                <h3>{{@$vendor->service->hotel_name}} | <span>{{@$vendor->service->night}} Nights</span></h3>
-                <p>{{@$vendor->service->hotel_name}}
-
-                  {{-- {{@$vendor->service->hotel_category}} --}}
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-
-                </p>
-            </div>
-
-        </div>
+          <div id="top-heading">
+              <h3>{{@$vendor->guest_name}} | <span>{{@$vendor->service->night}} Nights</span></h3>
+              <h3>{{@$vendor->hotel_address}} 
+           @for ($i = 0; $i < $vendor->service->hotel_category; $i++)
+              <span class="fa fa-star checked"></span>
+          @endfor
+          </h3>
+          </div>
+      </div>
         <div class="rating-btn">
             <button><i class="fa-solid fa-location-dot"></i>Get Directions</button>
         </div>
         <div class="detail-content">
             <ul>
-                <li>Village Khandpe Karjat, Maharashtra,Karjat,IN</li>
-                <li>Contact Number - 234567677, 3456788765</li>
-                <li>Email ID
+                <li>{{@$vendor->hotel_address}} </li>
+                <li> Email -{{@$vendor->ticket->email}}</li>
+                <li>Contact Number - {{@$vendor->ticket->contact_no}}</li>
+                {{-- <li>Email ID
                     -reservations@rdkarjat.com,rajendra.barapatre@rdkarjat.com,anil.gharat@rdkarjat.com,<br>dutymanager@rdkarjat.com,frontdesk@rdkarjat.com
-                </li>
+                </li> --}}
             </ul>
         </div>
 
@@ -515,38 +476,36 @@ main {
             <img src="https://up.yimg.com/ib/th?id=OIP.FMRA3f5nT3IDB1GDsUEf6QHaEK&pid=Api&rs=1&c=1&qlt=95&w=218&h=122" alt="Resturant">
             <div class="check-in">
                 <h3>Check In</h3>
-                <h2>03:00 PM</h2>
+
+                <h2>{{@$vendor->ticket->arrival_time}}</h2>
                 <p>{{@$vendor->check_in}}</p>
             </div>
 
             <div class="check-out">
                 <h3>Check Out</h3>
-                <h2>12:00 PM</h2>
+                <h2>{{@$vendor->ticket->departure_time}}</h2>
                 <p>{{@$vendor->check_out}}</p>
             </div>
         </div>
-        <p id="last-p"><span>Reservation for -</span>{{ $vendor->guest_name ?? 'N/A' }} (Primary Guest) + 4 Others</p>
+        <p id="last-p"><span>Reservation for -</span> {{@$vendor->guest_name}} + 4 Others</p>
 
         <div class="rooms-collection">
-            {{-- <div class="room-one">
-                <h3><span>Room 1 -</span>Superior Room with Balcony</h3>
-                <p><i class="fa-solid fa-user"></i>3 Adult(s), 0 Children</p>
-            </div>
-            <hr> --}}
-            <h2><span>Meal Plan</span>- {{@$vendor->service->meal_plan}}</23>
+            @php
+                $roomCategories = json_decode($vendor->room_category);
+            @endphp
+            @for($i = 0; $i < $vendor->service->no_rooms; $i++)
                 <div class="room-one">
-                    <h3><span>Room 1 -</span>Superior Room with Balcony</h3>
-                    <p><i class="fa-solid fa-user"></i>3 Adult(s), 0 Children</p>
+                    <h3><span>Room {{ $i + 1 }} -</span>{{ $roomCategories[$i] ?? 'N/A' }}</h3>
+                    <p><i class="fa-solid fa-user"></i>{{ $vendor->service->no_adults }}(s) Adults, {{ $vendor->service->no_kidssix }} Children</p>
                 </div>
                 <hr>
-                <h2><span>Meal Plan</span>- {{@$vendor->service->meal_plan}}</h2>
+                <h2><span>Meal Plan</span>- {{ $vendor->service->meal_plan }}</h2>
+            @endfor
         </div>
-
 
         <div class="guest-details">
-            <h3>Guest Details (5)</h3>
-            <p><span>{{@$vendor->guest_name ?? 'N/A'}}</span> (Primary Guest) + 4</p>
-        </div>
+            <h3>Guest Details ({{ $vendor->service->no_guests }})</h3>
+            <p><span>{{ $vendor->guest_name ?? 'N/A' }}</span> (Primary Guest) + {{ $vendor->service->no_guests}}</p>
         </div>
 
         <div class="important-info">
@@ -590,6 +549,8 @@ main {
                 </div>
             </div>
         </div>
+    </div>
+    </div>
     </main>
     <div style="text-align: center;">
       <button id="printButton" style="background-color: #007bff; color: #fff; padding: 10px 20px; font-size: 18px; border: none; border-radius: 5px; cursor: pointer;margin-top:1px">

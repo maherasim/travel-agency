@@ -124,8 +124,8 @@ public function vendorListfetch(Request $request)
  public function vendorListfetchadmin(Request $request)
  {        
      try {
-         $vendorList = ServiceRequest::with('client')->get();
-         return response()->json(['data' => $vendorList], 200);
+         $quotations = ServiceRequest::with('client')->get();
+         return response()->json(['data' => $quotations], 200);
      } catch (\Exception $e) {
          return response()->json(['error' => $e->getMessage()], 500);
      }
@@ -155,7 +155,7 @@ public function update(Request $request)
 
     // Update prices and airline names
     $vendor->update([
-        'price' => json_encode($request->price),
+       
         'airline_name' => json_encode($request->airline_name),
         // Add other fields you want to update here
     ]);
@@ -212,6 +212,9 @@ public function update(Request $request)
             'pan_number' => 'required',
             'tan_number' => 'required',
             'gstin_number' => 'required',
+            'website' => 'nullable|url',
+            'cin_number' => 'nullable',
+             
         ]);
      
         $id = $request->id;
@@ -225,6 +228,9 @@ public function update(Request $request)
         $pan_number = $request->pan_number;
         $tan_number = $request->tan_number;
         $gstin_number = $request->gstin_number;
+        $cin_number = $request->cin_number;
+        $website = $request->website;
+
     
          $vendor = Vendor::find($id);
         if (!$vendor) {
@@ -241,6 +247,9 @@ public function update(Request $request)
         $vendor->pan_number = $pan_number;
         $vendor->tan_number = $tan_number;
         $vendor->gstin_number = $gstin_number;
+        $vendor->website=$website;
+        $vendor->cin_number = $cin_number;
+        
     
          $vendor->save();
     

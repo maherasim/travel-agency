@@ -169,34 +169,34 @@ export default function ServiceForm({ auth, vendor }) {
 
                         </div>
 
-                        {formDataArray[0].passenger_number > 0 && (
-                            <div className="mt-4">
-                                <label
-                                    htmlFor={`passenger_names`}
-                                    className="block font-medium text-sm"
-                                >
-                                    Passenger Name(s)
-                                </label>
-                                {formDataArray[0].passenger_names.map((passengerName, passengerIndex) => (
-                                    <TextInput
-                                        key={passengerIndex}
-                                        id={`passenger_name_${passengerIndex}`}
-                                        type="text"
-                                        name={`passenger_names[${passengerIndex}]`}
-                                        value={passengerName}
-                                        onChange={(e) => {
-                                            const updatedFormDataArray = [...formDataArray];
-                                            updatedFormDataArray[0].passenger_names[passengerIndex] = e.target.value;
-                                            setFormDataArray(updatedFormDataArray);
-                                        }}
-                                        className="mt-1 block w-full text-black"
-                                        style={{ border: '2px solid pink' }}
-                                        placeholder={`Passenger ${passengerIndex + 1} Name`}
+                        {/* {formDataArray[0].passenger_number > 0 && (
+                            // <div className="mt-4">
+                            //     <label
+                            //         htmlFor={`passenger_names`}
+                            //         className="block font-medium text-sm"
+                            //     >
+                            //         Passenger Name(s)
+                            //     </label>
+                            //     {formDataArray[0].passenger_names.map((passengerName, passengerIndex) => (
+                            //         <TextInput
+                            //             key={passengerIndex}
+                            //             id={`passenger_name_${passengerIndex}`}
+                            //             type="text"
+                            //             name={`passenger_names[${passengerIndex}]`}
+                            //             value={passengerName}
+                            //             onChange={(e) => {
+                            //                 const updatedFormDataArray = [...formDataArray];
+                            //                 updatedFormDataArray[0].passenger_names[passengerIndex] = e.target.value;
+                            //                 setFormDataArray(updatedFormDataArray);
+                            //             }}
+                            //             className="mt-1 block w-full text-black"
+                            //             style={{ border: '2px solid pink' }}
+                            //             placeholder={`Passenger ${passengerIndex + 1} Name`}
                                          
-                                    />
-                                ))}
-                            </div>
-                        )}
+                            //         />
+                            //     ))}
+                            // </div>
+                        )} */}
                     </div>
                     <div className="mt-4 grid grid-cols-3 gap-4">
 
@@ -263,12 +263,12 @@ export default function ServiceForm({ auth, vendor }) {
                     <PrimaryButton
                         className="ms-4"
                         onClick={() => {
-                            const formData = formDataArray.map(({ airline_name, price }) => ({ airline_name, price }));
+                            const formData = formDataArray.map(({ airline_name }) => ({ airline_name }));
                             post(route('vendor.update'), formData);
                             window.location.href = '/quotation/form/fetch';
                         }}
                     >
-                        Save
+                        Confirm & Next
                     </PrimaryButton>
 
 

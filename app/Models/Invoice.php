@@ -15,9 +15,9 @@ class Invoice extends Model
          "prf",
          "ourcost",
          "total_cost",
-        'management_fee',
-        
-        "serviceType"
+        'management_fee',        
+        "serviceType",
+        "vendor"
     ];
 
 }

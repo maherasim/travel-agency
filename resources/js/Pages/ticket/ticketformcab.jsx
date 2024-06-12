@@ -12,18 +12,13 @@ import DangerButton from '@/Components/DangerButton';
 
 export default function Register({ auth, passengerName }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        passenger_name: "",
-        pnr_number: "",
-        seat_number: "",
-        flight: "",
-        meal_included: false,
-        flight_class: "",
+        
         clientName: "",
         client_id: "",
-        gender:"",
-        booking_id: "",
-        booking_pnr: "",
-        booking_date: "",
+        drive_no:"",
+        cab_number:"",
+        cab_date:"",
+        time:"",
     });
 
     const [showSuccess, setShowSuccess] = useState(false);
@@ -39,7 +34,7 @@ export default function Register({ auth, passengerName }) {
             ...prevData,
             clientName: selectedClient || prevData.clientName,
             client_id: selectedClientId || prevData.client_id,
-            passenger_name: passengerName || prevData.passenger_name,
+            gate: passengerName || prevData.gate,
         }));
     }, [passengerName]);
 
@@ -56,12 +51,6 @@ export default function Register({ auth, passengerName }) {
                 setTimeout(() => {
                     setShowSuccess(false);
                 }, 5000);
-
-                // Mark the form as filled in local storage
-                const filledForms = JSON.parse(localStorage.getItem('filledForms')) || {};
-                filledForms[data.client_id] = true;
-                localStorage.setItem('filledForms', JSON.stringify(filledForms));
-
                 visit(route('invoice.index'));
             },
             onError: (errors) => {
@@ -122,115 +111,70 @@ export default function Register({ auth, passengerName }) {
                     {showError && <AlertMessage type="error" message={message} />}
 
                     <div className="grid grid-cols-3 gap-4">
+                        
                         <div className="mt-4">
-                            <InputLabelRequire htmlFor="passenger_name" value="Passenger Name" />
-                            <TextInput
-                                id="passenger_name"
-                                name="passenger_name"
-                                value={data.passenger_name}
-                                className="mt-1 block w-full rounded-md bg-white text-black"
-                                style={{ border: '2px solid pink' }}
-                                autoComplete="organization"
-                                onChange={(e) => setData('passenger_name', e.target.value)}
-                                required
-                            />
-                            <InputError message={errors.passenger_name} className="mt-2" />
-                        </div>
-                        <div className="mt-4">
-                                    <label htmlFor="gender" className="block font-medium text-sm ">
-                                       Gender
+                                    <label htmlFor="drive_no" className="block font-medium text-sm ">
+                                      Driver No.
                                     </label>
-                                    <select
-                                        id="gender"
-                                        name="gender"
-                                        value={data.gender}
-                                        onChange={(e) => setData('gender', e.target.value)}
-                                        className="mt-1 block w-full rounded-md bg-white text-black"
-                                        style={{ border: '2px solid pink' }}
-                                        required
-                                    >
-                                        <option value="">Select Gender</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>                                   
-                                        <option value="infant">Infant</option>
-                                    </select>
+                                    <TextInput
+                                    id="drive_no"
+                                    name="number"
+                                    value={data.drive_no}
+                                    className="mt-1 block w-full rounded-md text-black bg-white"
+                                    style={{ border: '2px solid pink' }}
+                                    autoComplete="organization"
+                                    onChange={(e) => setData('drive_no', e.target.value)}
+                                    required
+                                />
                                     {errors.gender && <div className="text-red-600">{errors.gender}</div>}
                                 </div>
                         <div className="mt-4">
-                            <InputLabelRequire htmlFor="pnr_number" value="PNR NUMBER" />
+                            <InputLabelRequire htmlFor="cab_number" value="Cab NUMBER" />
                             <TextInput
-                                id="pnr_number"
-                                name="pnr_number"
-                                value={data.pnr_number}
+                                id="cab_number"
+                                name="cab_number"
+                                value={data.cab_number}
                                 className="mt-1 block w-full rounded-md text-black bg-white"
                                 style={{ border: '2px solid pink' }}
                                 autoComplete="organization"
-                                onChange={(e) => setData('pnr_number', e.target.value)}
+                                onChange={(e) => setData('cab_number', e.target.value)}
                                 required
                             />
-                            <InputError message={errors.pnr_number} className="mt-2" />
+                            <InputError message={errors.cab_number} className="mt-2" />
                         </div>
                         <div className="mt-4">
-                            <InputLabelRequire htmlFor="seat_number" value="Seat Number" />
+                            <InputLabelRequire htmlFor="cab_date" value="Date" />
                             <TextInput
-                                id="seat_number"
-                                type="seat_number"
-                                name="seat_number"
-                                value={data.seat_number}
+                                id="cab_date"
+                                type="date"
+                                name="cab_date"
+                                value={data.cab_date}
                                 className="mt-1 block w-full rounded-md text-black bg-white"
                                 style={{ border: '2px solid pink' }}
                                 autoComplete="organization"
-                                onChange={(e) => setData('seat_number', e.target.value)}
+                                onChange={(e) => setData('cab_date', e.target.value)}
                                 required
                             />
-                            <div className="flex items-center mt-2">
-                                <input
-                                    id="meal_included"
-                                    type="checkbox"
-                                    name="meal_included"
-                                    checked={data.meal_included}
-                                    onChange={(e) => setData('meal_included', e.target.checked)}
-                                    className="mr-2"
-                                />
-                                <label htmlFor="meal_included" className="text-sm">Meal Included</label>
-                            </div>
-                            <InputError message={errors.seat_number} className="mt-2" />
+                            
+                             
+                            <InputError message={errors.cab_date} className="mt-2" />
                         </div>
-                        {/* <div className="mt-4">
-                            <InputLabelRequire htmlFor="flight" value="Flight Number" />
+                        <div className="mt-4">
+                            <InputLabelRequire htmlFor="time" value="Time" />
                             <TextInput
-                                id="flight"
-                                type="flight"
-                                name="flight"
-                                value={data.flight}
+                                id="time"
+                                type="time"
+                                name="time"
+                                value={data.time}
                                 className="mt-1 block w-full rounded-md text-black bg-white"
                                 style={{ border: '2px solid pink' }}
                                 autoComplete="organization"
-                                onChange={(e) => setData('flight', e.target.value)}
+                                onChange={(e) => setData('time', e.target.value)}
                                 required
                             />
-                            <InputError message={errors.flight} className="mt-2" />
-                        </div> */}
-                 <div className="mt-4">
-                                    <label htmlFor="flight_class" className="block font-medium text-sm ">
-                                       Class
-                                    </label>
-                                    <select
-                                        id="flight_class"
-                                        name="flight_class"
-                                        value={data.flight_class}
-                                        onChange={(e) => setData('flight_class', e.target.value)}
-                                        className="mt-1 block w-full rounded-md bg-white text-black"
-                                        style={{ border: '2px solid pink' }}
-                                        required
-                                    >
-                                        <option value="">Select Class</option>
-                                        <option value="ecomony">Economy</option>
-                                        <option value="buisenss">Business</option>                                   
-                                         
-                                    </select>
-                                    {errors.flight_class && <div className="text-red-600">{errors.flight_class}</div>}
-                                </div>
+                            <InputError message={errors.time} className="mt-2" />
+                        </div>
+                
                     </div>
 
                     <div className="flex items-center justify-end mt-4">

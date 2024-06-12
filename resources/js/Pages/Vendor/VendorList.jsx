@@ -147,22 +147,30 @@ export default function VendorList({ auth }) {
         </DataTable>
       </div>
       <Modal show={confirmingUserDeletion} onClose={closeModal}>
-        <h2 className="text-lg font-medium text-gray-900 p-5">
-          Are you sure you want to delete Client?
-        </h2>
+  <div className="bg-white rounded-lg overflow-hidden shadow-xl">
+    <div className="p-5">
+      <h2 className="text-lg font-medium text-gray-900">
+        Are you sure you want to delete the client?
+      </h2>
+    </div>
+    <div className="px-5 py-4 bg-gray-100 flex justify-end">
+      <button
+        className="text-gray-600 hover:text-gray-800 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-gray-300"
+        onClick={closeModal}
+      >
+        Cancel
+      </button>
+      <button
+        className="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md ml-2 focus:outline-none focus:ring focus:ring-red-300"
+        disabled={processing}
+        onClick={deleteUser}
+      >
+        {processing ? "Deleting..." : "Delete Account"}
+      </button>
+    </div>
+  </div>
+</Modal>
 
-        <div className="mt-6 flex justify-end p-5">
-          <SecondaryButton onClick={closeModal}>Cancel</SecondaryButton>
-
-          <DangerButton
-            className="ms-3"
-            disabled={processing}
-            onClick={deleteUser}
-          >
-            Delete Account
-          </DangerButton>
-        </div>
-      </Modal>
     </Authenticated>
   );
 }

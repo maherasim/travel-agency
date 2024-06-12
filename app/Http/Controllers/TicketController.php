@@ -17,6 +17,12 @@ class TicketController extends Controller
         $clients = Client::select('id', 'trade_name')->get(); 
         return Inertia::render('ticket/ticketformhotel', ['clients' => $clients]);
     }
+    public function cabindex(): Response
+    {
+        $clients = Client::select('id', 'trade_name')->get(); 
+        return Inertia::render('ticket/ticketformcab', ['clients' => $clients]);
+    }
+
     public function flightindex($id): Response
     {
         // Fetch clients with id and trade_name
@@ -39,63 +45,75 @@ class TicketController extends Controller
 
     public function store(Request $request)
     {
-        
         $clientId = Auth::id();
     
         if ($request->filled('clientName')) {
-            $client = Client::where('trade_name', $request['clientName'])->first();
+            $client = Client::where('trade_name', $request->input('clientName'))->first();
     
-            // Check if the client exists
             if ($client) {
                 $clientId = $client->id;
             } else {
-                // Handle case where client is not found
                 return redirect()->back()->with('error', 'Client not found for the selected name.');
             }
-        } else {
-            // If clientName is not provided, set clientId to null
-            $clientId = null;
         }
     
         if ($request->filled('client_id')) {
             $clientId = $request->input('client_id');
         }
     
-        $request->validate([
-            'gate' => 'nullable',
-            'pnr_number' => 'nullable',
-            'seat_number' => 'nullable',
-            'flight' => 'nullable',
-            'serviceType' => 'nullable',
-            'flight_class' => 'nullable',
-            'confirmation_number' => 'nullable',
-            'voucher' => 'nullable',
-            'flight_class' => 'nullable',
-
-            'meal_included' => 'boolean|nullable', // Validate meal_included as a boolean
-            'booking_id' => 'nullable',
-            'booking_pnr' => 'nullable',
-            'booking_date' => 'nullable',
+      $data = $request->validate([
+            'passenger_name' => 'nullable|string',
+            'pnr_number' => 'nullable|string',
+            'seat_number' => 'nullable|string',
+            'flight' => 'nullable|string',
+            'serviceType' => 'nullable|string',
+            'flight_class' => 'nullable|string',
+            'guest_name' => 'nullable|string',
+            'confirmation_number' => 'nullable|string',
+            'contact_no' => 'nullable|string',
+            'room_no' => 'nullable|string',
+            'email' => 'nullable|email',
+            'voucher' => 'nullable|string',
+            'flight_class' => 'nullable|string',
+            'gender' => 'nullable|string',
+            'drive_no' => 'nullable|string',
+            'cab_number' => 'nullable|string',
+            'cab_date' => 'nullable|date',
+            'time' => 'nullable|date_format:H:i',
+            'arrival_time'=> 'nullable|date_format:H:i',
+            'departure_time'=> 'nullable|date_format:H:i',
+            'meal_included' => 'boolean|nullable',
+            'booking_id' => 'nullable|string',
+            'booking_pnr' => 'nullable|string',
+            'booking_date' => 'nullable|date',
         ]);
     
-        // Get the value of meal_included, default to false if not provided
         $mealIncluded = $request->has('meal_included');
     
-        // Create a new ticket instance
         $ticket = Ticket::create([
             'client_id' => $clientId,
-            'gate' => $request->gate,
-            'pnr_number' => $request->pnr_number,
-            'seat_number' => $request->seat_number,
-            'flight' => $request->flight,
-            'serviceType' => $request->serviceType,
-            'flight_class' => $request->flight_class,
-            'confirmation_number' => $request->confirmation_number,
-            'voucher' => $request->voucher,
+            'passenger_name' => $request->input('passenger_name'),
+            'pnr_number' => $request->input('pnr_number'),
+            'seat_number' => $request->input('seat_number'),
+            'flight' => $request->input('flight'),
+            'serviceType' => $request->input('serviceType'),
+            'flight_class' => $request->input('flight_class'),
+            'confirmation_number' => $request->input('confirmation_number'),
+            'contact_no' => $request->input('contact_no'),
+            'email' => $request->input('email'),
+            'voucher' => $request->input('voucher'),
+            'guest_name' => $request->input('guest_name'),
+            'gender' => $request->input('gender'),
+            'room_no' => $request->input('room_no'),
             'meal_included' => $mealIncluded,
-            'booking_id' => $request->booking_id,
-            'booking_pnr' => $request->booking_pnr,
-            'booking_date' => $request->booking_date,
+            'booking_id' => $request->input('booking_id'),
+            'booking_pnr' => $request->input('booking_pnr'),
+            'booking_date' => $request->input('booking_date'),
+            'arrival_time' => $request->input('arrival_time'),
+            'departure_time' => $request->input('departure_time'),
+            'drive_no' => $request->input('drive_no'),
+            'cab_number' => $request->input('cab_number'),
+            'cab_date' => $request->input('cab_date'),
         ]);
     
         return redirect()->route('invoice.index')->with('success', 'Ticket created successfully');
